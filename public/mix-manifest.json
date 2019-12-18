@@ -1,0 +1,10 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/company.js": "/js/company.js",
+    "/js/device.js": "/js/device.js",
+    "/js/home.js": "/js/home.js",
+    "/js/messages.js": "/js/messages.js",
+    "/js/reports.js": "/js/reports.js",
+    "/js/user.js": "/js/user.js"
+}
