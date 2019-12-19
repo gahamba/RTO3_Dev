@@ -29195,15 +29195,18 @@ function (_Component) {
       if (this.props.obj.datapoints instanceof Array) {
         return this.props.obj.datapoints.map(function (object, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "col"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "row"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "col"
+            className: "col",
+            "data-toggle": "tooltip",
+            "data-placement": "right",
+            title: "View recent readings for this sensor"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
             href: "#",
             "data-toggle": "modal",
             "data-target": "#reading".concat(object.unique_id).concat(object["interface"])
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "row"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "col"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "spinner-grow spinner-grow-sm text-".concat(object.notifier),
             role: "status"
@@ -29731,7 +29734,13 @@ function (_Component) {
         className: "clearfix"
       }, "\xA0"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         align: "center"
-      }, "Overview of Devices "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Overview of Devices "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-center"
+      }, this.state.devices.length > 0 ? '' : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "badge badge-danger"
+      }, "You can click ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "./device"
+      }, "here to add Devices/Sensors"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-12 card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row text-center",

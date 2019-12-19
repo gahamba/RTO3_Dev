@@ -52,7 +52,7 @@
                                 <li><span>{{ auth::user()->name }}</span></li>
                                 <li>
                                     <a href="#"><i class="fas fa-cog" data-toggle="tooltip" data-placement="right" title="User Account settings"></i></a>
-                                    &nbsp;&nbsp; <a href="#"><i class="fas fa-keyboard" data-toggle="tooltip" data-placement="right" title="Access control"></i></a> &nbsp;&nbsp;
+                                    &nbsp;&nbsp; <a href="{{ route('user') }}"><i class="fas fa-keyboard" data-toggle="tooltip" data-placement="right" title="Access control"></i></a> &nbsp;&nbsp;
                                     <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="right" title="Logout of account"></i></a>
                                 </li>
                             </ul>
@@ -69,14 +69,15 @@
                         <div class="col">
                             <ul class="list-unstyled">
                                 <li class="login_link_lists"><span><a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard"><i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></span></li>
-                                <li class="login_link_lists"><span><a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc"><i class="fas fa-file-word"></i>&nbsp;Reports</a></span></li>
+
                                 @if(auth::user()->user_type == 0)
-                                <li class="login_link_lists"><span><a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems"><i class="fas fa-layer-group"></i>&nbsp;Systems</a></span></li>
+
                                 <li class="login_link_lists"><span><a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices"><i class="fas fa-thermometer"></i>&nbsp;Devices</a></span></li>
                                 <li class="login_link_lists"><span><a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users"><i class="fas fa-user-cog"></i>&nbsp;Users</a></span></li>
+                                <li class="login_link_lists"><span><a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems"><i class="fas fa-layer-group"></i>&nbsp;Systems</a></span></li>
 
                                 @endif
-
+                                <li class="login_link_lists"><span><a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc"><i class="fas fa-file-word"></i>&nbsp;Reports</a></span></li>
 
                             </ul>
 
@@ -103,9 +104,9 @@
                 <span class="float_right_divs w-auto" data-toggle="tooltip" data-placement="right" title="View your direct messages">Messages&nbsp;<a href="{{ route('message') }}"><span class="badge contrast_component2" id="message_content">0</span></a></span>
                 <span class="float_right_divs">
 
-                    <span class="col-4 float_right_divs" data-toggle="tooltip" data-placement="right" title="Sign out of your account here"><a href="#"><i class="fas fa-sign-out-alt"></i></a></span>
+                    <span class="col-4 float_right_divs" data-toggle="tooltip" data-placement="right" title="Sign out of your account here"><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i></a></span>
                     <span class="col-4 float_right_divs"><a href="#"><i class="fas fa-user-circle"></i></a></span>
-                    <span class="col-4 float_right_divs">Ahamba...</span>
+                    <span class="col-4 float_right_divs">{{ auth::user()->name }}</span>
 
                 </span>
 

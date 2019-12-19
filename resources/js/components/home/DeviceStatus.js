@@ -10,21 +10,22 @@ class DeviceStatus extends Component {
             return this.props.obj.datapoints.map(function(object, i){
 
                 return(
-                    <div className="col">
+                    <div className="col" data-toggle="tooltip" data-placement="right" title="View recent readings for this sensor">
 
 
-
+                        <a href="#" data-toggle="modal"
+                           data-target={`#reading${object.unique_id}${object.interface}`}>
                         <div className="row">
 
                             <div className="col">
-                                <a href="#" data-toggle="modal"
-                                   data-target={`#reading${object.unique_id}${object.interface}`}>
+
                                     <div className={`spinner-grow spinner-grow-sm text-${object.notifier}`} role="status">
                                         <span className="sr-only">Loading...</span>
                                     </div>
-                                </a>
+
                             </div>
                         </div>
+                        </a>
                         <div className="row">
                             <div className="col-sm">
                               { object.datapoint }<br />

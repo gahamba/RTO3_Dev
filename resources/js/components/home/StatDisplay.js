@@ -164,6 +164,9 @@ class StatDisplay extends Component {
                     <div className="card w-100 d-flex">
                         <div className="clearfix">&nbsp;</div>
                         <h3 align="center">Overview of Devices </h3>
+                        <p className="text-center">
+                            {(this.state.devices.length > 0) ? '':<span className="badge badge-danger">You can click <a href="./device">here to add Devices/Sensors</a></span>}
+                        </p>
                         <div className="col-sm-12 card-body">
 
                             <div className="row text-center" id="overview_panel">

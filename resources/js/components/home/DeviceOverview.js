@@ -45,6 +45,7 @@ class DeviceOverview extends Component {
     }
 
     render(){
+
         return(
             <div className="container-fluid">
 
