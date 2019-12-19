@@ -86,7 +86,7 @@
 
                                     <div class="col-sm-4 text-center right_border">
 
-                                        <img class="rounded-circle user_profile2" src="{{ URL::asset('images/user.png') }}" />
+                                        <img class="rounded-circle user_profile2" src="{{ asset('images/user.png') }}" />
                                         {{--                                    <p class="font-weight-bold">Godson Ahabma</p>--}}
                                         <p><span class="badge badge-info contrast_component2">Godson Ahamba</span></p>
 
