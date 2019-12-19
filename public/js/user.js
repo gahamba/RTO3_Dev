@@ -41667,7 +41667,7 @@ function (_Component) {
         className: "col-sm-4 text-center right_border"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "rounded-circle user_profile2",
-        src: "../public/images/user.png"
+        src: "./images/user.png"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-info contrast_component2"
       }, this.props.obj.name))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

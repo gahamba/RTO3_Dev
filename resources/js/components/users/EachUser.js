@@ -12,7 +12,7 @@ class EachUser extends Component {
 
                         <div className="col-sm-4 text-center right_border">
 
-                            <img className="rounded-circle user_profile2" src="../public/images/user.png"/>
+                            <img className="rounded-circle user_profile2" src="./images/user.png"/>
                             <p><span className="badge badge-info contrast_component2">{ this.props.obj.name }</span></p>
 
 
