@@ -41581,7 +41581,8 @@ function (_Component) {
     key: "handleFromChange",
     value: function handleFromChange(e) {
       this.setState({
-        from: e
+        from: e,
+        readings: ''
       });
     }
     /**
@@ -41593,7 +41594,8 @@ function (_Component) {
     key: "handleToChange",
     value: function handleToChange(e) {
       this.setState({
-        to: e
+        to: e,
+        readings: ''
       });
     }
     /**
@@ -41605,7 +41607,8 @@ function (_Component) {
     key: "handleReportTypeChange",
     value: function handleReportTypeChange(e) {
       this.setState({
-        reportType: e.target.value
+        reportType: e.target.value,
+        readings: ''
       });
     }
     /**
@@ -41620,7 +41623,8 @@ function (_Component) {
         device: e.target.value,
         interfaces: this.state.devices.filter(function (dev) {
           return dev.unique_id == e.target.value;
-        })[0].data_points
+        })[0].data_points,
+        readings: ''
       }); //console.log(this.state.interfaces);
     }
     /**
@@ -41632,7 +41636,8 @@ function (_Component) {
     key: "handleInterfaceChange",
     value: function handleInterfaceChange(e) {
       this.setState({
-        "interface": e.target.value
+        "interface": e.target.value,
+        readings: ''
       });
     }
     /**
@@ -41872,7 +41877,7 @@ function (_Component) {
         className: this.state.showDownloadLink
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.downloadExcel,
-        href: "http://10.1.0.173/RTO3_Users-Mongo/public/exportreport/".concat(this.convertDate(this.state.from), "/").concat(this.convertDate(this.state.to), "/").concat(this.state.reportType, "/").concat(this.state.device, "/").concat(this.state["interface"]),
+        href: "./exportreport/".concat(this.convertDate(this.state.from), "/").concat(this.convertDate(this.state.to), "/").concat(this.state.reportType, "/").concat(this.state.device, "/").concat(this.state["interface"]),
         className: "btn btn-primary"
       }, "Download Report ")))))));
     }

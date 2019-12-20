@@ -124,10 +124,11 @@
                             <div class="modal fade" id="detailsModal{{ $system->id }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
+
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="detailsModalLabel"></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                <span aria-hidden="true" class="btn btn-danger">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body text-center">
@@ -257,7 +258,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="editModalLabel"></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                <span aria-hidden="true" class="btn btn-danger">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
@@ -329,6 +330,12 @@
 
                                     <div class="modal-content">
 
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="btn btn-danger">&times;</span>
+                                            </button>
+                                        </div>
                                         <div class="modal-body text-center">
                                             <h5 class="badge badge-info">Delete {{ $system->system_name }}?</h5>
                                             <form method="post" action="{{ route('delete_system-post') }}">

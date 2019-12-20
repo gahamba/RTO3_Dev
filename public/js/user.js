@@ -28063,6 +28063,18 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-content"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "modal-title"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "modal",
+        "aria-label": "Close"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        "aria-hidden": "true",
+        className: "btn btn-danger"
+      }, "\xD7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Device: ", this.props.params.name, " (", this.props.params.unique_id, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Min Threshold: ", this.props.params.min_threshold, " \xA0\xA0\xA0 Max Threshold: ", this.props.params.max_threshold, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid"
@@ -28114,7 +28126,13 @@ function (_Component) {
         min: this.props.params.min_threshold,
         max: this.props.params.max_threshold,
         data: "Recent"
-      })))))))));
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-footer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-danger",
+        "data-dismiss": "modal"
+      }, "Close")))))));
     }
   }]);
 
@@ -41674,7 +41692,7 @@ function (_Component) {
         className: "col-sm-8 text-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
         align: "center"
-      }, "Details", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, "Settings \xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         "data-toggle": "modal",
         "data-target": "#user".concat(this.props.obj._id)
@@ -41691,10 +41709,7 @@ function (_Component) {
       }), "\xA0 ", this.props.obj.phone), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         className: "btn btn-sm btn-warning"
-      }, "Reset Account"), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: "#",
-        className: "btn btn-sm"
-      }, "Send In-Message")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserDetails__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, "Reset Account"), "\xA0"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserDetails__WEBPACK_IMPORTED_MODULE_2__["default"], {
         userId: "user".concat(this.props.obj._id),
         params: this.props.obj
       })))));
@@ -41989,6 +42004,18 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-content"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "modal-title"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "modal",
+        "aria-label": "Close"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        "aria-hidden": "true",
+        className: "btn btn-danger"
+      }, "\xD7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
         align: "center"

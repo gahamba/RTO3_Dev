@@ -20,7 +20,7 @@ class EachUser extends Component {
 
                         <div className="col-sm-8 text-center">
 
-                            <h4 align="center">Details
+                            <h4 align="center">Settings &nbsp;
                                 <a href="#" data-toggle="modal"
                                                           data-target={`#user${this.props.obj._id}`}>
                                     <i className="fas fa-cog text_contrast2"></i>
@@ -30,7 +30,7 @@ class EachUser extends Component {
                             <p className=""><i className="fas fa-phone"></i>&nbsp; { this.props.obj.phone }</p>
                             <p>
                                 <a href="#" className="btn btn-sm btn-warning">Reset Account</a>&nbsp;
-                                <a href="#" className="btn btn-sm">Send In-Message</a>
+
                             </p>
 
                             <UserDetails userId={`user${this.props.obj._id}`} params={this.props.obj} />

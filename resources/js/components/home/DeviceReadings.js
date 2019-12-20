@@ -64,6 +64,14 @@ class DeviceReadings extends Component {
                      aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-lg modal-full">
                         <div className="modal-content">
+
+                            <div className="modal-header">
+                                <h5 className="modal-title"></h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" className="btn btn-danger">&times;</span>
+                                </button>
+                            </div>
+
                             <div className="card card-body">
                                 <h4>Device: {this.props.params.name} ({this.props.params.unique_id})</h4>
                                 <p>Min Threshold: {this.props.params.min_threshold} &nbsp;&nbsp;&nbsp;
@@ -146,9 +154,12 @@ class DeviceReadings extends Component {
                                 </div>
 
 
-
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
 
                             </div>
+
                         </div>
                     </div>
                 </div>

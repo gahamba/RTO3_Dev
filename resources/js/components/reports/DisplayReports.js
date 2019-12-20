@@ -50,7 +50,8 @@ class DisplayReports extends Component {
      */
     handleFromChange(e){
         this.setState({
-            from: e
+            from: e,
+            readings: ''
         })
     }
 
@@ -60,7 +61,8 @@ class DisplayReports extends Component {
      */
     handleToChange(e){
         this.setState({
-            to: e
+            to: e,
+            readings: ''
         })
     }
 
@@ -70,7 +72,8 @@ class DisplayReports extends Component {
      */
     handleReportTypeChange(e){
         this.setState({
-            reportType: e.target.value
+            reportType: e.target.value,
+            readings: ''
         })
     }
 
@@ -81,7 +84,8 @@ class DisplayReports extends Component {
     handleDeviceChange(e){
         this.setState({
             device: e.target.value,
-            interfaces: this.state.devices.filter(dev => dev.unique_id == e.target.value)[0].data_points
+            interfaces: this.state.devices.filter(dev => dev.unique_id == e.target.value)[0].data_points,
+            readings: ''
         })
         //console.log(this.state.interfaces);
     }
@@ -92,7 +96,8 @@ class DisplayReports extends Component {
      */
     handleInterfaceChange(e){
         this.setState({
-            interface: e.target.value
+            interface: e.target.value,
+            readings: ''
         })
     }
 
@@ -422,7 +427,7 @@ class DisplayReports extends Component {
 
                                 <p align="center" className={ this.state.showDownloadLink }>
 
-                                    <a onClick={this.downloadExcel} href={`http://10.1.0.173/RTO3_Users-Mongo/public/exportreport/${this.convertDate(this.state.from)}/${this.convertDate(this.state.to)}/${this.state.reportType}/${this.state.device}/${this.state.interface}`} className="btn btn-primary">
+                                    <a onClick={this.downloadExcel} href={`./exportreport/${this.convertDate(this.state.from)}/${this.convertDate(this.state.to)}/${this.state.reportType}/${this.state.device}/${this.state.interface}`} className="btn btn-primary">
                                         Download Report </a>
 
                                 </p>
