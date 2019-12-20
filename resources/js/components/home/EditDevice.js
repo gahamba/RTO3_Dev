@@ -419,7 +419,7 @@ class EditDevice extends Component {
                                                aria-describedby="uniqueIdHelp"
                                                placeholder="Enter device unique id"
                                                value={this.state.unique_id} onChange={this.handleUniqueIdChange}
-                                        readOnly />
+                                               readOnly />
 
                                     </div>
 

@@ -708,12 +708,41 @@ class DeviceController extends Controller
                     }
                 }
 
+                $datapoints = array(); $points = array(); $f_datapoints = []; $e_datapoints = [];
+                $datapoints = Datapoint::whereIn('interface', $device->data_channels)->get();
+                //$datapoints = collect($datapoints);
+
+                foreach ($device->data_points as $dpoint){
+                    $points[] = $dpoint['point'];
+
+                }
+                $existing_datapoints = $datapoints->whereIn('interface', $points);
+                $free_datapoints = $datapoints->whereNotIn('interface', $points);
+
+                foreach($existing_datapoints as $ed){
+                    array_push($e_datapoints, $ed);
+                }
+
+                foreach($free_datapoints as $fd){
+                    array_push($f_datapoints, $fd);
+                }
+
+                //echo $existing_datapoints.'<br /><br />';
+                //echo $free_datapoints.'<br /><br />';
+                //echo $datapoints.'<br /><br />';
+
+
                 array_push($dev_stat,
                     array(
                         'name'      =>  $device->name,
                         'device_id' =>  $device->id,
                         'unique_id' =>  $device->unique_id,
-                        'datapoints' =>  $this_reading
+                        'datapoints' => $this_reading,
+                        'added_datapoints'  =>  $device->data_points,
+                        'removed_datapoints' => $e_datapoints,
+                        'data_channels' =>  $device->data_channels,
+                        'data_points'   =>  $datapoints,
+                        'dpoints'       =>  $f_datapoints,
 
                     )
                 );
