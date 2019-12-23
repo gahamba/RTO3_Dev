@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="75db0a76-20f6-4406-bf25-cffe3cae9741" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DeviceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DeviceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/company.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/device.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/device.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/devices/EditDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/devices/EditDevice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/home/DeviceStatus.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/home/DeviceStatus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/home/EditDevice.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,11 +22,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ReportsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+            <state relative-caret-position="408">
+              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="e#40#62#0#PHP" expanded="true" />
-                <element signature="e#3463#5251#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -42,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DeviceController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="623">
+            <state relative-caret-position="12427">
               <caret line="747" column="67" selection-start-line="747" selection-start-column="67" selection-end-line="747" selection-end-column="67" />
               <folding>
                 <element signature="e#40#56#0#PHP" expanded="true" />
@@ -54,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/devices/EditDevice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
+            <state relative-caret-position="7208">
               <caret line="440" column="69" selection-start-line="440" selection-start-column="69" selection-end-line="440" selection-end-column="69" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -93,7 +85,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/home/StatDisplay.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
+            <state relative-caret-position="357">
               <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -105,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/reports.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
+            <state relative-caret-position="833">
               <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
             </state>
           </provider>
@@ -114,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/home/DeviceStatus.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
+            <state relative-caret-position="1003">
               <caret line="62" column="78" selection-start-line="62" selection-start-column="78" selection-end-line="62" selection-end-column="78" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -349,7 +341,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -448,6 +439,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -560,17 +552,18 @@
       <workItem from="1576082162767" duration="14795000" />
       <workItem from="1576227514178" duration="26052000" />
       <workItem from="1576684413891" duration="39072000" />
+      <workItem from="1577109701521" duration="1720000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1259606000" />
+    <option name="totallyTimeSpent" value="1261326000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25973153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -942,10 +935,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/users/EachUser.js">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/home/EditDevice.js" />
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ReportsController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
-          <caret line="26" column="36" selection-start-line="23" selection-start-column="32" selection-end-line="26" selection-end-column="36" />
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DeviceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12427">
+          <caret line="747" column="67" selection-start-line="747" selection-start-column="67" selection-end-line="747" selection-end-column="67" />
+          <folding>
+            <element signature="e#40#56#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/devices/EditDevice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7208">
+          <caret line="440" column="69" selection-start-line="440" selection-start-column="69" selection-end-line="440" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#92#118#0" expanded="true" />
+            <element signature="n#!!doc;n#handleDatapointChange#0;n#EditDevice#0" />
+            <element signature="n#!!doc;n#handleUnitsChange#0;n#EditDevice#0" />
+            <element signature="n#!!block;n#handleUnitsChange#0;n#EditDevice#0" />
+            <element signature="n#!!doc;n#dataPointDetails#0;n#EditDevice#0" />
+            <element signature="n#!!doc;n#handleAddDataPoint#0;n#EditDevice#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -968,7 +991,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/home/StatDisplay.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
+        <state relative-caret-position="357">
           <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -976,35 +999,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/home/EditDevice.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/reports.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="124" column="5" selection-start-line="124" selection-start-column="5" selection-end-line="124" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#92#118#0" expanded="true" />
-            <element signature="n#!!doc;n#handleDatapointChange#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#handleUnitsChange#0;n#EditDevice#0" />
-            <element signature="n#!!block;n#handleUnitsChange#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#dataPointDetails#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#handleAddDataPoint#0;n#EditDevice#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DeviceController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="747" column="67" selection-start-line="747" selection-start-column="67" selection-end-line="747" selection-end-column="67" />
-          <folding>
-            <element signature="e#40#56#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="833">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/home/DeviceStatus.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
+        <state relative-caret-position="1003">
           <caret line="62" column="78" selection-start-line="62" selection-start-column="78" selection-end-line="62" selection-end-column="78" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -1012,37 +1016,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/devices/EditDevice.js">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/users/EachUser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="440" column="69" selection-start-line="440" selection-start-column="69" selection-end-line="440" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#92#118#0" expanded="true" />
-            <element signature="n#!!doc;n#handleDatapointChange#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#handleUnitsChange#0;n#EditDevice#0" />
-            <element signature="n#!!block;n#handleUnitsChange#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#dataPointDetails#0;n#EditDevice#0" />
-            <element signature="n#!!doc;n#handleAddDataPoint#0;n#EditDevice#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reports.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ReportsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
-          <folding>
-            <element signature="e#40#62#0#PHP" expanded="true" />
-            <element signature="e#3463#5251#0#PHP" />
-          </folding>
+        <state relative-caret-position="408">
+          <caret line="26" column="36" selection-start-line="23" selection-start-column="32" selection-end-line="26" selection-end-column="36" />
         </state>
       </provider>
     </entry>

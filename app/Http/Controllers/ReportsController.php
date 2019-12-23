@@ -21,7 +21,7 @@ class ReportsController extends Controller
     public function landing()
     {
         $config = Configuration::where('companyId', '=', auth::user()->company_id)->first();
-        if($config && count($config->times) > 0){
+        if($config && is_array($config->times) && count($config->times) > 0){
             return view('reports')
                     ->with('config', $config);
         }
