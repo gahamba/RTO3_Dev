@@ -112,7 +112,7 @@ class ReportsController extends Controller
     public function returnHourlyArray($readings, $points, $device){
 
         $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first()->times;
-        if(!$configuration){
+        if(!isset($configuration)){
             $configuration = ['0', '12', '16', '22'];
         }
         $arrayToReturn = array();
