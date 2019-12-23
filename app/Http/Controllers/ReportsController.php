@@ -22,6 +22,7 @@ class ReportsController extends Controller
     {
         $config = Configuration::where('companyId', '=', auth::user()->company_id)->first();
         if(!($config && is_array($config->times) && count($config->times) > 0)){
+            $config = new Configuration();
             $config->times = ['0', '12', '16', '22'];
         }
         return view('reports')
