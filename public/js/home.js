@@ -27930,6 +27930,649 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/devices/EditDevice.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/devices/EditDevice.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var es6_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! es6-promise */ "./node_modules/es6-promise/dist/es6-promise.js");
+/* harmony import */ var es6_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(es6_promise__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.js");
+/* harmony import */ var _Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Alert */ "./resources/js/components/Alert.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+Object(es6_promise__WEBPACK_IMPORTED_MODULE_1__["polyfill"])();
+
+
+
+
+var EditDevice =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(EditDevice, _Component);
+
+  /**
+   * Constructor
+   * @param props
+   */
+  function EditDevice(props) {
+    var _this;
+
+    _classCallCheck(this, EditDevice);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditDevice).call(this, props));
+    _this.state = {
+      id: _this.props.params.id,
+      name: _this.props.params.name,
+      unique_id: _this.props.params.unique_id,
+      min_threshold: _this.props.params.min_threshold,
+      max_threshold: _this.props.params.max_threshold,
+      description: _this.props.params.description,
+      panel_id: _this.props.editId,
+      showloader: 'd-none',
+      alert: '',
+      message: '',
+      display: 'd-none',
+
+      /*The new states were added here*/
+      datapoints: _this.props.datapoints,
+      datapoint: '',
+      device: '',
+      removed_datapoints: _this.props.params.removed_datapoints,
+      added_datapoints: _this.props.params.added_datapoints,
+      datapoint_detail: '',
+      units: '',
+      unit: '',
+      min_range: 0,
+      max_range: 1,
+      isValid: false,
+      icon: '',
+      icon_flag: ''
+    };
+    var url = 'http://localhost/RTO3_Users/public/';
+    _this.handleNameChange = _this.handleNameChange.bind(_assertThisInitialized(_this)); //this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
+
+    _this.handleDatapointChange = _this.handleDatapointChange.bind(_assertThisInitialized(_this));
+    _this.handleUnitsChange = _this.handleUnitsChange.bind(_assertThisInitialized(_this));
+    _this.handleMinThresholdChange = _this.handleMinThresholdChange.bind(_assertThisInitialized(_this));
+    _this.handleMaxThresholdChange = _this.handleMaxThresholdChange.bind(_assertThisInitialized(_this));
+    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_assertThisInitialized(_this));
+    _this.dataPointDetails = _this.dataPointDetails.bind(_assertThisInitialized(_this));
+    _this.handleAddDataPoint = _this.handleAddDataPoint.bind(_assertThisInitialized(_this));
+    _this.dataPointsRows = _this.dataPointsRows.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+  /**
+   * Handles change to name field
+   * @param e
+   */
+
+
+  _createClass(EditDevice, [{
+    key: "handleNameChange",
+    value: function handleNameChange(e) {
+      this.setState({
+        name: e.target.value
+      });
+    }
+    /**
+     * Handles change to uniqueId field
+     * @param e
+     */
+
+  }, {
+    key: "handleUniqueIdChange",
+    value: function handleUniqueIdChange(e) {
+      this.setState({
+        unique_id: e.target.value
+      });
+    }
+    /**
+     * Handles change to datapoints field
+     * @param e
+     */
+
+  }, {
+    key: "handleDatapointChange",
+    value: function handleDatapointChange(e) {
+      this.setState({
+        datapoint: '',
+        units: '',
+        unit: '',
+        min_threshold: '0',
+        max_threshold: '1',
+        min_range: '',
+        max_range: ''
+      });
+      var datapointdetail = this.dataPointDetails(e.target.value);
+      console.log(datapointdetail);
+      this.setState({
+        datapoint: e.target.value,
+        units: datapointdetail['units'],
+        unit: datapointdetail['units'][0],
+        min_threshold: '0',
+        max_threshold: '1',
+        min_range: datapointdetail['min_range'],
+        max_range: datapointdetail['max_range']
+      });
+    }
+    /**
+     * Handles change to units field
+     * @param e
+     */
+
+  }, {
+    key: "handleUnitsChange",
+    value: function handleUnitsChange(e) {
+      this.setState({
+        unit: e.target.value
+      });
+    }
+    /**
+     * Handles change to min threshold
+     * @param e
+     */
+
+  }, {
+    key: "handleMinThresholdChange",
+    value: function handleMinThresholdChange(e) {
+      this.setState({
+        min_threshold: e.target.value
+      });
+    }
+    /**
+     * Handles change to max threshold
+     * @param e
+     */
+
+  }, {
+    key: "handleMaxThresholdChange",
+    value: function handleMaxThresholdChange(e) {
+      this.setState({
+        max_threshold: e.target.value
+      });
+    }
+    /**
+     * Fetch datapoint details
+     *
+     */
+
+  }, {
+    key: "dataPointDetails",
+    value: function dataPointDetails(datapoint) {
+      /*this.state.datapoints.find((element) => {
+          return element.interface == datapoint;
+      })*/
+      var matching_datapoint = this.state.datapoints.filter(function (datap) {
+        return datap["interface"] == datapoint;
+      })[0];
+      this.setState({
+        datapoint_detail: matching_datapoint
+      });
+      return matching_datapoint;
+    }
+    /**
+     * Handles change to description field
+     * @param e
+     */
+
+  }, {
+    key: "handleDescriptionChange",
+    value: function handleDescriptionChange(e) {
+      this.setState({
+        description: e.target.value
+      });
+    }
+    /*
+    *populate drop down menu with datapoints
+    *
+    */
+
+  }, {
+    key: "options",
+    value: function options() {
+      if (this.state.datapoints instanceof Array) {
+        return this.state.datapoints.map(function (object, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: object["interface"],
+            key: i
+          }, object.default_name);
+        });
+      }
+    }
+    /*
+    *populate drop down menu with datapoint units
+    *
+    */
+
+  }, {
+    key: "unitoptions",
+    value: function unitoptions() {
+      if (this.state.units instanceof Array) {
+        return this.state.units.map(function (object, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: object,
+            key: i
+          }, object);
+        });
+      }
+    }
+    /*
+    *Added datapoints
+    *
+    */
+
+  }, {
+    key: "dataPointsRows",
+    value: function dataPointsRows() {
+      var _this2 = this;
+
+      if (this.state.added_datapoints instanceof Array) {
+        //console.log(this.state.added_datapoints);
+
+        /**
+         * Remove Datapoint onclick
+         *
+         */
+        var handleRemove = function handleRemove(datapoint) {
+          //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
+          var this_datapoint = _this2.state.removed_datapoints.filter(function (datap) {
+            return datap["interface"] == datapoint;
+          })[0];
+
+          _this2.setState({
+            datapoint_detail: this_datapoint
+          });
+
+          console.log("this_datapoint");
+          console.log(this_datapoint);
+          console.log("this.state.datapoints");
+          console.log(_this2.state.datapoints); //this.state.datapoints.pop(this.state.datapoint_detail)
+          //this.state.added_datapoints.push(this.state.datapoint_detail)
+
+          _this2.setState({
+            min_threshold: '0',
+            max_threshold: '1',
+            min_range: 0,
+            max_range: 1,
+            unit: '',
+            datapoint: '',
+            datapoints: _this2.state.datapoints.concat(this_datapoint),
+            //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
+            added_datapoints: _this2.state.added_datapoints.filter(function (datap) {
+              return datap.point != datapoint;
+            }),
+            removed_datapoints: _this2.state.removed_datapoints.filter(function (datap) {
+              return datap["interface"] != datapoint;
+            })
+          });
+        };
+
+        return this.state.added_datapoints.map(function (object, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "badge badge-info"
+          }, "Interface"), "\xA0", object.lable), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "badge badge-warning"
+          }, "Min Threshold"), "\xA0", object.minT), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "badge badge-warning"
+          }, "Max Threshold"), "\xA0", object.maxT), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "badge badge-info"
+          }, "Unit"), "\xA0", object.unit), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            href: "#",
+            onClick: function onClick() {
+              return handleRemove(object.point);
+            }
+          }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "fas fa-times-circle text-danger"
+          }))));
+        });
+      }
+    }
+    /**
+     * Add Datapoint onclick
+     *
+     */
+
+  }, {
+    key: "handleAddDataPoint",
+    value: function handleAddDataPoint() {
+      var _this3 = this;
+
+      if (this.state.datapoint != '') {
+        //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
+        this.setState({
+          datapoint_detail: this.state.datapoints.filter(function (datap) {
+            return datap["interface"] == _this3.state.datapoint;
+          })[0]
+        });
+        var this_datapoint = [{
+          lable: this.state.datapoint_detail['default_name'],
+          point: this.state.datapoint_detail['interface'],
+          unit: this.state.unit,
+          minT: parseFloat(this.state.min_threshold),
+          maxT: parseFloat(this.state.max_threshold),
+          threshold_active_date: new Date().toISOString(),
+          start_delay: new Date().toISOString(),
+          end_delay: new Date().toISOString()
+        }]; //this.state.datapoints.pop(this.state.datapoint_detail)
+        //this.state.added_datapoints.push(this.state.datapoint_detail)
+
+        this.setState({
+          min_threshold: '0',
+          max_threshold: '0',
+          min_range: 0,
+          max_range: 1,
+          datapoint: '',
+          added_datapoints: this.state.added_datapoints.concat(this_datapoint),
+          removed_datapoints: this.state.removed_datapoints.concat(this.state.datapoint_detail),
+          datapoints: this.state.datapoints.filter(function (datap) {
+            return datap["interface"] != _this3.state.datapoint_detail['interface'];
+          })
+        });
+        this.setState({
+          datapoint_detail: ''
+        });
+        console.log(this.state.added_datapoints);
+      }
+    }
+    /**
+     * Handles form submission
+     * @param e
+     */
+
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this4 = this;
+
+      if (this.state.added_datapoints.length > 0) {
+        this.setState({
+          showloader: ''
+        });
+        e.preventDefault();
+        var devices = {
+          name: this.state.name,
+          unique_id: this.state.unique_id,
+          data_points: this.state.added_datapoints,
+          description: this.state.description,
+          system_id: 0,
+          system_name: 'nil'
+        };
+        var uri = 'devices/' + this.state.id;
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch(uri, devices).then(function (response) {
+          alert(response.data);
+
+          _this4.setState({
+            showloader: 'd-none',
+            alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
+            message: response.data,
+            display: ''
+          }); //$('#edit'+this.props.params.id).modal('hide');
+          //e.preventDefault();
+
+        })["catch"](function (response) {
+          alert(JSON.stringify(response));
+        });
+      } else {
+        alert("Need to add one datapoint at least");
+      }
+      /*this.setState({showloader: ''});
+      e.preventDefault();
+            const devices = {
+              name: this.state.name,
+              unique_id: this.state.unique_id,
+              data_points: this.state.added_datapoints,
+              description: this.state.description,
+              system_id: 0,
+              system_name: 'nil',
+          }
+             let uri = 'devices';
+          axios.post(uri, devices)
+              .then((response) => {
+                   //alert(response.data);
+                   //e.preventDefault();
+                  this.setState({
+                      description: '',
+                      name: '',
+                      unique_id: '',
+                      datapoints: '',
+                      datapoint: '',
+                      device: '',
+                      removed_datapoints: [],
+                      added_datapoints:[],
+                      datapoint_detail: '',
+                      units: '',
+                      unit: '',
+                      min_threshold: '0',
+                      max_threshold: '1',
+                      min_range: 0,
+                      max_range: 1,
+                      showloader: 'd-none',
+                      alert: response.data === 'Successfully added' ? 'success' : 'warning',
+                      message: response.data,
+                      display:''
+                  });
+                })
+              .catch((response)=>{
+                  alert(JSON.stringify(response));
+                  this.setState({alert: 'danger', message: response});
+              });*/
+
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal fade",
+        id: this.state.panel_id,
+        tabIndex: "-1",
+        role: "dialog",
+        "aria-labelledby": "myLargeModalLabel",
+        "aria-hidden": "true"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-dialog modal-lg"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-content"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "modal-title"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "modal",
+        "aria-label": "Close"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        "aria-hidden": "true",
+        className: "btn btn-danger"
+      }, "\xD7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Edit Device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Alert__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        alert: this.state.alert,
+        display: this.state.display,
+        message: this.state.message
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "deviceName"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-mobile"
+      }), "\xA0Device Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "deviceName",
+        "aria-describedby": "deviceNameHelp",
+        placeholder: "Enter device name",
+        value: this.state.name,
+        onChange: this.handleNameChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "deviceUniqueId"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-fingerprint"
+      }), "\xA0 Unique ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "form-control",
+        id: "uniqueId",
+        "aria-describedby": "uniqueIdHelp",
+        placeholder: "Enter device unique id",
+        value: this.state.unique_id,
+        onChange: this.handleUniqueIdChange,
+        readOnly: true
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        align: "center"
+      }, "Datapoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "badge badge-default"
+      }, "To edit any datapoint, please delete ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-times-circle text-danger"
+      }), " the datapoint and re-add with your preferred parameters")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-hover"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.dataPointsRows()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "datapointName"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-mobile"
+      }), "\xA0New Data Point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "datapointName",
+        "aria-describedby": "datapointNameHelp",
+        placeholder: "Select Datapoint",
+        value: this.state.datapoint,
+        onChange: this.handleDatapointChange,
+        disabled: this.state.submitStatus
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Datapoint--"), this.options())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "unit"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-mobile"
+      }), "\xA0Unit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "unit",
+        "aria-describedby": "unitHelp",
+        placeholder: "Select Unit",
+        value: this.state.unit,
+        onChange: this.handleUnitsChange,
+        disabled: this.state.submitStatus
+      }, this.unitoptions())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group col-sm-10"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "minThreshold"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-exchange-alt"
+      }), "\xA0 Min Threshold"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "range",
+        className: "custom-range",
+        min: this.state.min_range,
+        max: this.state.max_range,
+        step: "1",
+        id: "minThreshold",
+        value: this.state.min_threshold,
+        onChange: this.handleMinThresholdChange,
+        disabled: this.state.submitStatus
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        value: this.state.min_threshold,
+        readOnly: "true"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group col-sm-10"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "maxThreshold"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-exchange-alt"
+      }), "\xA0 Max Threshold"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "range",
+        className: "custom-range",
+        min: this.state.min_range,
+        max: this.state.max_range,
+        id: "maxThreshold",
+        value: this.state.max_threshold,
+        onChange: this.handleMaxThresholdChange,
+        disabled: this.state.submitStatus
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        value: this.state.max_threshold,
+        readOnly: "true"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        align: "center",
+        className: "".concat(this.state.datapoint == '' ? 'd-none' : '')
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleAddDataPoint,
+        className: "btn btn-sm btn-primary"
+      }, "Add datapoint"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "deviceDescription"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-info"
+      }), "\xA0Device Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        id: "deviceDescription",
+        "aria-describedby": "deviceDescriptionHelp",
+        placeholder: "Enter device description",
+        value: this.state.description || '',
+        onChange: this.handleDescriptionChange
+      })), this.state.added_datapoints.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary"
+      }, "Update Sensor") : ''))))));
+    }
+  }]);
+
+  return EditDevice;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (EditDevice);
+
+/***/ }),
+
 /***/ "./resources/js/components/home/CorrectiveComment.js":
 /*!***********************************************************!*\
   !*** ./resources/js/components/home/CorrectiveComment.js ***!
@@ -28562,7 +29205,7 @@ function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _EditDevice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditDevice */ "./resources/js/components/home/EditDevice.js");
+/* harmony import */ var _devices_EditDevice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! .././devices/EditDevice */ "./resources/js/components/devices/EditDevice.js");
 /* harmony import */ var _DeviceReadings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeviceReadings */ "./resources/js/components/home/DeviceReadings.js");
 /* harmony import */ var _CorrectiveComment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CorrectiveComment */ "./resources/js/components/home/CorrectiveComment.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -28666,11 +29309,11 @@ function (_Component) {
         "data-toggle": "modal",
         "data-target": "#edit".concat(this.props.obj.device_id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-cog text_contrast2"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditDevice__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        className: "fas fa-cog text-info"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_devices_EditDevice__WEBPACK_IMPORTED_MODULE_1__["default"], {
         editId: "edit".concat(this.props.obj.device_id),
         params: this.props.obj,
-        datapoints: this.props.obj.datapoints
+        datapoints: this.props.obj.dpoints
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row text-center"
       }, this.datapointStatus()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CorrectiveComment__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -28780,638 +29423,6 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (DoughnutChart);
-
-/***/ }),
-
-/***/ "./resources/js/components/home/EditDevice.js":
-/*!****************************************************!*\
-  !*** ./resources/js/components/home/EditDevice.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var es6_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! es6-promise */ "./node_modules/es6-promise/dist/es6-promise.js");
-/* harmony import */ var es6_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(es6_promise__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Loader */ "./resources/js/components/Loader.js");
-/* harmony import */ var _Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Alert */ "./resources/js/components/Alert.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-Object(es6_promise__WEBPACK_IMPORTED_MODULE_1__["polyfill"])();
-
-
-
-
-var EditDevice =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(EditDevice, _Component);
-
-  /**
-   * Constructor
-   * @param props
-   */
-  function EditDevice(props) {
-    var _this;
-
-    _classCallCheck(this, EditDevice);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditDevice).call(this, props));
-    _this.state = {
-      id: _this.props.params.id,
-      name: _this.props.params.name,
-      unique_id: _this.props.params.unique_id,
-      min_threshold: _this.props.params.min_threshold,
-      max_threshold: _this.props.params.max_threshold,
-      description: _this.props.params.description,
-      panel_id: _this.props.editId,
-      showloader: 'd-none',
-      alert: '',
-      message: '',
-      display: 'd-none',
-
-      /*The new states were added here*/
-      datapoints: _this.props.datapoints,
-      datapoint: '',
-      device: '',
-      removed_datapoints: _this.props.params.removed_datapoints,
-      added_datapoints: _this.props.params.added_datapoints,
-      datapoint_detail: '',
-      units: '',
-      unit: '',
-      min_range: 0,
-      max_range: 1,
-      isValid: false,
-      icon: '',
-      icon_flag: ''
-    };
-    var url = 'http://localhost/RTO3_Users/public/';
-    _this.handleNameChange = _this.handleNameChange.bind(_assertThisInitialized(_this)); //this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
-
-    _this.handleDatapointChange = _this.handleDatapointChange.bind(_assertThisInitialized(_this));
-    _this.handleUnitsChange = _this.handleUnitsChange.bind(_assertThisInitialized(_this));
-    _this.handleMinThresholdChange = _this.handleMinThresholdChange.bind(_assertThisInitialized(_this));
-    _this.handleMaxThresholdChange = _this.handleMaxThresholdChange.bind(_assertThisInitialized(_this));
-    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_assertThisInitialized(_this));
-    _this.dataPointDetails = _this.dataPointDetails.bind(_assertThisInitialized(_this));
-    _this.handleAddDataPoint = _this.handleAddDataPoint.bind(_assertThisInitialized(_this));
-    _this.dataPointsRows = _this.dataPointsRows.bind(_assertThisInitialized(_this));
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-  /**
-   * Handles change to name field
-   * @param e
-   */
-
-
-  _createClass(EditDevice, [{
-    key: "handleNameChange",
-    value: function handleNameChange(e) {
-      this.setState({
-        name: e.target.value
-      });
-    }
-    /**
-     * Handles change to uniqueId field
-     * @param e
-     */
-
-  }, {
-    key: "handleUniqueIdChange",
-    value: function handleUniqueIdChange(e) {
-      this.setState({
-        unique_id: e.target.value
-      });
-    }
-    /**
-     * Handles change to datapoints field
-     * @param e
-     */
-
-  }, {
-    key: "handleDatapointChange",
-    value: function handleDatapointChange(e) {
-      this.setState({
-        datapoint: '',
-        units: '',
-        unit: '',
-        min_threshold: '0',
-        max_threshold: '1',
-        min_range: '',
-        max_range: ''
-      });
-      var datapointdetail = this.dataPointDetails(e.target.value);
-      console.log(datapointdetail);
-      this.setState({
-        datapoint: e.target.value,
-        units: datapointdetail['units'],
-        unit: datapointdetail['units'][0],
-        min_threshold: '0',
-        max_threshold: '1',
-        min_range: datapointdetail['min_range'],
-        max_range: datapointdetail['max_range']
-      });
-    }
-    /**
-     * Handles change to units field
-     * @param e
-     */
-
-  }, {
-    key: "handleUnitsChange",
-    value: function handleUnitsChange(e) {
-      this.setState({
-        unit: e.target.value
-      });
-    }
-    /**
-     * Handles change to min threshold
-     * @param e
-     */
-
-  }, {
-    key: "handleMinThresholdChange",
-    value: function handleMinThresholdChange(e) {
-      this.setState({
-        min_threshold: e.target.value
-      });
-    }
-    /**
-     * Handles change to max threshold
-     * @param e
-     */
-
-  }, {
-    key: "handleMaxThresholdChange",
-    value: function handleMaxThresholdChange(e) {
-      this.setState({
-        max_threshold: e.target.value
-      });
-    }
-    /**
-     * Fetch datapoint details
-     *
-     */
-
-  }, {
-    key: "dataPointDetails",
-    value: function dataPointDetails(datapoint) {
-      /*this.state.datapoints.find((element) => {
-          return element.interface == datapoint;
-      })*/
-      var matching_datapoint = this.state.datapoints.filter(function (datap) {
-        return datap["interface"] == datapoint;
-      })[0];
-      this.setState({
-        datapoint_detail: matching_datapoint
-      });
-      return matching_datapoint;
-    }
-    /**
-     * Handles change to description field
-     * @param e
-     */
-
-  }, {
-    key: "handleDescriptionChange",
-    value: function handleDescriptionChange(e) {
-      this.setState({
-        description: e.target.value
-      });
-    }
-    /*
-    *populate drop down menu with datapoints
-    *
-    */
-
-  }, {
-    key: "options",
-    value: function options() {
-      if (this.state.datapoints instanceof Array) {
-        return this.state.datapoints.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-            value: object["interface"],
-            key: i
-          }, object.default_name);
-        });
-      }
-    }
-    /*
-    *populate drop down menu with datapoint units
-    *
-    */
-
-  }, {
-    key: "unitoptions",
-    value: function unitoptions() {
-      if (this.state.units instanceof Array) {
-        return this.state.units.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-            value: object,
-            key: i
-          }, object);
-        });
-      }
-    }
-    /*
-    *Added datapoints
-    *
-    */
-
-  }, {
-    key: "dataPointsRows",
-    value: function dataPointsRows() {
-      var _this2 = this;
-
-      if (this.state.added_datapoints instanceof Array) {
-        //console.log(this.state.added_datapoints);
-
-        /**
-         * Remove Datapoint onclick
-         *
-         */
-        var handleRemove = function handleRemove(datapoint) {
-          //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
-          var this_datapoint = _this2.state.removed_datapoints.filter(function (datap) {
-            return datap["interface"] == datapoint;
-          })[0];
-
-          _this2.setState({
-            datapoint_detail: this_datapoint
-          });
-
-          console.log("this_datapoint");
-          console.log(this_datapoint);
-          console.log("this.state.datapoints");
-          console.log(_this2.state.datapoints); //this.state.datapoints.pop(this.state.datapoint_detail)
-          //this.state.added_datapoints.push(this.state.datapoint_detail)
-
-          _this2.setState({
-            min_threshold: '0',
-            max_threshold: '1',
-            min_range: 0,
-            max_range: 1,
-            unit: '',
-            datapoint: '',
-            datapoints: _this2.state.datapoints.concat(this_datapoint),
-            //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
-            added_datapoints: _this2.state.added_datapoints.filter(function (datap) {
-              return datap.point != datapoint;
-            }),
-            removed_datapoints: _this2.state.removed_datapoints.filter(function (datap) {
-              return datap["interface"] != datapoint;
-            })
-          });
-        };
-
-        return this.state.added_datapoints.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-            className: "badge badge-info"
-          }, "Interface"), "\xA0", object.lable), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-            className: "badge badge-warning"
-          }, "Min Threshold"), "\xA0", object.minT), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-            className: "badge badge-warning"
-          }, "Max Threshold"), "\xA0", object.maxT), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-            className: "badge badge-info"
-          }, "Unit"), "\xA0", object.unit), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            href: "#",
-            onClick: function onClick() {
-              return handleRemove(object.point);
-            }
-          }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-            className: "fas fa-times-circle text-danger"
-          }))));
-        });
-      }
-    }
-    /**
-     * Add Datapoint onclick
-     *
-     */
-
-  }, {
-    key: "handleAddDataPoint",
-    value: function handleAddDataPoint() {
-      var _this3 = this;
-
-      if (this.state.datapoint != '') {
-        //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
-        this.setState({
-          datapoint_detail: this.state.datapoints.filter(function (datap) {
-            return datap["interface"] == _this3.state.datapoint;
-          })[0]
-        });
-        var this_datapoint = [{
-          lable: this.state.datapoint_detail['default_name'],
-          point: this.state.datapoint_detail['interface'],
-          unit: this.state.unit,
-          minT: parseFloat(this.state.min_threshold),
-          maxT: parseFloat(this.state.max_threshold),
-          threshold_active_date: new Date().toISOString(),
-          start_delay: new Date().toISOString(),
-          end_delay: new Date().toISOString()
-        }]; //this.state.datapoints.pop(this.state.datapoint_detail)
-        //this.state.added_datapoints.push(this.state.datapoint_detail)
-
-        this.setState({
-          min_threshold: '0',
-          max_threshold: '0',
-          min_range: 0,
-          max_range: 1,
-          datapoint: '',
-          added_datapoints: this.state.added_datapoints.concat(this_datapoint),
-          removed_datapoints: this.state.removed_datapoints.concat(this.state.datapoint_detail),
-          datapoints: this.state.datapoints.filter(function (datap) {
-            return datap["interface"] != _this3.state.datapoint_detail['interface'];
-          })
-        });
-        this.setState({
-          datapoint_detail: ''
-        });
-        console.log(this.state.added_datapoints);
-      }
-    }
-    /**
-     * Handles form submission
-     * @param e
-     */
-
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this4 = this;
-
-      this.setState({
-        showloader: ''
-      });
-      e.preventDefault();
-      var devices = {
-        name: this.state.name,
-        unique_id: this.state.unique_id,
-        data_points: this.state.added_datapoints,
-        description: this.state.description,
-        system_id: 0,
-        system_name: 'nil'
-      };
-      var uri = 'devices/' + this.state.id;
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch(uri, devices).then(function (response) {
-        alert(response.data);
-
-        _this4.setState({
-          showloader: 'd-none',
-          alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
-          message: response.data,
-          display: ''
-        }); //$('#edit'+this.props.params.id).modal('hide');
-        //e.preventDefault();
-
-      })["catch"](function (response) {
-        alert(JSON.stringify(response));
-      });
-      /*this.setState({showloader: ''});
-      e.preventDefault();
-            const devices = {
-              name: this.state.name,
-              unique_id: this.state.unique_id,
-              data_points: this.state.added_datapoints,
-              description: this.state.description,
-              system_id: 0,
-              system_name: 'nil',
-          }
-             let uri = 'devices';
-          axios.post(uri, devices)
-              .then((response) => {
-                   //alert(response.data);
-                   //e.preventDefault();
-                  this.setState({
-                      description: '',
-                      name: '',
-                      unique_id: '',
-                      datapoints: '',
-                      datapoint: '',
-                      device: '',
-                      removed_datapoints: [],
-                      added_datapoints:[],
-                      datapoint_detail: '',
-                      units: '',
-                      unit: '',
-                      min_threshold: '0',
-                      max_threshold: '1',
-                      min_range: 0,
-                      max_range: 1,
-                      showloader: 'd-none',
-                      alert: response.data === 'Successfully added' ? 'success' : 'warning',
-                      message: response.data,
-                      display:''
-                  });
-                })
-              .catch((response)=>{
-                  alert(JSON.stringify(response));
-                  this.setState({alert: 'danger', message: response});
-              });*/
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal fade",
-        id: this.state.panel_id,
-        tabIndex: "-1",
-        role: "dialog",
-        "aria-labelledby": "myLargeModalLabel",
-        "aria-hidden": "true"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal-dialog modal-lg"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-        className: "modal-title"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "button",
-        className: "close",
-        "data-dismiss": "modal",
-        "aria-label": "Close"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        "aria-hidden": "true",
-        className: "btn btn-danger"
-      }, "\xD7"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Edit Device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Alert__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        alert: this.state.alert,
-        display: this.state.display,
-        message: this.state.message
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceName"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-mobile"
-      }), "\xA0Device Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "deviceName",
-        "aria-describedby": "deviceNameHelp",
-        placeholder: "Enter device name",
-        value: this.state.name,
-        onChange: this.handleNameChange
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceUniqueId"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-fingerprint"
-      }), "\xA0 Unique ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "form-control",
-        id: "uniqueId",
-        "aria-describedby": "uniqueIdHelp",
-        placeholder: "Enter device unique id",
-        value: this.state.unique_id,
-        onChange: this.handleUniqueIdChange,
-        readOnly: true
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-        align: "center"
-      }, "Datapoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table table-hover"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.dataPointsRows()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "datapointName"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-mobile"
-      }), "\xA0New Data Point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        id: "datapointName",
-        "aria-describedby": "datapointNameHelp",
-        placeholder: "Select Datapoint",
-        value: this.state.datapoint,
-        onChange: this.handleDatapointChange,
-        disabled: this.state.submitStatus
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Datapoint--"), this.options())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "unit"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-mobile"
-      }), "\xA0Unit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        id: "unit",
-        "aria-describedby": "unitHelp",
-        placeholder: "Select Unit",
-        value: this.state.unit,
-        onChange: this.handleUnitsChange,
-        disabled: this.state.submitStatus
-      }, this.unitoptions())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group col-sm-10"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "minThreshold"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-exchange-alt"
-      }), "\xA0 Min Threshold"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "range",
-        className: "custom-range",
-        min: this.state.min_range,
-        max: this.state.max_range,
-        step: "1",
-        id: "minThreshold",
-        value: this.state.min_threshold,
-        onChange: this.handleMinThresholdChange,
-        disabled: this.state.submitStatus
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        value: this.state.min_threshold,
-        readOnly: "true"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group col-sm-10"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "maxThreshold"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-exchange-alt"
-      }), "\xA0 Max Threshold"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "range",
-        className: "custom-range",
-        min: this.state.min_range,
-        max: this.state.max_range,
-        id: "maxThreshold",
-        value: this.state.max_threshold,
-        onChange: this.handleMaxThresholdChange,
-        disabled: this.state.submitStatus
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        value: this.state.max_threshold,
-        readOnly: "true"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        align: "center",
-        className: "".concat(this.state.datapoint == '' ? 'd-none' : '')
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: "#",
-        onClick: this.handleAddDataPoint,
-        className: "btn btn-sm btn-primary"
-      }, "Add"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceDescription"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-info"
-      }), "\xA0Device Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        className: "form-control",
-        id: "deviceDescription",
-        "aria-describedby": "deviceDescriptionHelp",
-        placeholder: "Enter device description",
-        value: this.state.description || '',
-        onChange: this.handleDescriptionChange
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-primary"
-      }, "Update")))))));
-    }
-  }]);
-
-  return EditDevice;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (EditDevice);
 
 /***/ }),
 

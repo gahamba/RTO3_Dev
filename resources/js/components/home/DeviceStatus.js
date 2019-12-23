@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditDevice from './EditDevice';
+import EditDevice from '.././devices/EditDevice';
 import DeviceReadings from './DeviceReadings';
 import CorrectiveComment from './CorrectiveComment';
 
@@ -56,13 +56,13 @@ class DeviceStatus extends Component {
                     <div className="card-body">
                         <h5 align="center">{ this.props.obj.name } &nbsp;
                         <a href="#" data-toggle="modal" data-target={`#edit${this.props.obj.device_id}`}>
-                            <i className="fas fa-cog text_contrast2"></i>
+                            <i className="fas fa-cog text-info"></i>
                         </a></h5>
 
 
                         <EditDevice editId={`edit${this.props.obj.device_id}`}
                                     params={this.props.obj}
-                                    datapoints={this.props.obj.datapoints}
+                                    datapoints={this.props.obj.dpoints}
                         />
 
                         <div className="row text-center">

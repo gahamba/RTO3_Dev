@@ -29327,33 +29327,37 @@ function (_Component) {
     value: function handleSubmit(e) {
       var _this4 = this;
 
-      this.setState({
-        showloader: ''
-      });
-      e.preventDefault();
-      var devices = {
-        name: this.state.name,
-        unique_id: this.state.unique_id,
-        data_points: this.state.added_datapoints,
-        description: this.state.description,
-        system_id: 0,
-        system_name: 'nil'
-      };
-      var uri = 'devices/' + this.state.id;
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch(uri, devices).then(function (response) {
-        alert(response.data);
+      if (this.state.added_datapoints.length > 0) {
+        this.setState({
+          showloader: ''
+        });
+        e.preventDefault();
+        var devices = {
+          name: this.state.name,
+          unique_id: this.state.unique_id,
+          data_points: this.state.added_datapoints,
+          description: this.state.description,
+          system_id: 0,
+          system_name: 'nil'
+        };
+        var uri = 'devices/' + this.state.id;
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.patch(uri, devices).then(function (response) {
+          alert(response.data);
 
-        _this4.setState({
-          showloader: 'd-none',
-          alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
-          message: response.data,
-          display: ''
-        }); //$('#edit'+this.props.params.id).modal('hide');
-        //e.preventDefault();
+          _this4.setState({
+            showloader: 'd-none',
+            alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
+            message: response.data,
+            display: ''
+          }); //$('#edit'+this.props.params.id).modal('hide');
+          //e.preventDefault();
 
-      })["catch"](function (response) {
-        alert(JSON.stringify(response));
-      });
+        })["catch"](function (response) {
+          alert(JSON.stringify(response));
+        });
+      } else {
+        alert("Need to add one datapoint at least");
+      }
       /*this.setState({showloader: ''});
       e.preventDefault();
             const devices = {
@@ -29395,6 +29399,7 @@ function (_Component) {
                   alert(JSON.stringify(response));
                   this.setState({alert: 'danger', message: response});
               });*/
+
     }
   }, {
     key: "render",
@@ -29460,7 +29465,13 @@ function (_Component) {
         readOnly: true
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
         align: "center"
-      }, "Datapoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Datapoints"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "text-center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "badge badge-default"
+      }, "To edit any datapoint, please delete ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-times-circle text-danger"
+      }), " the datapoint and re-add with your preferred parameters")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-hover"
@@ -29550,7 +29561,7 @@ function (_Component) {
         href: "#",
         onClick: this.handleAddDataPoint,
         className: "btn btn-sm btn-primary"
-      }, "Add"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Add datapoint"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "deviceDescription"
@@ -29563,10 +29574,10 @@ function (_Component) {
         placeholder: "Enter device description",
         value: this.state.description || '',
         onChange: this.handleDescriptionChange
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      })), this.state.added_datapoints.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-primary"
-      }, "Update")))))));
+      }, "Update Sensor") : ''))))));
     }
   }]);
 

@@ -734,10 +734,15 @@ class DeviceController extends Controller
 
                 array_push($dev_stat,
                     array(
+                        'id'        =>  $device->id,
                         'name'      =>  $device->name,
                         'device_id' =>  $device->id,
                         'unique_id' =>  $device->unique_id,
-                        'datapoints' => $this_reading,
+                        'min_threshold' =>  $device->min_threshold,
+                        'max_threshold' =>  $device->max_threshold,
+                        'description'   =>  $device->description,
+                        'created_by'    =>  User::find($device->created_by)->name,
+                        'datapoints' => $this_reading, //$f_datapoints
                         'added_datapoints'  =>  $device->data_points,
                         'removed_datapoints' => $e_datapoints,
                         'data_channels' =>  $device->data_channels,
@@ -746,6 +751,8 @@ class DeviceController extends Controller
 
                     )
                 );
+
+
 
                 if($bad_exists){
                     $bad += 1;

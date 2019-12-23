@@ -21,7 +21,7 @@ class ReportsController extends Controller
     public function landing()
     {
         $config = Configuration::where('companyId', '=', auth::user()->company_id)->first();
-        if($config){
+        if($config && count($config->times) > 0){
             return view('reports')
                     ->with('config', $config);
         }
@@ -274,9 +274,12 @@ class ReportsController extends Controller
      */
     public function getNewReports($from, $to, $reportType, $device){
 
-        $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first()->times;
+        $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first();
         if(!$configuration){
             $configuration = ['0', '12', '16', '22'];
+        }
+        else{
+            $configuration = $configuration->times;
         }
         $readings = $this->getReportReadings($from, $to, $reportType, $device);
 

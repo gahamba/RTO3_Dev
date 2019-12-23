@@ -295,36 +295,42 @@ class EditDevice extends Component {
      * @param e
      */
     handleSubmit(e){
-        this.setState({showloader: ''});
-        e.preventDefault();
-        const devices = {
-            name: this.state.name,
-            unique_id: this.state.unique_id,
-            data_points: this.state.added_datapoints,
-            description: this.state.description,
-            system_id: 0,
-            system_name: 'nil',
-        }
-        let uri = 'devices/'+this.state.id;
-        axios.patch(uri, devices)
-            .then((response) => {
+        if(this.state.added_datapoints.length > 0){
+            this.setState({showloader: ''});
+            e.preventDefault();
+            const devices = {
+                name: this.state.name,
+                unique_id: this.state.unique_id,
+                data_points: this.state.added_datapoints,
+                description: this.state.description,
+                system_id: 0,
+                system_name: 'nil',
+            }
+            let uri = 'devices/'+this.state.id;
+            axios.patch(uri, devices)
+                .then((response) => {
 
-                alert(response.data);
-                this.setState({
-                    showloader: 'd-none',
-                    alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
-                    message: response.data,
-                    display:'',
+                    alert(response.data);
+                    this.setState({
+                        showloader: 'd-none',
+                        alert: response.data === 'Successfully Updated' ? 'success' : 'warning',
+                        message: response.data,
+                        display:'',
 
+                    });
+                    //$('#edit'+this.props.params.id).modal('hide');
+                    //e.preventDefault();
+
+
+                })
+                .catch((response)=>{
+                    alert(JSON.stringify(response));
                 });
-                //$('#edit'+this.props.params.id).modal('hide');
-                //e.preventDefault();
+        }
+        else{
+            alert("Need to add one datapoint at least");
+        }
 
-
-            })
-            .catch((response)=>{
-                alert(JSON.stringify(response));
-            });
 
         /*this.setState({showloader: ''});
         e.preventDefault();
@@ -424,6 +430,11 @@ class EditDevice extends Component {
                                     </div>
 
                                     <h5 align="center">Datapoints</h5>
+                                    <p className="text-center">
+                                        <span className="badge badge-default">
+                                            To edit any datapoint, please delete <i className="fas fa-times-circle text-danger"></i> the datapoint and re-add with your preferred parameters
+                                        </span>
+                                    </p>
                                     <div className="form-group">
                                         <table className="table table-hover">
                                             <tbody>
@@ -517,7 +528,7 @@ class EditDevice extends Component {
 
                                     <div className="form-group">
                                         <p align="center" className={`${ this.state.datapoint == '' ? 'd-none' : '' }`}>
-                                            <a href="#" onClick={this.handleAddDataPoint} className="btn btn-sm btn-primary">Add</a>
+                                            <a href="#" onClick={this.handleAddDataPoint} className="btn btn-sm btn-primary">Add datapoint</a>
                                         </p>
                                     </div>
 
@@ -533,7 +544,11 @@ class EditDevice extends Component {
                                         </textarea>
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary">Update</button>
+                                    { this.state.added_datapoints.length > 0
+                                        ? <button type="submit" className="btn btn-primary">Update Sensor</button>
+                                        : ''
+                                    }
+
 
 
 
