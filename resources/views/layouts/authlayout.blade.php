@@ -31,13 +31,13 @@
     <div class="row">
 
         <!-- Left links panel -->
-        <div class="col-sm-2 links_panel_left user_profile_links">
+        <div class="col-sm-2 links_panel_left user_profile_links" id="mySidebar">
 
 
             <div class="d-flex justify-content-center align-items-center user_profile_links">
                 <div class="full_user_profile_panel user_profile_links">
                     <!--User profile picture -->
-                    <div class="row">
+                    <div class="row link_text">
                         <div class="col">
                             <img class="rounded-circle user_profile" src="{{ asset('images/user.png') }}" />
                         </div>
@@ -45,7 +45,7 @@
                     </div>
                     <!--User profile picture ends here -->
                     <div class="clear">&nbsp;</div>
-                    <div class="row user_profile_links">
+                    <div class="row user_profile_links link_text">
                         <!--profile details and icons -->
                         <div class="col">
                             <ul class="list-unstyled">
@@ -67,17 +67,59 @@
                     <div class="row">
 
                         <div class="col">
-                            <ul class="list-unstyled">
-                                <li class="login_link_lists"><span><a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard"><i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard</a></span></li>
+                            <ul class="list-unstyled text-center">
+
+                                <li class="login_link_lists">
+                                    <a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard">
+
+                                    <span class="col-sm-6 icon float-left text-right"><i class="fas fa-tachometer-alt"></i></span>
+                                    <span class="col-sm-6 link_text float-left text-left">Dashboard</span>
+
+                                    </a>
+                                </li>
+
 
                                 @if(auth::user()->user_type == 0)
 
-                                <li class="login_link_lists"><span><a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices"><i class="fas fa-thermometer"></i>&nbsp;Devices</a></span></li>
-                                <li class="login_link_lists"><span><a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users"><i class="fas fa-user-cog"></i>&nbsp;Users</a></span></li>
-                                <li class="login_link_lists"><span><a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems"><i class="fas fa-layer-group"></i>&nbsp;Systems</a></span></li>
+                                    <li class="login_link_lists">
+                                        <a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices">
+
+                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-thermometer"></i></span>
+                                        <span class="col-sm-6 link_text float-left text-left">Devices</span>
+
+                                        </a>
+                                    </li>
+
+
+
+                                    <li class="login_link_lists">
+                                        <a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users">
+                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-user-cog"></i></span>
+                                        <span class="col-sm-6 link_text float-left text-left">Users</span>
+                                        </a>
+                                    </li>
+
+
+
+                                    <li class="login_link_lists">
+                                        <a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems">
+
+                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-layer-group"></i></span>
+                                        <span class="col-sm-6 link_text float-left text-left">Systems</span>
+                                        </a>
+                                    </li>
+
 
                                 @endif
-                                <li class="login_link_lists"><span><a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc"><i class="fas fa-file-word"></i>&nbsp;Reports</a></span></li>
+
+
+                                <li class="login_link_lists">
+                                    <a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc">
+
+                                    <span class="col-sm-6 icon float-left text-right"><i class="fas fa-file-word"></i></span>
+                                    <span class="col-sm-6 link_text float-left text-left">Reports</span>
+                                    </a>
+                                </li>
 
                             </ul>
 
@@ -95,8 +137,9 @@
         <!-- Left links panel ends here -->
 
         <!-- right panel starts here -->
-        <div class="col-sm-10">
+        <div class="col-sm-10" id="main">
             <nav class="navbar navbar-light bg-light top_nav_grid">
+                <button class="openbtn" id="openbtn" onclick="openNav()">&#9776; </button>
                 <div class="col logo text-hide">
                     &nbsp;realtime-online
                     <!--<img src="images/rto.png" class="img-fluid"  />-->
@@ -157,6 +200,40 @@
     $( document ).ready(function() {
         $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
     });
+</script>
+
+<script>
+    $('#openbtn').click(function() {
+
+        $('.link_text').toggle(300);
+        $('#main').toggleClass("col-11", 300);
+        $('#mySidebar').toggleClass("col-1", 300);
+        $('#sidebarContent').css("width", "auto");
+
+        /*$('#mySidebar').animate({
+            width: '30%'
+        }, 350);
+*/
+        /*if ($(window).width() > 500) { //your chosen mobile res
+            $('.text').toggle(300);
+        } else {
+            $('.menu').animate({
+                width: 'toggle'
+            }, 350);
+        }*/
+    });
+</script>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    }
 </script>
 
 </body>
