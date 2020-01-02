@@ -55,109 +55,104 @@ class StatDisplay extends Component {
         return(
             <div>
 
+
                 <div className="container">
 
-                    <div className="container">
+                    <div className="row w-100">
+                        <div className="col-sm-6 d-flex">
+                            <div className="row w-100">
+                                <div className="col-sm-6">
+                                    <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
+                                         title="Total number of Sensors installed by Invisible Systems">
+                                        <div className="card-body">
+                                            <h5>Total <mark>sensors</mark></h5>
+                                            <Loader display={this.state.showloader} />
+                                            <h3 className="display-3 text_contrast2" align="center">
 
-                        <div className="row">
-                            <div className="col-sm-6 d-flex">
-                                <div className="row w-100">
-                                    <div className="col-sm-6">
-                                        <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
-                                             title="Total number of Sensors installed by Invisible Systems">
-                                            <div className="card-body">
-                                                <h5>Total no of <mark>sensors</mark></h5>
-                                                <Loader display={this.state.showloader} />
-                                                <h3 className="display-3 text_contrast2" align="center">
+                                                { this.state.counts.total }
+                                            </h3>
+                                            <p align="center"><i className="fas fa-tachometer-alt"></i></p>
 
-                                                    { this.state.counts.total }
-                                                </h3>
-                                                <p align="center"><i className="fas fa-tachometer-alt"></i></p>
-
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div className="col-sm-6">
-                                        <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
-                                             title="Total number of sensors in perfect condition">
-                                            <div className="card-body">
-                                                <h5>
-                                                    <mark>Perfect</mark>
-                                                    condition
-                                                </h5>
-                                                <Loader display={this.state.showloader} />
-                                                <h3 className="display-3 text-success" align="center">
+                                <div className="col-sm-6">
+                                    <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
+                                         title="Total number of sensors in perfect condition">
+                                        <div className="card-body">
+                                            <h5>
+                                                <mark>Good</mark>
+                                            </h5>
+                                            <Loader display={this.state.showloader} />
+                                            <h3 className="display-3 text-success" align="center">
 
-                                                    { this.state.counts.perfect }
-                                                </h3>
-                                                <p align="center"><i className="fas fa-tachometer-alt"></i></p>
+                                                { this.state.counts.perfect }
+                                            </h3>
+                                            <p align="center"><i className="fas fa-tachometer-alt"></i></p>
 
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div className="col-sm-6">
-                                        <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
-                                             title="Total number of sensors requiring attention">
-                                            <div className="card-body">
-                                                <h5>Require
-                                                    <mark>Attention</mark>
-                                                </h5>
-                                                <Loader display={this.state.showloader} />
-                                                <h3 className="display-3 text-warning" align="center">
+                                <div className="col-sm-6">
+                                    <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
+                                         title="Total number of sensors requiring attention">
+                                        <div className="card-body">
+                                            <h5>
+                                                <mark>Attention</mark>
+                                            </h5>
+                                            <Loader display={this.state.showloader} />
+                                            <h3 className="display-3 text-warning" align="center">
 
-                                                    { this.state.counts.attention }
-                                                </h3>
-                                                <p align="center"><i className="fas fa-tachometer-alt"></i></p>
+                                                { this.state.counts.attention }
+                                            </h3>
+                                            <p align="center"><i className="fas fa-tachometer-alt"></i></p>
 
 
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div className="col-sm-6">
-                                        <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
-                                             title="Totaal number of sensors in bad condition">
-                                            <div className="card-body">
-                                                <h5>
-                                                    <mark>Bad</mark>
-                                                    condition
-                                                </h5>
-                                                <Loader display={this.state.showloader} />
-                                                <h3 className="display-3 text-danger" align="center">
+                                <div className="col-sm-6">
+                                    <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
+                                         title="Total number of sensors in bad condition">
+                                        <div className="card-body">
+                                            <h5>
+                                                <mark>Critical</mark>
+                                            </h5>
+                                            <Loader display={this.state.showloader} />
+                                            <h3 className="display-3 text-danger" align="center">
 
-                                                    { this.state.counts.bad }
-                                                </h3>
-                                                <p align="center"><i className="fas fa-tachometer-alt"></i></p>
+                                                { this.state.counts.bad }
+                                            </h3>
+                                            <p align="center"><i className="fas fa-tachometer-alt"></i></p>
 
 
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="col-sm-6 d-flex">
-                                <div className="row w-100">
-                                    <div className="card w-100 bottom_margin">
-                                        <div className="card-body h-100 d-flex justify-content-center align-items-center">
-                                            <DoughnutChart conditions={this.state.counts} />
+                        <div className="col-sm-6 d-flex">
+                            <div className="row w-100">
+                                <div className="col-sm card bottom_margin">
+                                    <div className="card-body h-100 d-flex justify-content-center align-items-center">
+                                        <DoughnutChart conditions={this.state.counts} />
 
-                                        </div>
                                     </div>
-
                                 </div>
 
-
-
                             </div>
+
+
 
                         </div>
+
                     </div>
-
-
                 </div>
+
 
                 <div className="container-fluid">
 

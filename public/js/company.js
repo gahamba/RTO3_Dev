@@ -29624,7 +29624,7 @@ function (_Component) {
       }
       /*this.setState({showloader: ''});
       e.preventDefault();
-            const devices = {
+              const devices = {
               name: this.state.name,
               unique_id: this.state.unique_id,
               data_points: this.state.added_datapoints,
@@ -29632,11 +29632,11 @@ function (_Component) {
               system_id: 0,
               system_name: 'nil',
           }
-             let uri = 'devices';
+                let uri = 'devices';
           axios.post(uri, devices)
               .then((response) => {
-                   //alert(response.data);
-                   //e.preventDefault();
+                    //alert(response.data);
+                    //e.preventDefault();
                   this.setState({
                       description: '',
                       name: '',
@@ -29658,7 +29658,7 @@ function (_Component) {
                       message: response.data,
                       display:''
                   });
-                })
+                  })
               .catch((response)=>{
                   alert(JSON.stringify(response));
                   this.setState({alert: 'danger', message: response});

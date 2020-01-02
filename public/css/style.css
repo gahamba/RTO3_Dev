@@ -205,3 +205,24 @@ a, a:hover{
 
     margin-top: 5px;
 }
+#openbtnmobile{
+    display: none;
+}
+
+
+@media screen and (max-width: 700px) {
+    #mySidebar {
+        display: none;
+
+    }
+    .links_panel_left{
+        min-height: auto;
+        height: auto;
+    }
+    #openbtn{
+        display: none;
+    }
+    #openbtnmobile{
+        display: block;
+    }
+}

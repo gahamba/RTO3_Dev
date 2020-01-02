@@ -28345,7 +28345,7 @@ function (_Component) {
       }
       /*this.setState({showloader: ''});
       e.preventDefault();
-            const devices = {
+              const devices = {
               name: this.state.name,
               unique_id: this.state.unique_id,
               data_points: this.state.added_datapoints,
@@ -28353,11 +28353,11 @@ function (_Component) {
               system_id: 0,
               system_name: 'nil',
           }
-             let uri = 'devices';
+                let uri = 'devices';
           axios.post(uri, devices)
               .then((response) => {
-                   //alert(response.data);
-                   //e.preventDefault();
+                    //alert(response.data);
+                    //e.preventDefault();
                   this.setState({
                       description: '',
                       name: '',
@@ -28379,7 +28379,7 @@ function (_Component) {
                       message: response.data,
                       display:''
                   });
-                })
+                  })
               .catch((response)=>{
                   alert(JSON.stringify(response));
                   this.setState({alert: 'danger', message: response});
@@ -29395,7 +29395,7 @@ function (_Component) {
           indexLabel: "{name}: {y}",
           yValueFormatString: "#,###'%'",
           dataPoints: [{
-            name: "Bad Condition",
+            name: "Critical Condition",
             y: this.props.conditions.bad / this.props.conditions.total * 100,
             color: "#d9534f"
           }, {
@@ -29403,14 +29403,14 @@ function (_Component) {
             y: this.props.conditions.attention / this.props.conditions.total * 100,
             color: "#f0ad4e"
           }, {
-            name: "Perfect Condition",
+            name: "Good Condition",
             y: this.props.conditions.perfect / this.props.conditions.total * 100,
             color: "#5cb85c"
           }]
         }]
       };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "w-100 h-100 mw-100 mh-100"
+        className: "col-sm w-100 h-100 mw-100 mh-100"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Device Chart"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CanvasJSChart, {
         options: options
         /* onRef={ref => this.chart = ref} */
@@ -29700,9 +29700,7 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
+        className: "row w-100"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6 d-flex"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -29716,7 +29714,7 @@ function (_Component) {
         title: "Total number of Sensors installed by Invisible Systems"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total no of ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "sensors")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "sensors")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "display-3 text_contrast2",
@@ -29734,7 +29732,7 @@ function (_Component) {
         title: "Total number of sensors in perfect condition"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Perfect"), "condition"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Good")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "display-3 text-success",
@@ -29752,7 +29750,7 @@ function (_Component) {
         title: "Total number of sensors requiring attention"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Require", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Attention")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Attention")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "display-3 text-warning",
@@ -29767,10 +29765,10 @@ function (_Component) {
         className: "card w-100 bottom_margin",
         "data-toggle": "tooltip",
         "data-placement": "right",
-        title: "Totaal number of sensors in bad condition"
+        title: "Total number of sensors in bad condition"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Bad"), "condition"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Critical")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "display-3 text-danger",
@@ -29784,12 +29782,12 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row w-100"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card w-100 bottom_margin"
+        className: "col-sm card bottom_margin"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body h-100 d-flex justify-content-center align-items-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DoughnutChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
         conditions: this.state.counts
-      })))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container-fluid"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card w-100 d-flex"

@@ -14,7 +14,7 @@
 
     <!--breadcrumb ends -->
 
-    <div id="home_content">
+    <div class="container-fluid" id="home_content">
 
 
 

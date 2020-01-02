@@ -21,15 +21,15 @@ class DoughnutChart extends Component {
 				indexLabel: "{name}: {y}",
 				yValueFormatString: "#,###'%'",
 				dataPoints: [
-					{ name: "Bad Condition", y: this.props.conditions.bad/this.props.conditions.total*100, color: "#d9534f" },
+					{ name: "Critical Condition", y: this.props.conditions.bad/this.props.conditions.total*100, color: "#d9534f" },
 					{ name: "Require Attention", y: this.props.conditions.attention/this.props.conditions.total*100, color: "#f0ad4e" },
-					{ name: "Perfect Condition", y: this.props.conditions.perfect/this.props.conditions.total*100, color: "#5cb85c" }
+					{ name: "Good Condition", y: this.props.conditions.perfect/this.props.conditions.total*100, color: "#5cb85c" }
 				]
 			}]
 		}
 		
 		return (
-		<div className="w-100 h-100 mw-100 mh-100">
+		<div className="col-sm w-100 h-100 mw-100 mh-100">
 			<h1>Device Chart</h1>
 			<CanvasJSChart options = {options} 
 				/* onRef={ref => this.chart = ref} */

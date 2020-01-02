@@ -31,7 +31,7 @@
     <div class="row">
 
         <!-- Left links panel -->
-        <div class="col-sm-2 links_panel_left user_profile_links" id="mySidebar">
+        <div class="col-sm-1 links_panel_left user_profile_links" id="mySidebar">
 
 
             <div class="d-flex justify-content-center align-items-center user_profile_links">
@@ -72,8 +72,8 @@
                                 <li class="login_link_lists">
                                     <a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard">
 
-                                    <span class="col-sm-6 icon float-left text-right"><i class="fas fa-tachometer-alt"></i></span>
-                                    <span class="col-sm-6 link_text float-left text-left">Dashboard</span>
+                                    <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                                    <span class="link_text">Dashboard</span>
 
                                     </a>
                                 </li>
@@ -84,8 +84,8 @@
                                     <li class="login_link_lists">
                                         <a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices">
 
-                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-thermometer"></i></span>
-                                        <span class="col-sm-6 link_text float-left text-left">Devices</span>
+                                        <span class="icon"><i class="fas fa-thermometer"></i></span>
+                                        <span class="link_text">Devices</span>
 
                                         </a>
                                     </li>
@@ -94,8 +94,8 @@
 
                                     <li class="login_link_lists">
                                         <a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users">
-                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-user-cog"></i></span>
-                                        <span class="col-sm-6 link_text float-left text-left">Users</span>
+                                        <span class="icon"><i class="fas fa-user-cog"></i></span>
+                                        <span class="link_text">Users</span>
                                         </a>
                                     </li>
 
@@ -104,8 +104,8 @@
                                     <li class="login_link_lists">
                                         <a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems">
 
-                                        <span class="col-sm-6 icon float-left text-right"><i class="fas fa-layer-group"></i></span>
-                                        <span class="col-sm-6 link_text float-left text-left">Systems</span>
+                                        <span class="icon"><i class="fas fa-layer-group"></i></span>
+                                        <span class="link_text">Systems</span>
                                         </a>
                                     </li>
 
@@ -116,8 +116,8 @@
                                 <li class="login_link_lists">
                                     <a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc">
 
-                                    <span class="col-sm-6 icon float-left text-right"><i class="fas fa-file-word"></i></span>
-                                    <span class="col-sm-6 link_text float-left text-left">Reports</span>
+                                    <span class="icon"><i class="fas fa-file-word"></i></span>
+                                    <span class="link_text">Reports</span>
                                     </a>
                                 </li>
 
@@ -137,9 +137,10 @@
         <!-- Left links panel ends here -->
 
         <!-- right panel starts here -->
-        <div class="col-sm-10" id="main">
+        <div class="col-sm" id="main">
             <nav class="navbar navbar-light bg-light top_nav_grid">
-                <button class="openbtn" id="openbtn" onclick="openNav()">&#9776; </button>
+                <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtn">&#9776; </button>
+                <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtnmobile">&#9776; </button>
                 <div class="col logo text-hide">
                     &nbsp;realtime-online
                     <!--<img src="images/rto.png" class="img-fluid"  />-->
@@ -206,9 +207,12 @@
     $('#openbtn').click(function() {
 
         $('.link_text').toggle(300);
-        $('#main').toggleClass("col-11", 300);
-        $('#mySidebar').toggleClass("col-1", 300);
-        $('#sidebarContent').css("width", "auto");
+        $('.icon').toggleClass("col-sm-6")
+        //$('#main').toggleClass("col-11", 300);
+        //$('#mySidebar').toggleClass("col-1", 300);
+        //$('#mySidebar').removeClass("col-sm-2");
+        $('#mySidebar').toggleClass("col-sm-1");
+        //$('#sidebarContent').css("width", "auto");
 
         /*$('#mySidebar').animate({
             width: '30%'
@@ -222,9 +226,16 @@
             }, 350);
         }*/
     });
+
+    $('#openbtnmobile').click(function() {
+
+
+        $('#mySidebar').toggle(1000);
+
+    });
 </script>
 
-<script>
+{{--<script>
     function openNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
@@ -234,7 +245,7 @@
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
     }
-</script>
+</script>--}}
 
 </body>
 </html>
