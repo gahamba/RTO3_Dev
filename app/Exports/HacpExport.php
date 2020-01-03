@@ -20,7 +20,7 @@ class HacpExport implements FromView
     public function view(): View
     {
         $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first()->times;
-        if(!$configuration){
+        if(!isset($configuration)){
             $configuration = ['0', '12', '16', '22'];
         }
         return view('exports.hacp', [
