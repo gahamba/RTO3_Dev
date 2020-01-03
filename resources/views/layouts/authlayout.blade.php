@@ -137,8 +137,8 @@
         <!-- Left links panel ends here -->
 
         <!-- right panel starts here -->
-        <div class="col-sm" id="main">
-            <nav class="navbar navbar-light bg-light top_nav_grid">
+        <div class="col-sm p-0" id="main">
+            <nav class="navbar navbar-light bg-light top_nav_grid p-2">
                 <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtn">&#9776; </button>
                 <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtnmobile">&#9776; </button>
                 <div class="col logo text-hide">
@@ -150,7 +150,7 @@
 
                     <span class="col-4 float_right_divs" data-toggle="tooltip" data-placement="right" title="Sign out of your account here"><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i></a></span>
                     <span class="col-4 float_right_divs"><a href="#"><i class="fas fa-user-circle"></i></a></span>
-                    <span class="col-4 float_right_divs">{{ auth::user()->name }}</span>
+                    <span class="col-4 float_right_divs">{{ explode(' ', substr(auth::user()->name, 0, 6))[0] }}..</span>
 
                 </span>
 
@@ -179,7 +179,9 @@
     </div>
 
 </div>
-
+<div id="loading_overlay" style="z-index:10000;background-color:#000;opacity:0.5;display:none;cursor:wait;">
+    <div style="z-index:10001;background-color:#FFF;opacity:1;cursor:auto;position:absolute;top:50%;left:50%;height:300px;width:300px;margin-top:-150px;margin-left:-150px;">Please wait, loading...</div>
+</div>
 
 
 <!-- JQuery -->
@@ -206,7 +208,7 @@
 <script>
     $('#openbtn').click(function() {
 
-        $('.link_text').toggle(300);
+        $('.link_text').toggle();
         $('.icon').toggleClass("col-sm-6")
         //$('#main').toggleClass("col-11", 300);
         //$('#mySidebar').toggleClass("col-1", 300);
@@ -230,7 +232,7 @@
     $('#openbtnmobile').click(function() {
 
 
-        $('#mySidebar').toggle(1000);
+        $('#mySidebar').toggle();
 
     });
 </script>

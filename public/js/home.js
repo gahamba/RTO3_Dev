@@ -29411,7 +29411,9 @@ function (_Component) {
       };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm w-100 h-100 mw-100 mh-100"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Device Chart"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CanvasJSChart, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "text-center"
+      }, "Device Chart"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CanvasJSChart, {
         options: options
         /* onRef={ref => this.chart = ref} */
 
@@ -29700,11 +29702,11 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row w-100"
+        className: "row w-100 m-0"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6 d-flex"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row w-100"
+        className: "row w-100 m-0"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -29780,7 +29782,7 @@ function (_Component) {
       }))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6 d-flex"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row w-100"
+        className: "row w-100 m-0"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm card bottom_margin"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

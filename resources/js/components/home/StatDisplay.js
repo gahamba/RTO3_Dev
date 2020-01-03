@@ -58,9 +58,9 @@ class StatDisplay extends Component {
 
                 <div className="container">
 
-                    <div className="row w-100">
+                    <div className="row w-100 m-0">
                         <div className="col-sm-6 d-flex">
-                            <div className="row w-100">
+                            <div className="row w-100 m-0">
                                 <div className="col-sm-6">
                                     <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
                                          title="Total number of Sensors installed by Invisible Systems">
@@ -136,7 +136,7 @@ class StatDisplay extends Component {
                         </div>
 
                         <div className="col-sm-6 d-flex">
-                            <div className="row w-100">
+                            <div className="row w-100 m-0">
                                 <div className="col-sm card bottom_margin">
                                     <div className="card-body h-100 d-flex justify-content-center align-items-center">
                                         <DoughnutChart conditions={this.state.counts} />

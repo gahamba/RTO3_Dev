@@ -30,7 +30,7 @@ class DoughnutChart extends Component {
 		
 		return (
 		<div className="col-sm w-100 h-100 mw-100 mh-100">
-			<h1>Device Chart</h1>
+			<h3 className="text-center">Device Chart</h3>
 			<CanvasJSChart options = {options} 
 				/* onRef={ref => this.chart = ref} */
 			/>
