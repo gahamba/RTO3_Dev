@@ -29638,8 +29638,7 @@ function (_Component) {
         objectsAreSame = false;
       } else {
         for (var propertyName in _this.state.counts) {
-          console.log(propertyName + ":: Old: " + _this.state.counts[propertyName] + " New: " + newData[propertyName]); //alert(propertyName);
-
+          //alert(propertyName);
           if (_this.state.counts[propertyName] !== newData[propertyName]) {
             objectsAreSame = false;
             break;
@@ -29659,7 +29658,6 @@ function (_Component) {
         for (var propertyName in _this.state.devices) {
           //alert(propertyName);
           for (var propName in _this.state.devices[propertyName]) {
-            //console.log(propName + ":: Old: " + oldData[propertyName][propName] + " New: "+ newData[propertyName][propName]);
             if (_this.state.devices[propertyName][propName] !== newData[propertyName][propName] && !_this.state.devices[propertyName][propName] instanceof Array) {
               objectsAreSame = false;
               break;
@@ -29669,19 +29667,16 @@ function (_Component) {
                 break;
               } else {
                 for (var point in _this.state.devices[propertyName][propName]) {
-                  //console.log(point + ":: Old: " + oldData[propertyName][propName][point] + " New: " + newData[propertyName][propName][point]);
                   if (_this.state.devices[propertyName][propName][point] !== newData[propertyName][propName][point] && !_this.state.devices[propertyName][propName] instanceof Array) {
                     objectsAreSame = false;
                     break;
                   } else {
                     for (var point2 in _this.state.devices[propertyName][propName][point]) {
-                      //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2] + " New: " + newData[propertyName][propName][point][point2]);
                       if (_this.state.devices[propertyName][propName][point][point2] !== newData[propertyName][propName][point][point2] && !_this.state.devices[propertyName][propName][point] instanceof Array) {
                         objectsAreSame = false;
                         break;
                       } else {
                         for (var point3 in _this.state.devices[propertyName][propName][point][point2]) {
-                          //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2][point3] + " New: " + newData[propertyName][propName][point][point2][point3]);
                           if (_this.state.devices[propertyName][propName][point][point2][point3] !== newData[propertyName][propName][point][point2][point3] && !_this.state.devices[propertyName][propName][point][point2] instanceof Array) {
                             objectsAreSame = false;
                             break;
@@ -29745,7 +29740,6 @@ function (_Component) {
     value: function countDevices() {
       var _this2 = this;
 
-      console.log("update");
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('devicestats').then(function (response) {
         if (_this2.compareArrayNest(response.data.dev_stats) == false || _this2.compareArray(response.data.counts) == false) {
           _this2.setState({

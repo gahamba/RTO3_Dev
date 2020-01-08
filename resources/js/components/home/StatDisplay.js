@@ -50,7 +50,7 @@ class StatDisplay extends Component {
         }
         else{
             for(var propertyName in this.state.counts) {
-                console.log(propertyName + ":: Old: " + this.state.counts[propertyName] + " New: "+ newData[propertyName]);
+
                 //alert(propertyName);
 
                 if(this.state.counts[propertyName] !== newData[propertyName]) {
@@ -73,7 +73,7 @@ class StatDisplay extends Component {
             for(var propertyName in this.state.devices) {
                 //alert(propertyName);
                 for(var propName in this.state.devices[propertyName]){
-                    //console.log(propName + ":: Old: " + oldData[propertyName][propName] + " New: "+ newData[propertyName][propName]);
+
                     if(this.state.devices[propertyName][propName] !== newData[propertyName][propName] && !this.state.devices[propertyName][propName] instanceof Array) {
                         objectsAreSame = false;
                         break;
@@ -85,7 +85,7 @@ class StatDisplay extends Component {
                         }
                         else {
                             for (var point in this.state.devices[propertyName][propName]) {
-                                //console.log(point + ":: Old: " + oldData[propertyName][propName][point] + " New: " + newData[propertyName][propName][point]);
+
 
                                 if (this.state.devices[propertyName][propName][point] !== newData[propertyName][propName][point] && !this.state.devices[propertyName][propName] instanceof Array) {
                                     objectsAreSame = false;
@@ -93,14 +93,14 @@ class StatDisplay extends Component {
                                 }
                                 else{
                                     for (var point2 in this.state.devices[propertyName][propName][point]) {
-                                        //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2] + " New: " + newData[propertyName][propName][point][point2]);
+
                                         if (this.state.devices[propertyName][propName][point][point2] !== newData[propertyName][propName][point][point2] && !this.state.devices[propertyName][propName][point] instanceof Array){
                                             objectsAreSame = false;
                                             break;
                                         }
                                         else{
                                             for (var point3 in this.state.devices[propertyName][propName][point][point2]) {
-                                                //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2][point3] + " New: " + newData[propertyName][propName][point][point2][point3]);
+
                                                 if (this.state.devices[propertyName][propName][point][point2][point3] !== newData[propertyName][propName][point][point2][point3] && !this.state.devices[propertyName][propName][point][point2] instanceof Array){
                                                     objectsAreSame = false;
                                                     break;
@@ -123,8 +123,6 @@ class StatDisplay extends Component {
         return objectsAreSame;
     }
     countDevices(){
-
-        console.log("update");
 
 
         axios.get('devicestats')
