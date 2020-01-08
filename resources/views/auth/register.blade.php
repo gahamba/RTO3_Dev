@@ -53,10 +53,20 @@
 
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md text-center">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    {{ __('Have account? Login') }}
+                                </a>
                             </div>
                         </div>
                     </form>

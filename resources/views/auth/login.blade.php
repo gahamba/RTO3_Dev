@@ -43,11 +43,22 @@
 
                                 <button type="submit" class="btn contrast_component2 float-right">Login</button>
                                 <br />
-                                @if (Route::has('password.request'))
-                                    <p align="center"><a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a></p>
-                                @endif
+                                <hr />
+                                <div class="clearfix"></div>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <a class="btn btn-link" href="{{ route('register') }}">
+                                        {{ __('No account? Register') }}
+                                        </a>/
+                                        @if (Route::has('password.request'))
+
+                                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+
                             </form>
                         <!--</div>-->
                         <!--Login form div ends -->
