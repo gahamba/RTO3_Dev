@@ -10,10 +10,10 @@
 
     <!-- Bootstrap CSS -->
 
-    <link  rel="stylesheet" href="css/bootstrap.css" >
-    <link  rel="stylesheet" href="css/bootstrap-grid.css" >
-    <link  rel="stylesheet" href="css/bootstrap-reboot.css" >
-    <link  rel="stylesheet" href="css/style.css" >
+    <link  rel="stylesheet" href="{{ URL::asset('css/bootstrap.css') }}" >
+    <link  rel="stylesheet" href="{{ URL::asset('css/bootstrap-grid.css') }}" >
+    <link  rel="stylesheet" href="{{ URL::asset('css/bootstrap-reboot.css') }}" >
+    <link  rel="stylesheet" href="{{ URL::asset('css/style.css') }}" >
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Anton|Oswald|Nunito|Titillium+Web|Patua+One|Signika|Ubuntu+Condensed|Cuprum|Francois+One&display=swap');
@@ -65,8 +65,8 @@
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/bootstrap.bundle.js"></script>
+<script src="{{ URL::asset('js/bootstrap.js') }}"></script>
+<script src="{{ URL::asset('js/bootstrap.bundle.js') }}"></script>
 <script src="https://kit.fontawesome.com/f21764ecfb.js"></script>
 </body>
 </html>
