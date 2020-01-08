@@ -171,7 +171,7 @@ class CorrectiveComment extends Component {
                                                     <div className="form-group">
                                                         <label htmlFor="deviceDescription"><i className="fas fa-info"></i>&nbsp;Device
                                                             Corrective Action</label>
-                                                        <textarea className="form-control" id="deviceDescription"
+                                                        <textarea className="form-control"
                                                                   aria-describedby="deviceDescriptionHelp"
                                                                   placeholder="Enter device description" value={this.state.correction || ''}
                                                                   onChange={this.handleCorrectionChange}>

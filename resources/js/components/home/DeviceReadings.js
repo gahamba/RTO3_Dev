@@ -19,8 +19,8 @@ class DeviceReadings extends Component {
         this.fetchDevices();
     }
 
-    componentDidUpdate(){
-        this.fetchDevices();
+    componentDidUpdate(prevProps, prevState){
+       this.fetchDevices();
     }
 
     tabTodayRow(){
@@ -43,7 +43,7 @@ class DeviceReadings extends Component {
         axios.get('sensorRecentReadings/'+this.props.params.unique_id+'/'+this.props.datapoint)
             .then(response => {
                 this.setState({ readings: response.data, showloader: 'd-none'});
-                console.log(this.state.readings.recents[0]);
+                //console.log(this.state.readings.recents[0]);
 
             })
             .catch(function (error) {

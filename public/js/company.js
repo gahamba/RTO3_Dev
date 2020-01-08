@@ -29515,7 +29515,9 @@ function (_Component) {
         };
 
         return this.state.added_datapoints.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+            key: i
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-info"
           }, "Interface"), "\xA0", object.lable), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-warning"
@@ -29624,7 +29626,7 @@ function (_Component) {
       }
       /*this.setState({showloader: ''});
       e.preventDefault();
-              const devices = {
+            const devices = {
               name: this.state.name,
               unique_id: this.state.unique_id,
               data_points: this.state.added_datapoints,
@@ -29632,11 +29634,11 @@ function (_Component) {
               system_id: 0,
               system_name: 'nil',
           }
-                let uri = 'devices';
+             let uri = 'devices';
           axios.post(uri, devices)
               .then((response) => {
-                    //alert(response.data);
-                    //e.preventDefault();
+                   //alert(response.data);
+                   //e.preventDefault();
                   this.setState({
                       description: '',
                       name: '',
@@ -29658,7 +29660,7 @@ function (_Component) {
                       message: response.data,
                       display:''
                   });
-                  })
+                })
               .catch((response)=>{
                   alert(JSON.stringify(response));
                   this.setState({alert: 'danger', message: response});
@@ -29708,7 +29710,6 @@ function (_Component) {
       }), "\xA0Device Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        id: "deviceName",
         "aria-describedby": "deviceNameHelp",
         placeholder: "Enter device name",
         value: this.state.name,
@@ -29721,7 +29722,6 @@ function (_Component) {
         className: "fas fa-fingerprint"
       }), "\xA0 Unique ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control",
-        id: "uniqueId",
         "aria-describedby": "uniqueIdHelp",
         placeholder: "Enter device unique id",
         value: this.state.unique_id,
@@ -29747,7 +29747,6 @@ function (_Component) {
         className: "fas fa-mobile"
       }), "\xA0New Data Point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        id: "datapointName",
         "aria-describedby": "datapointNameHelp",
         placeholder: "Select Datapoint",
         value: this.state.datapoint,
@@ -29761,7 +29760,6 @@ function (_Component) {
         className: "fas fa-mobile"
       }), "\xA0Unit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        id: "unit",
         "aria-describedby": "unitHelp",
         placeholder: "Select Unit",
         value: this.state.unit,
@@ -29781,7 +29779,6 @@ function (_Component) {
         min: this.state.min_range,
         max: this.state.max_range,
         step: "1",
-        id: "minThreshold",
         value: this.state.min_threshold,
         onChange: this.handleMinThresholdChange,
         disabled: this.state.submitStatus
@@ -29805,7 +29802,6 @@ function (_Component) {
         className: "custom-range",
         min: this.state.min_range,
         max: this.state.max_range,
-        id: "maxThreshold",
         value: this.state.max_threshold,
         onChange: this.handleMaxThresholdChange,
         disabled: this.state.submitStatus
@@ -29815,7 +29811,7 @@ function (_Component) {
         type: "text",
         className: "form-control",
         value: this.state.max_threshold,
-        readOnly: "true"
+        readOnly: true
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -29827,13 +29823,10 @@ function (_Component) {
         className: "btn btn-sm btn-primary"
       }, "Add datapoint"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceDescription"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-info"
       }), "\xA0Device Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control",
-        id: "deviceDescription",
         "aria-describedby": "deviceDescriptionHelp",
         placeholder: "Enter device description",
         value: this.state.description || '',

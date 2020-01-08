@@ -28003,7 +28003,7 @@ function (_Component) {
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate() {
+    value: function componentDidUpdate(prevProps, prevState) {
       this.fetchDevices();
     }
   }, {
@@ -28039,9 +28039,8 @@ function (_Component) {
         _this2.setState({
           readings: response.data,
           showloader: 'd-none'
-        });
+        }); //console.log(this.state.readings.recents[0]);
 
-        console.log(_this2.state.readings.recents[0]);
       })["catch"](function (error) {
         if (error.response) {
           console.log(error.response.data);

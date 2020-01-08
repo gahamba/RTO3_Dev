@@ -230,7 +230,7 @@ class EditDevice extends Component {
             }
             return this.state.added_datapoints.map(function(object, i){
 
-                return <tr>
+                return <tr key={i}>
                     <td><span className="badge badge-info">Interface</span>&nbsp;{ object.lable }</td>
                     <td><span className="badge badge-warning">Min Threshold</span>&nbsp;{ object.minT }</td>
                     <td><span className="badge badge-warning">Max Threshold</span>&nbsp;{ object.maxT }</td>
@@ -410,7 +410,7 @@ class EditDevice extends Component {
                                             Name</label>
                                         <input type="text"
                                                className="form-control"
-                                               id="deviceName"
+
                                                aria-describedby="deviceNameHelp"
                                                placeholder="Enter device name"
                                                value={this.state.name}
@@ -421,7 +421,7 @@ class EditDevice extends Component {
                                     <div className="form-group">
                                         <label htmlFor="deviceUniqueId"><i className="fas fa-fingerprint"></i>&nbsp;
                                             Unique ID</label>
-                                        <input className="form-control" id="uniqueId"
+                                        <input className="form-control"
                                                aria-describedby="uniqueIdHelp"
                                                placeholder="Enter device unique id"
                                                value={this.state.unique_id} onChange={this.handleUniqueIdChange}
@@ -451,7 +451,7 @@ class EditDevice extends Component {
                                     <div className="form-group">
                                         <label htmlFor="datapointName"><i className="fas fa-mobile"></i>&nbsp;New Data Point</label>
 
-                                        <select className="form-control" id="datapointName"
+                                        <select className="form-control"
                                                 aria-describedby="datapointNameHelp" placeholder="Select Datapoint"
                                                 value={this.state.datapoint} onChange={this.handleDatapointChange}
                                                 disabled={this.state.submitStatus}>
@@ -467,7 +467,7 @@ class EditDevice extends Component {
                                     <div className="form-group">
                                         <label htmlFor="unit"><i className="fas fa-mobile"></i>&nbsp;Unit</label>
 
-                                        <select className="form-control" id="unit"
+                                        <select className="form-control"
                                                 aria-describedby="unitHelp" placeholder="Select Unit"
                                                 value={this.state.unit} onChange={this.handleUnitsChange}
                                                 disabled={this.state.submitStatus}>
@@ -489,7 +489,6 @@ class EditDevice extends Component {
                                                    className="custom-range"
                                                    min={this.state.min_range} max={this.state.max_range}
                                                    step="1"
-                                                   id="minThreshold"
                                                    value={this.state.min_threshold}
                                                    onChange={this.handleMinThresholdChange}
                                                    disabled={this.state.submitStatus} />
@@ -511,7 +510,6 @@ class EditDevice extends Component {
                                             <input type="range"
                                                    className="custom-range"
                                                    min={this.state.min_range} max={this.state.max_range}
-                                                   id="maxThreshold"
                                                    value={this.state.max_threshold}
                                                    onChange={this.handleMaxThresholdChange}
                                                    disabled={this.state.submitStatus} />
@@ -520,7 +518,7 @@ class EditDevice extends Component {
 
                                         <div className="col-sm-2">
 
-                                            <input type="text" className="form-control" value={this.state.max_threshold} readOnly="true" />
+                                            <input type="text" className="form-control" value={this.state.max_threshold} readOnly />
                                         </div>
 
 
@@ -533,9 +531,9 @@ class EditDevice extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="deviceDescription"><i className="fas fa-info"></i>&nbsp;Device
+                                        <label><i className="fas fa-info"></i>&nbsp;Device
                                             Description</label>
-                                        <textarea className="form-control" id="deviceDescription"
+                                        <textarea className="form-control"
                                                   aria-describedby="deviceDescriptionHelp"
                                                   placeholder="Enter device description" value={this.state.description || ''}
                                                   onChange={this.handleDescriptionChange}>

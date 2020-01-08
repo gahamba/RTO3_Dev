@@ -28236,7 +28236,9 @@ function (_Component) {
         };
 
         return this.state.added_datapoints.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+            key: i
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-info"
           }, "Interface"), "\xA0", object.lable), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-warning"
@@ -28345,7 +28347,7 @@ function (_Component) {
       }
       /*this.setState({showloader: ''});
       e.preventDefault();
-              const devices = {
+            const devices = {
               name: this.state.name,
               unique_id: this.state.unique_id,
               data_points: this.state.added_datapoints,
@@ -28353,11 +28355,11 @@ function (_Component) {
               system_id: 0,
               system_name: 'nil',
           }
-                let uri = 'devices';
+             let uri = 'devices';
           axios.post(uri, devices)
               .then((response) => {
-                    //alert(response.data);
-                    //e.preventDefault();
+                   //alert(response.data);
+                   //e.preventDefault();
                   this.setState({
                       description: '',
                       name: '',
@@ -28379,7 +28381,7 @@ function (_Component) {
                       message: response.data,
                       display:''
                   });
-                  })
+                })
               .catch((response)=>{
                   alert(JSON.stringify(response));
                   this.setState({alert: 'danger', message: response});
@@ -28429,7 +28431,6 @@ function (_Component) {
       }), "\xA0Device Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        id: "deviceName",
         "aria-describedby": "deviceNameHelp",
         placeholder: "Enter device name",
         value: this.state.name,
@@ -28442,7 +28443,6 @@ function (_Component) {
         className: "fas fa-fingerprint"
       }), "\xA0 Unique ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "form-control",
-        id: "uniqueId",
         "aria-describedby": "uniqueIdHelp",
         placeholder: "Enter device unique id",
         value: this.state.unique_id,
@@ -28468,7 +28468,6 @@ function (_Component) {
         className: "fas fa-mobile"
       }), "\xA0New Data Point"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        id: "datapointName",
         "aria-describedby": "datapointNameHelp",
         placeholder: "Select Datapoint",
         value: this.state.datapoint,
@@ -28482,7 +28481,6 @@ function (_Component) {
         className: "fas fa-mobile"
       }), "\xA0Unit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        id: "unit",
         "aria-describedby": "unitHelp",
         placeholder: "Select Unit",
         value: this.state.unit,
@@ -28502,7 +28500,6 @@ function (_Component) {
         min: this.state.min_range,
         max: this.state.max_range,
         step: "1",
-        id: "minThreshold",
         value: this.state.min_threshold,
         onChange: this.handleMinThresholdChange,
         disabled: this.state.submitStatus
@@ -28526,7 +28523,6 @@ function (_Component) {
         className: "custom-range",
         min: this.state.min_range,
         max: this.state.max_range,
-        id: "maxThreshold",
         value: this.state.max_threshold,
         onChange: this.handleMaxThresholdChange,
         disabled: this.state.submitStatus
@@ -28536,7 +28532,7 @@ function (_Component) {
         type: "text",
         className: "form-control",
         value: this.state.max_threshold,
-        readOnly: "true"
+        readOnly: true
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -28548,13 +28544,10 @@ function (_Component) {
         className: "btn btn-sm btn-primary"
       }, "Add datapoint"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceDescription"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-info"
       }), "\xA0Device Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control",
-        id: "deviceDescription",
         "aria-describedby": "deviceDescriptionHelp",
         placeholder: "Enter device description",
         value: this.state.description || '',
@@ -28808,7 +28801,6 @@ function (_Component) {
         className: "fas fa-info"
       }), "\xA0Device Corrective Action"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control",
-        id: "deviceDescription",
         "aria-describedby": "deviceDescriptionHelp",
         placeholder: "Enter device description",
         value: this.state.correction || '',
@@ -29054,7 +29046,7 @@ function (_Component) {
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate() {
+    value: function componentDidUpdate(prevProps, prevState) {
       this.fetchDevices();
     }
   }, {
@@ -29090,9 +29082,8 @@ function (_Component) {
         _this2.setState({
           readings: response.data,
           showloader: 'd-none'
-        });
+        }); //console.log(this.state.readings.recents[0]);
 
-        console.log(_this2.state.readings.recents[0]);
       })["catch"](function (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -29248,6 +29239,7 @@ function (_Component) {
       if (this.props.obj.datapoints instanceof Array) {
         return this.props.obj.datapoints.map(function (object, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: i,
             className: "col",
             "data-toggle": "tooltip",
             "data-placement": "right",
@@ -29638,6 +29630,76 @@ function (_Component) {
     _classCallCheck(this, StatDisplay);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StatDisplay).call(this, props));
+
+    _this.compareArray = function (newData) {
+      var objectsAreSame = true;
+
+      if (_this.state.counts.length != newData.length) {
+        objectsAreSame = false;
+      } else {
+        for (var propertyName in _this.state.counts) {
+          console.log(propertyName + ":: Old: " + _this.state.counts[propertyName] + " New: " + newData[propertyName]); //alert(propertyName);
+
+          if (_this.state.counts[propertyName] !== newData[propertyName]) {
+            objectsAreSame = false;
+            break;
+          }
+        }
+      }
+
+      return objectsAreSame;
+    };
+
+    _this.compareArrayNest = function (newData) {
+      var objectsAreSame = true;
+
+      if (_this.state.devices.length != newData.length) {
+        objectsAreSame = false;
+      } else {
+        for (var propertyName in _this.state.devices) {
+          //alert(propertyName);
+          for (var propName in _this.state.devices[propertyName]) {
+            //console.log(propName + ":: Old: " + oldData[propertyName][propName] + " New: "+ newData[propertyName][propName]);
+            if (_this.state.devices[propertyName][propName] !== newData[propertyName][propName] && !_this.state.devices[propertyName][propName] instanceof Array) {
+              objectsAreSame = false;
+              break;
+            } else {
+              if (_this.state.devices[propertyName][propName] instanceof Array && _this.state.devices[propertyName][propName].length != newData[propertyName][propName].length) {
+                objectsAreSame = false;
+                break;
+              } else {
+                for (var point in _this.state.devices[propertyName][propName]) {
+                  //console.log(point + ":: Old: " + oldData[propertyName][propName][point] + " New: " + newData[propertyName][propName][point]);
+                  if (_this.state.devices[propertyName][propName][point] !== newData[propertyName][propName][point] && !_this.state.devices[propertyName][propName] instanceof Array) {
+                    objectsAreSame = false;
+                    break;
+                  } else {
+                    for (var point2 in _this.state.devices[propertyName][propName][point]) {
+                      //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2] + " New: " + newData[propertyName][propName][point][point2]);
+                      if (_this.state.devices[propertyName][propName][point][point2] !== newData[propertyName][propName][point][point2] && !_this.state.devices[propertyName][propName][point] instanceof Array) {
+                        objectsAreSame = false;
+                        break;
+                      } else {
+                        for (var point3 in _this.state.devices[propertyName][propName][point][point2]) {
+                          //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2][point3] + " New: " + newData[propertyName][propName][point][point2][point3]);
+                          if (_this.state.devices[propertyName][propName][point][point2][point3] !== newData[propertyName][propName][point][point2][point3] && !_this.state.devices[propertyName][propName][point][point2] instanceof Array) {
+                            objectsAreSame = false;
+                            break;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return objectsAreSame;
+    };
+
     _this.state = {
       devices: '',
       counts: '',
@@ -29669,11 +29731,10 @@ function (_Component) {
         });
       }
     }
-  }, {
-    key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate(nextProps, nextState, nextContext) {
-      return this.state.devices != nextState.devices || this.state.counts != nextState.counts;
-    }
+    /*shouldComponentUpdate(nextProps, nextState, nextContext) {
+         return this.state.devices != nextState.devices || this.state.counts != nextState.counts;
+    }*/
+
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
@@ -29684,12 +29745,18 @@ function (_Component) {
     value: function countDevices() {
       var _this2 = this;
 
+      console.log("update");
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('devicestats').then(function (response) {
-        _this2.setState({
-          devices: response.data.dev_stats,
-          counts: response.data.counts,
-          showloader: 'd-none'
-        });
+        if (_this2.compareArrayNest(response.data.dev_stats) == false || _this2.compareArray(response.data.counts) == false) {
+          _this2.setState({
+            devices: response.data.dev_stats,
+            counts: response.data.counts,
+            showloader: 'd-none'
+          });
+        } else {
+          //this.componentDidUpdate();
+          _this2.countDevices();
+        }
       })["catch"](function (error) {
         console.log(error);
       });

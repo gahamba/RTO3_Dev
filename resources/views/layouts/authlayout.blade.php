@@ -205,6 +205,52 @@
     });
 </script>
 
+
+
+<script>
+    function openNav() {
+        x =  document.getElementsByClassName("link_text");
+        y =  document.getElementsByClassName("icon");
+        z =  document.getElementsByClassName("mySidebar");
+        if(x.style.display === "block"){
+            x.style.display === "none";
+            if (y.classList) {
+                y.classList.toggle("col-sm-6");
+            } else {
+                // For IE9
+                var classes = y.className.split(" ");
+                var i = classes.indexOf("col-sm-6");
+
+                if (i >= 0)
+                    classes.splice(i, 1);
+                else
+                    classes.push("col-sm-6");
+                y.className = classes.join(" ");
+            }
+            if (z.classList) {
+                z.classList.toggle("col-sm-1");
+            } else {
+                // For IE9
+                var classes = z.className.split(" ");
+                var i = classes.indexOf("col-sm-1");
+
+                if (i >= 0)
+                    classes.splice(i, 1);
+                else
+                    classes.push("col-sm-1");
+                z.className = classes.join(" ");
+            }
+        }
+        else{
+            x.style.display === "block"
+        }
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    }
+</script>
 <script>
     $('#openbtn').click(function() {
 
@@ -236,18 +282,6 @@
 
     });
 </script>
-
-{{--<script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
-    }
-</script>--}}
 
 </body>
 </html>

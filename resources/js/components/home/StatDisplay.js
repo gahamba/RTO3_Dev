@@ -19,6 +19,7 @@ class StatDisplay extends Component {
     }*/
 
     componentDidMount(){
+
         this.countDevices();
 
     }
@@ -31,23 +32,119 @@ class StatDisplay extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    /*shouldComponentUpdate(nextProps, nextState, nextContext) {
 
         return this.state.devices != nextState.devices || this.state.counts != nextState.counts;
-    }
+    }*/
 
     componentDidUpdate(){
+
         this.countDevices();
+
+    }
+
+    compareArray = (newData) => {
+        var objectsAreSame = true;
+        if(this.state.counts.length != newData.length){
+            objectsAreSame = false;
+        }
+        else{
+            for(var propertyName in this.state.counts) {
+                console.log(propertyName + ":: Old: " + this.state.counts[propertyName] + " New: "+ newData[propertyName]);
+                //alert(propertyName);
+
+                if(this.state.counts[propertyName] !== newData[propertyName]) {
+                    objectsAreSame = false;
+                    break;
+                }
+
+            }
+        }
+
+        return objectsAreSame;
+    }
+    compareArrayNest = (newData) => {
+        var objectsAreSame = true;
+        if(this.state.devices.length != newData.length){
+            objectsAreSame = false;
+        }
+        else{
+
+            for(var propertyName in this.state.devices) {
+                //alert(propertyName);
+                for(var propName in this.state.devices[propertyName]){
+                    //console.log(propName + ":: Old: " + oldData[propertyName][propName] + " New: "+ newData[propertyName][propName]);
+                    if(this.state.devices[propertyName][propName] !== newData[propertyName][propName] && !this.state.devices[propertyName][propName] instanceof Array) {
+                        objectsAreSame = false;
+                        break;
+                    }
+                    else{
+                        if(this.state.devices[propertyName][propName] instanceof Array && this.state.devices[propertyName][propName].length != newData[propertyName][propName].length){
+                            objectsAreSame = false;
+                            break;
+                        }
+                        else {
+                            for (var point in this.state.devices[propertyName][propName]) {
+                                //console.log(point + ":: Old: " + oldData[propertyName][propName][point] + " New: " + newData[propertyName][propName][point]);
+
+                                if (this.state.devices[propertyName][propName][point] !== newData[propertyName][propName][point] && !this.state.devices[propertyName][propName] instanceof Array) {
+                                    objectsAreSame = false;
+                                    break;
+                                }
+                                else{
+                                    for (var point2 in this.state.devices[propertyName][propName][point]) {
+                                        //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2] + " New: " + newData[propertyName][propName][point][point2]);
+                                        if (this.state.devices[propertyName][propName][point][point2] !== newData[propertyName][propName][point][point2] && !this.state.devices[propertyName][propName][point] instanceof Array){
+                                            objectsAreSame = false;
+                                            break;
+                                        }
+                                        else{
+                                            for (var point3 in this.state.devices[propertyName][propName][point][point2]) {
+                                                //console.log(point + ":: Old: " + oldData[propertyName][propName][point][point2][point3] + " New: " + newData[propertyName][propName][point][point2][point3]);
+                                                if (this.state.devices[propertyName][propName][point][point2][point3] !== newData[propertyName][propName][point][point2][point3] && !this.state.devices[propertyName][propName][point][point2] instanceof Array){
+                                                    objectsAreSame = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+
+
+            }
+
+        }
+        return objectsAreSame;
     }
     countDevices(){
+
+        console.log("update");
+
+
         axios.get('devicestats')
             .then(response => {
-                this.setState({ devices: response.data.dev_stats, counts: response.data.counts, showloader: 'd-none' });
+
+
+                if(this.compareArrayNest(response.data.dev_stats) == false || this.compareArray(response.data.counts) == false){
+
+                    this.setState({ devices: response.data.dev_stats, counts: response.data.counts, showloader: 'd-none' });
+                }
+                else{
+                    //this.componentDidUpdate();
+                    this.countDevices();
+                }
 
             })
             .catch(function (error) {
                 console.log(error);
             })
+
     }
     render(){
         //this.countDevices();

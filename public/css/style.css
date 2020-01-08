@@ -209,6 +209,9 @@ a, a:hover{
     display: none;
 }
 
+#openbtn{
+    display: block;
+}
 
 @media screen and (max-width: 700px) {
     #mySidebar {
