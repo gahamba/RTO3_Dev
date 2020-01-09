@@ -4,12 +4,20 @@ import axios from 'axios';
 import Loader from '../Loader';
 import DoughnutChart from './DoughnutChart';
 import DeviceStatus from "./DeviceStatus";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import ModalDialog from 'react-bootstrap/ModalDialog';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+
 
 class StatDisplay extends Component {
 
     constructor(props){
         super(props);
-        this.state = { devices: '', counts: '', showloader: ''};
+        this.state = { devices: '', counts: '', showloader: '', showModal: ''};
         this.countDevices = this.countDevices.bind(this);
     }
 
@@ -124,6 +132,7 @@ class StatDisplay extends Component {
     }
     countDevices(){
 
+        console.log("Count Device running");
 
         axios.get('devicestats')
             .then(response => {
@@ -131,7 +140,14 @@ class StatDisplay extends Component {
 
                 if(this.compareArrayNest(response.data.dev_stats) == false || this.compareArray(response.data.counts) == false){
 
-                    this.setState({ devices: response.data.dev_stats, counts: response.data.counts, showloader: 'd-none' });
+                    this.setState(
+                        {
+                            devices: response.data.dev_stats,
+                            counts: response.data.counts,
+                            showloader: 'd-none',
+                            showModal: response.data.counts.total == 0 ? true : false
+                        });
+
                 }
                 else{
                     //this.componentDidUpdate();
@@ -144,12 +160,37 @@ class StatDisplay extends Component {
             })
 
     }
+
+
+
     render(){
         //this.countDevices();
         //const conditions = {'bad': this.state.counts.bad, 'attention': this.state.counts.attention, 'perfect': this.state.counts.perfect};
+        const handleClose = () => {
+            this.setState({ showModal: false }) };
+        const handleShow = () => setShow(true);
         return(
             <div>
 
+                <Modal size="lg" show={this.state.showModal} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>New to RealTimeOnline</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Hello! Welcome to RealTimeOnline3 (Beta) Dashboard. You can get started by adding <strong>Devices/Sensors</strong> right away.
+                        <p align="center">
+                        <div className="btn btn-info"><a href="./device">
+                            <i className="fas fa-plus-circle"></i>Add New Device</a></div>
+                        </p>
+                        <br />After adding devices, you can come back to monitor your devices by navigating back to Dashboard.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                            Close
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
 
                 <div className="container">
 
@@ -165,6 +206,7 @@ class StatDisplay extends Component {
                                             <h3 className="display-3 text_contrast2" align="center">
 
                                                 { this.state.counts.total }
+
                                             </h3>
                                             <p align="center"><i className="fas fa-tachometer-alt"></i></p>
 
