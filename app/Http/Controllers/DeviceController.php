@@ -908,7 +908,6 @@ class DeviceController extends Controller
                     'max_threshold' =>  $maxT,
                     'n_min_violation'   =>  $sensordata->$datapoint['n-minV'],
                     'n_max_violation'   =>  $sensordata->$datapoint['n-maxV'],
-
                 )
             );
             //var_dump($sensordataRecents);

@@ -10,7 +10,7 @@ class DeviceStatus extends Component {
             return this.props.obj.datapoints.map(function(object, i){
 
                 return(
-                    <div key={i} className="col" data-toggle="tooltip" data-placement="right" title="View recent readings for this sensor">
+                    <div className="col" data-toggle="tooltip" data-placement="right" title="View recent readings for this sensor">
 
 
                         <a href="#" data-toggle="modal"

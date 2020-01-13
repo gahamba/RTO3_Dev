@@ -33615,7 +33615,6 @@ function (_Component) {
       if (this.props.obj.datapoints instanceof Array) {
         return this.props.obj.datapoints.map(function (object, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            key: i,
             className: "col",
             "data-toggle": "tooltip",
             "data-placement": "right",
