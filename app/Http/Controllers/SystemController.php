@@ -28,6 +28,31 @@ class SystemController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Initial Landing page for systems with no devices during initial set-up
+     */
+    public function initial_landing(){
+        $devices = Device::where('company_id', '=', Auth::user()->company_id)->get();
+        if(count($devices ) < 1){
+            return redirect()->route('initial_device')
+                            ->with('global', 1);
+        }
+        else{
+            $systems = System::where('company_id', '=', auth::user()->company_id)
+                ->orderBy('created_at', 'DESC')->get();
+            $devices = Device::where('company_id', '=', auth::user()->company_id)
+                ->where('system_id', '=', '0')->get();
+            $oth_devices = Device::where('company_id', '=', auth::user()->company_id)
+                ->where('system_id', '!=', '0')->get();
+            return view('initial_system')
+                ->with('systems', $systems)
+                ->with('devices', $devices)
+                ->with('assigned_devices', $oth_devices);
+        }
+
+    }
+
+    /**
      * Post system form and handle request
      *
      */

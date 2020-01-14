@@ -26,6 +26,25 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    /**
+     * Show setup page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function initial_setup()
+    {
+        return view('initial_setup');
+    }
+
+    /**
+     * Show setup completed page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function complete_setup()
+    {
+        return view('complete_setup');
+    }
 
     /**
      * Unverified account.

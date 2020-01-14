@@ -32,6 +32,15 @@ class DeviceController extends Controller
             ->with('devices', $devices);
     }
     /**
+     * Initial Landing allows you add devices to this user
+     * @return landing page for companies
+     */
+    public function initial_landing(){
+        $devices = Device::where('company_id', '=', auth::user()->company_id)->get();
+        return view('initial_device')
+            ->with('devices', $devices);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

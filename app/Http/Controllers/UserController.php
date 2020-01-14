@@ -19,6 +19,16 @@ class UserController extends Controller
         return view('user')
             ->with('users', $users);
     }
+
+    /**
+     * Index fetches all the companies from the database and sends to the company view
+     * @return initial landing page for companies
+     */
+    public function initial_landing(){
+        $users = User::where('company_id', '=', auth::user()->company_id)->get();
+        return view('initial_user')
+            ->with('users', $users);
+    }
     /**
      * Display a listing of the resource.
      *

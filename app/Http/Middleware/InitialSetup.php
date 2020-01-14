@@ -6,7 +6,7 @@ use App\Device;
 use Auth;
 use Closure;
 
-class Administrator
+class InitialSetup
 {
     /**
      * Handle an incoming request.
@@ -17,14 +17,10 @@ class Administrator
      */
     public function handle($request, Closure $next)
     {
-
-        if (Auth::check()) {
-            if(Auth::user()->user_type != 0){
-                return redirect('/noaccess');
-            }
+        $devices = Device::where('company_id', '=', Auth::user()->company_id)->get();
+        if(count($devices) < 1){
+            return redirect('/initial_setup');
         }
-
-
         return $next($request);
     }
 }

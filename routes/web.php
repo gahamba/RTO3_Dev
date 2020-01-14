@@ -19,11 +19,33 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
     Route::get('test', function () { $user = \Auth::user(); dd($user); });
 
 
-    Route::get('home', 'HomeController@index')->name('home');
-    Route::get('company', 'CompanyController@landing')->name('company');
-    Route::get('report', 'ReportsController@landing')->name('report');
-    Route::get('account', 'AccountController@landing')->name('account');
-    Route::get('message', 'MessageController@landing')->name('message');
+    Route::group(['middleware' => 'initial_superadmin'], function() {
+        Route::get('home', 'HomeController@index')->name('home');
+        Route::get('company', 'CompanyController@landing')->name('company');
+        Route::get('report', 'ReportsController@landing')->name('report');
+        Route::get('account', 'AccountController@landing')->name('account');
+        Route::get('message', 'MessageController@landing')->name('message');
+
+        Route::group(['middleware' => 'superadmin'], function() {
+
+            Route::post('system', 'SystemController@postCreateSystem')->name('system-post');
+            Route::post('config', 'ConfigurationController@postCreateConfig')->name('config-post');
+            Route::post('system_devices', 'SystemController@postUpdateSystemDevices')->name('system_devices-post');
+            Route::post('update_system', 'SystemController@postUpdateSystem')->name('update_system-post');
+            Route::post('delete_system', 'SystemController@postDeleteSystem')->name('delete_system-post');
+
+
+
+            Route::get('system', 'SystemController@landing')->name('system');
+            Route::get('device', 'DeviceController@landing')->name('device');
+            Route::get('user', 'UserController@landing')->name('user');
+
+
+
+        });
+    });
+
+
 
 //APIs
     Route::resource('companies', 'CompanyController');
@@ -47,21 +69,9 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
     Route::get('newreport/{from}/{to}/{reportType}/{device}', 'ReportsController@getNewReports')->name('newreport');
     Route::get('exportreport/{from}/{to}/{reportType}/{device}/{interface}', 'ReportsController@exportReport')->name('exportreport');
 
-    Route::group(['middleware' => 'superadmin'], function() {
-
-        Route::post('system', 'SystemController@postCreateSystem')->name('system-post');
-        Route::post('config', 'ConfigurationController@postCreateConfig')->name('config-post');
-        Route::post('system_devices', 'SystemController@postUpdateSystemDevices')->name('system_devices-post');
-        Route::post('update_system', 'SystemController@postUpdateSystem')->name('update_system-post');
-        Route::post('delete_system', 'SystemController@postDeleteSystem')->name('delete_system-post');
 
 
 
-        Route::get('system', 'SystemController@landing')->name('system');
-        Route::get('device', 'DeviceController@landing')->name('device');
-        Route::get('user', 'UserController@landing')->name('user');
-
-    });
 
 
 
@@ -72,7 +82,22 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('unverified', 'HomeController@unverified')->name('unverified');
     Route::get('noaccess', 'HomeController@noaccess')->name('noaccess');
 
+    /*Route::post('system', 'SystemController@postCreateSystem')->name('system-post');
+    Route::post('update_system', 'SystemController@postUpdateSystem')->name('update_system-post');
+    Route::post('delete_system', 'SystemController@postDeleteSystem')->name('delete_system-post');*/
+
+
+
+    Route::get('initial_system', 'SystemController@initial_landing')->name('initial_system');
+    Route::get('initial_device', 'DeviceController@initial_landing')->name('initial_device');
+    Route::get('initial_user', 'UserController@initial_landing')->name('initial_user');
+    Route::get('initial_setup', 'HomeController@initial_setup')->name('initial_setup');
+    Route::get('complete_setup', 'HomeController@complete_setup')->name('complete_setup');
+
 });
+
+
+
 
 
 
