@@ -49,11 +49,28 @@
                         <!--profile details and icons -->
                         <div class="col">
                             <ul class="list-unstyled">
-                                <li><span>{{ auth::user()->name }}</span></li>
                                 <li>
-                                    <a href="#"><i class="fas fa-cog" data-toggle="tooltip" data-placement="right" title="User Account settings"></i></a>
-                                    &nbsp;&nbsp; <a href="{{ route('user') }}"><i class="fas fa-keyboard" data-toggle="tooltip" data-placement="right" title="Access control"></i></a> &nbsp;&nbsp;
-                                    <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="right" title="Logout of account"></i></a>
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <span>{{ auth::user()->name }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <a href="#"><i class="fas fa-cog" data-toggle="tooltip" data-placement="right" title="User Account settings"></i></a>
+                                        </div>
+                                        <div class="col-sm">
+                                            <a href="{{ route('user') }}"><i class="fas fa-keyboard" data-toggle="tooltip" data-placement="right" title="Access control"></i></a>
+                                        </div>
+                                        <div class="col-sm">
+                                            <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="right" title="Logout of account"></i></a>
+                                        </div>
+                                    </div>
+
+                                     &nbsp;&nbsp;
+
                                 </li>
                             </ul>
 
@@ -70,43 +87,63 @@
                             <ul class="list-unstyled text-center">
 
                                 <li class="login_link_lists">
-                                    <a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="{{ route('home') }}" data-toggle="tooltip" data-placement="right" title="Takes you to the Dashboard">
 
-                                    <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
-                                    <span class="link_text">Dashboard</span>
+                                                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                                                <span class="link_text">Dashboard</span>
 
-                                    </a>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 </li>
 
 
                                 @if(auth::user()->user_type == 0)
 
                                     <li class="login_link_lists">
-                                        <a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ route('device') }}" data-toggle="tooltip" data-placement="right" title="Allows you add devices">
 
-                                        <span class="icon"><i class="fas fa-thermometer"></i></span>
-                                        <span class="link_text">Devices</span>
+                                                    <span class="icon"><i class="fas fa-thermometer"></i></span>
+                                                    <span class="link_text">Devices</span>
 
-                                        </a>
+                                                </a>
+                                            </div>
+                                        </div>
+
                                     </li>
 
 
 
                                     <li class="login_link_lists">
-                                        <a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users">
-                                        <span class="icon"><i class="fas fa-user-cog"></i></span>
-                                        <span class="link_text">Users</span>
-                                        </a>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ route('user') }}" data-toggle="tooltip" data-placement="right" title="Allows you view and add users">
+                                                    <span class="icon"><i class="fas fa-user-cog"></i></span>
+                                                    <span class="link_text">Users</span>
+                                                </a>
+                                            </div>
+                                        </div>
+
                                     </li>
 
 
 
                                     <li class="login_link_lists">
-                                        <a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ route('system') }}" data-toggle="tooltip" data-placement="right" title="Allows you add systems">
 
-                                        <span class="icon"><i class="fas fa-layer-group"></i></span>
-                                        <span class="link_text">Systems</span>
-                                        </a>
+                                                    <span class="icon"><i class="fas fa-layer-group"></i></span>
+                                                    <span class="link_text">Systems</span>
+                                                </a>
+                                            </div>
+                                        </div>
+
                                     </li>
 
 
@@ -114,11 +151,16 @@
 
 
                                 <li class="login_link_lists">
-                                    <a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="{{ route('report') }}" data-toggle="tooltip" data-placement="right" title="Generate reports e.g HACCP etc">
 
-                                    <span class="icon"><i class="fas fa-file-word"></i></span>
-                                    <span class="link_text">Reports</span>
-                                    </a>
+                                                <span class="icon"><i class="fas fa-file-word"></i></span>
+                                                <span class="link_text">Reports</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 </li>
 
                             </ul>

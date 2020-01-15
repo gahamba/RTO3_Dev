@@ -51,7 +51,7 @@ class DeviceStatus extends Component {
 
     render() {
         return (
-            <div className="col-sm-4">
+            <div className={`col-sm-4 ${ this.props.show}`}>
                 <div className="card bottom_margin light_panel">
                     <div className="card-body">
                         <h5 align="center">{ this.props.obj.name } &nbsp;

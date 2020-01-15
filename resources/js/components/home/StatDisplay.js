@@ -17,8 +17,13 @@ class StatDisplay extends Component {
 
     constructor(props){
         super(props);
-        this.state = { devices: '', counts: '', showloader: '', showModal: ''};
+        this.state = { devices: '', counts: '', showloader: '', showModal: '', showDevice: 2};
         this.countDevices = this.countDevices.bind(this);
+        //this.allDevices = this.allDevices.bind(this);
+        this.goodDevices = this.goodDevices.bind(this);
+        this.attentionDevices = this.attentionDevices.bind(this);
+        this.badDevices = this.badDevices.bind(this);
+
     }
 
     /*static getDerivedStateFromProps(props, state){
@@ -34,8 +39,20 @@ class StatDisplay extends Component {
 
     deviceStatus(){
         if(this.state.devices instanceof Array){
+            var showValue = this.state.showDevice;
             return this.state.devices.map(function(object, i){
-                return <DeviceStatus obj={object} key={i} />;
+                if(showValue == 2){
+                    var show = '';
+                }
+                else{
+                    if(object.status == showValue){
+                        var show = '';
+                    }
+                    else{
+                        var show = 'd-none';
+                    }
+                }
+                return <DeviceStatus obj={object} show={show} key={i} />;
             })
         }
     }
@@ -49,6 +66,27 @@ class StatDisplay extends Component {
 
         this.countDevices();
 
+    }
+
+    allDevices = (e) => {
+        e.preventDefault();
+        this.setState({showDevice: 2});
+
+    };
+
+    goodDevices = (e) => {
+        e.preventDefault();
+        this.setState({showDevice: 1});
+    }
+
+    attentionDevices = (e) => {
+        e.preventDefault();
+        this.setState({showDevice: 0});
+    }
+
+    badDevices = (e) => {
+        e.preventDefault();
+        this.setState({showDevice: -1});
     }
 
     compareArray = (newData) => {
@@ -201,6 +239,7 @@ class StatDisplay extends Component {
                                     <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
                                          title="Total number of Sensors installed by Invisible Systems">
                                         <div className="card-body">
+                                            <a href="#" onClick={ this.allDevices }>
                                             <h5>Total <mark>sensors</mark></h5>
                                             <Loader display={this.state.showloader} />
                                             <h3 className="display-3 text_contrast2" align="center">
@@ -209,7 +248,7 @@ class StatDisplay extends Component {
 
                                             </h3>
                                             <p align="center"><i className="fas fa-tachometer-alt"></i></p>
-
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -218,6 +257,7 @@ class StatDisplay extends Component {
                                     <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
                                          title="Total number of sensors in perfect condition">
                                         <div className="card-body">
+                                            <a href="#" onClick={ this.goodDevices }>
                                             <h5>
                                                 <mark>Good</mark>
                                             </h5>
@@ -227,7 +267,7 @@ class StatDisplay extends Component {
                                                 { this.state.counts.perfect }
                                             </h3>
                                             <p align="center"><i className="fas fa-tachometer-alt"></i></p>
-
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -236,6 +276,7 @@ class StatDisplay extends Component {
                                     <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
                                          title="Total number of sensors requiring attention">
                                         <div className="card-body">
+                                            <a href="#" onClick={ this.attentionDevices }>
                                             <h5>
                                                 <mark>Attention</mark>
                                             </h5>
@@ -245,8 +286,7 @@ class StatDisplay extends Component {
                                                 { this.state.counts.attention }
                                             </h3>
                                             <p align="center"><i className="fas fa-tachometer-alt"></i></p>
-
-
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -255,6 +295,7 @@ class StatDisplay extends Component {
                                     <div className="card w-100 bottom_margin" data-toggle="tooltip" data-placement="right"
                                          title="Total number of sensors in bad condition">
                                         <div className="card-body">
+                                            <a href="#" onClick={ this.badDevices }>
                                             <h5>
                                                 <mark>Critical</mark>
                                             </h5>
@@ -264,8 +305,7 @@ class StatDisplay extends Component {
                                                 { this.state.counts.bad }
                                             </h3>
                                             <p align="center"><i className="fas fa-tachometer-alt"></i></p>
-
-
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

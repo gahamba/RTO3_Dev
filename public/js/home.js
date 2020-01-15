@@ -32767,7 +32767,9 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.props.show
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal fade",
         id: this.state.panel_id,
         tabIndex: "-1",
@@ -33664,7 +33666,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-4"
+        className: "col-sm-4 ".concat(this.props.show)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card bottom_margin light_panel"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -33680,7 +33682,8 @@ function (_Component) {
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_devices_EditDevice__WEBPACK_IMPORTED_MODULE_1__["default"], {
         editId: "edit".concat(this.props.obj.device_id),
         params: this.props.obj,
-        datapoints: this.props.obj.dpoints
+        datapoints: this.props.obj.dpoints,
+        show: this.props.show
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row text-center"
       }, this.datapointStatus()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CorrectiveComment__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -34020,6 +34023,38 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(StatDisplay).call(this, props));
 
+    _this.allDevices = function (e) {
+      e.preventDefault();
+
+      _this.setState({
+        showDevice: 2
+      });
+    };
+
+    _this.goodDevices = function (e) {
+      e.preventDefault();
+
+      _this.setState({
+        showDevice: 1
+      });
+    };
+
+    _this.attentionDevices = function (e) {
+      e.preventDefault();
+
+      _this.setState({
+        showDevice: 0
+      });
+    };
+
+    _this.badDevices = function (e) {
+      e.preventDefault();
+
+      _this.setState({
+        showDevice: -1
+      });
+    };
+
     _this.compareArray = function (newData) {
       var objectsAreSame = true;
 
@@ -34088,9 +34123,14 @@ function (_Component) {
       devices: '',
       counts: '',
       showloader: '',
-      showModal: ''
+      showModal: '',
+      showDevice: 2
     };
-    _this.countDevices = _this.countDevices.bind(_assertThisInitialized(_this));
+    _this.countDevices = _this.countDevices.bind(_assertThisInitialized(_this)); //this.allDevices = this.allDevices.bind(this);
+
+    _this.goodDevices = _this.goodDevices.bind(_assertThisInitialized(_this));
+    _this.attentionDevices = _this.attentionDevices.bind(_assertThisInitialized(_this));
+    _this.badDevices = _this.badDevices.bind(_assertThisInitialized(_this));
     return _this;
   }
   /*static getDerivedStateFromProps(props, state){
@@ -34108,9 +34148,21 @@ function (_Component) {
     key: "deviceStatus",
     value: function deviceStatus() {
       if (this.state.devices instanceof Array) {
+        var showValue = this.state.showDevice;
         return this.state.devices.map(function (object, i) {
+          if (showValue == 2) {
+            var show = '';
+          } else {
+            if (object.status == showValue) {
+              var show = '';
+            } else {
+              var show = 'd-none';
+            }
+          }
+
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DeviceStatus__WEBPACK_IMPORTED_MODULE_5__["default"], {
             obj: object,
+            show: show,
             key: i
           });
         });
@@ -34198,6 +34250,9 @@ function (_Component) {
         title: "Total number of Sensors installed by Invisible Systems"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.allDevices
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "sensors")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -34207,7 +34262,7 @@ function (_Component) {
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-tachometer-alt"
-      }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card w-100 bottom_margin",
@@ -34216,6 +34271,9 @@ function (_Component) {
         title: "Total number of sensors in perfect condition"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.goodDevices
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Good")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -34225,7 +34283,7 @@ function (_Component) {
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-tachometer-alt"
-      }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card w-100 bottom_margin",
@@ -34234,6 +34292,9 @@ function (_Component) {
         title: "Total number of sensors requiring attention"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.attentionDevices
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Attention")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -34243,7 +34304,7 @@ function (_Component) {
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-tachometer-alt"
-      }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card w-100 bottom_margin",
@@ -34252,6 +34313,9 @@ function (_Component) {
         title: "Total number of sensors in bad condition"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.badDevices
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("mark", null, "Critical")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_3__["default"], {
         display: this.state.showloader
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -34261,7 +34325,7 @@ function (_Component) {
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-tachometer-alt"
-      }))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6 d-flex"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row w-100 m-0"

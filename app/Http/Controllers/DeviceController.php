@@ -637,6 +637,9 @@ class DeviceController extends Controller
             $attention = 0;
             $bad = 0;
             $dev_stat = array();
+            $good_dev = array();
+            $bad_dev = array();
+            $attention_dev = array();
             //var_dump($devices_count);
             $message = new MessageController();
             foreach($devices as $device){
@@ -740,7 +743,20 @@ class DeviceController extends Controller
                 //echo $free_datapoints.'<br /><br />';
                 //echo $datapoints.'<br /><br />';
 
-
+                if($bad_exists){
+                    $bad += 1;
+                    $st = -1;
+                }
+                else{
+                    if($attention_exists){
+                        $attention += 1;
+                        $st = 0;
+                    }
+                    else{
+                        $perfect += 1;
+                        $st = 1;
+                    }
+                }
                 array_push($dev_stat,
                     array(
                         'id'        =>  $device->id,
@@ -757,23 +773,13 @@ class DeviceController extends Controller
                         'data_channels' =>  $device->data_channels,
                         'data_points'   =>  $datapoints,
                         'dpoints'       =>  $f_datapoints,
-
+                        'status'        =>  $st,
                     )
                 );
 
 
 
-                if($bad_exists){
-                    $bad += 1;
-                }
-                else{
-                    if($attention_exists){
-                        $attention += 1;
-                    }
-                    else{
-                        $perfect += 1;
-                    }
-                }
+
 
             }
 
