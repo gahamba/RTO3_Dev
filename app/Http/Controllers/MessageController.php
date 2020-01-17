@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Alert;
 use App\Message;
 use App\User;
 use App\UserDeviceMap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
@@ -104,7 +106,7 @@ class MessageController extends Controller
      */
     public function newMessage($device, $val, $status){
         $users = User::where('company_id', '=', $device->company_id)
-                        ->where('user_type', '=', "0")->pluck('_id');
+                        ->where('user_type', '=', 0)->pluck('_id');
         $tusers = UserDeviceMap::where('device_id', '=', $device->id)->pluck('user_id');
         $message = "The following device is in bad condition. <br /> Device name: ".$device->name."<br />Sensor Id: ".$device->unique_id."<br />Current Reading: ".$val."<br />Thresholds: Minumum -".$device->min_threshold." Maximum -".$device->max_threshold;
 
@@ -130,8 +132,9 @@ class MessageController extends Controller
                         'status'   =>   $status,
                         'time'     =>   date('Y-m-d H:i:s'),
                     ));
-                    /*$this_user = User::find($user);
-                    Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
+                    $this_user = User::find($user);
+                    Mail::to($this_user->email)->queue(new Alert());
+                    /*Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
                         $m->from('hello@app.com', 'Your Application');
 
                         $m->to($this_user->email, $this_user->name)->subject($status);
@@ -149,8 +152,10 @@ class MessageController extends Controller
                         'status'   =>   $status,
                         'time'     =>   date('Y-m-d H:i:s'),
                     ));
-                    /*$this_user = User::find($user);
-                    Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
+                    $this_user = User::find($user);
+                    Mail::to($this_user->email)->queue(new Alert());
+
+                    /*Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
                         $m->from('hello@app.com', 'Your Application');
 
                         $m->to($this_user->email, $this_user->name)->subject($status);
