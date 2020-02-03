@@ -38,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    function hasVerifiedEmail(){
+    /*function hasVerifiedEmail(){
 
     }
 
@@ -48,5 +48,5 @@ class User extends Authenticatable implements MustVerifyEmail
 
     function sendEmailVerificationNotification(){
 
-    }
+    }*/
 }
