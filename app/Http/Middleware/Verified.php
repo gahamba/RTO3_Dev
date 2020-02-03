@@ -18,7 +18,7 @@ class Verified
     {
 
         if (Auth::check()) {
-            if(Auth::user()->email_verified != 0){
+            if(!Auth::user()->email_verified_at){
                 return redirect('/unverified');
             }
         }

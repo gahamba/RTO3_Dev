@@ -38,15 +38,28 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /*function hasVerifiedEmail(){
+    function hasVerifiedEmail(){
+        /*if(Auth::user()->email_verified_at !== null){
+            return true;
+        }
+        else{
+            return false;
+        }*/
+        return true;
 
     }
 
     function markEmailAsVerified(){
-
+        /*if(Auth::user()->email_verified_at !== null){
+            return true;
+        }
+        else{
+            return false;
+        }*/
+        return true;
     }
 
     function sendEmailVerificationNotification(){
 
-    }*/
+    }
 }

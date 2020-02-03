@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <!-- breadcrumb -->
 
     <nav aria-label="breadcrumb">
@@ -14,11 +15,11 @@
 
     <!--breadcrumb ends -->
 
-    <div class="container-fluid">
+    <div class="container-fluid position-relative">
 
         <div class="row">
 
-            <div class="col-12">
+            <div class="col">
                 <div class="alert alert-warning w-100">Please verify account to continue. <a href="#">Please click here to resend email</a></div>
             </div>
 
