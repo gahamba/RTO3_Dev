@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmails;
 use App\Mail\Alert;
 use App\Message;
 use App\User;
@@ -106,64 +107,31 @@ class MessageController extends Controller
      */
     public function newMessage($device, $val, $status){
         $users = User::where('company_id', '=', $device->company_id)
-                        ->where('user_type', '=', 0)->pluck('_id');
+                        ->where(function($query){
+                            $query->where('user_type', '=', "0")
+                                ->orWhere('user_type', '=', 0);
+                        })->pluck('_id');
+
         $tusers = UserDeviceMap::where('device_id', '=', $device->id)->pluck('user_id');
         $message = "The following device is in bad condition. <br /> Device name: ".$device->name."<br />Sensor Id: ".$device->unique_id."<br />Current Reading: ".$val."<br />Thresholds: Minumum -".$device->min_threshold." Maximum -".$device->max_threshold;
 
         $mes = Message::where('sensorId', '=', $device->unique_id)
                             ->orderBy('created_at', 'DESC')->first();
-
+        $send = false;
         if($mes){
             $now = strtotime(date('Y-m-d H:i:s'));
             $last_update = strtotime($mes->time);
 
             if(abs($now - $last_update) / 60 > 5){
-                /*$a = 10;
-                if($a%3 == 0){*/
-                foreach($users as $user){
-
-                    Message::create(array(
-                        'sensorId' =>   $device->unique_id,
-                        'user_id'  =>   $user,
-                        'subject'  =>   "Device - ".$device->name." in ".$status." condition",
-                        'message'  =>   $message,
-                        'sent'     =>   0,
-                        'read'     =>   0,
-                        'status'   =>   $status,
-                        'time'     =>   date('Y-m-d H:i:s'),
-                    ));
-                    $this_user = User::find($user);
-                    Mail::to($this_user->email)->queue(new Alert());
-                    /*Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
-                        $m->from('hello@app.com', 'Your Application');
-
-                        $m->to($this_user->email, $this_user->name)->subject($status);
-                    });*/
-                }
-                foreach($tusers as $user){
-
-                    Message::create(array(
-                        'sensorId' =>   $device->unique_id,
-                        'user_id'  =>   $user,
-                        'subject'  =>   "Device - ".$device->name." in ".$status." condition",
-                        'message'  =>   $message,
-                        'sent'     =>   0,
-                        'read'     =>   0,
-                        'status'   =>   $status,
-                        'time'     =>   date('Y-m-d H:i:s'),
-                    ));
-                    $this_user = User::find($user);
-                    Mail::to($this_user->email)->queue(new Alert());
-
-                    /*Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
-                        $m->from('hello@app.com', 'Your Application');
-
-                        $m->to($this_user->email, $this_user->name)->subject($status);
-                    });*/
-                }
+                $send = true;
             }
         }
         else{
+            $send = true;
+        }
+
+
+        if($send){
             foreach($users as $user){
 
                 Message::create(array(
@@ -176,6 +144,10 @@ class MessageController extends Controller
                     'status'   =>   $status,
                     'time'     =>   date('Y-m-d H:i:s'),
                 ));
+                $this_user = User::find($user);
+                $email = $this_user->email;
+                SendEmails::dispatch($email, $device);
+                //Mail::to($email)->queue(new Alert());
                 /*$this_user = User::find($user);
                 Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
                     $m->from('hello@app.com', 'Your Application');
@@ -195,6 +167,10 @@ class MessageController extends Controller
                     'status'   =>   $status,
                     'time'     =>   date('Y-m-d H:i:s'),
                 ));
+                $this_user = User::find($user);
+                $email = $this_user->email;
+                SendEmails::dispatch($email, $device);
+                //Mail::to($email)->queue(new Alert());
                 /*$this_user = User::find($user);
                 Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
                     $m->from('hello@invisible-systems.com', 'Your Alert');

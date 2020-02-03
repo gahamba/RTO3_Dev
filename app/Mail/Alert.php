@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Alert extends Mailable
+class Alert extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -16,9 +16,11 @@ class Alert extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $device;
+    public function __construct($device)
     {
         //
+        $this->device = $device;
     }
 
     /**

@@ -82,8 +82,11 @@
             <div class="content">
                 <div class="title m-b-md">
                     <img src="{{ asset('/images/rto.png') }}" width="400" height="400" />
-                </div>
 
+
+                </div>
+                <p align="center">You are visitor number {{ $visits }}</p>
+                <p align="center">{{ dd(config('queue.default')) }}</p>
 
             </div>
         </div>
