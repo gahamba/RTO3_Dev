@@ -37,4 +37,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function hasVerifiedEmail(){
+
+    }
+
+    function markEmailAsVerified(){
+
+    }
+
+    function sendEmailVerificationNotification(){
+
+    }
 }
