@@ -2,10 +2,12 @@
 
 namespace App;
 
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -41,25 +43,17 @@ class User extends Authenticatable implements MustVerifyEmail
     function hasVerifiedEmail(){
         /*if(Auth::user()->email_verified_at !== null){
             return true;
-        }
-        else{
-            return false;
         }*/
         return true;
 
     }
 
     function markEmailAsVerified(){
-        /*if(Auth::user()->email_verified_at !== null){
-            return true;
-        }
-        else{
-            return false;
-        }*/
-        return true;
+
     }
 
     function sendEmailVerificationNotification(){
+
 
     }
 }

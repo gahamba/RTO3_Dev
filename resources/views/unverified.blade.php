@@ -20,7 +20,7 @@
         <div class="row">
 
             <div class="col">
-                <div class="alert alert-warning w-100">Please verify account to continue. <a href="#">Please click here to resend email</a></div>
+                <div class="alert alert-warning w-100">Please verify account to continue. <a href="{{ route('resendemail') }}">Please click here to resend email</a></div>
             </div>
 
         </div>

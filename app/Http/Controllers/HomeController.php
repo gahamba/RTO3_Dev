@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,6 +65,13 @@ class HomeController extends Controller
     public function noaccess()
     {
         return view('noaccess');
+    }
+
+    public function resendEmail()
+    {
+        Auth::user()->notify(new VerifyEmail(Auth::user()));
+        return redirect()->back()
+                        ->with('sent', 1);
     }
 
     public function logout(){

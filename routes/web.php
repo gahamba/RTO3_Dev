@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('unverified', 'HomeController@unverified')->name('unverified');
+    Route::get('resendemail', 'HomeController@resendEmail')->name('resendemail');
     Route::get('noaccess', 'HomeController@noaccess')->name('noaccess');
 
     /*Route::post('system', 'SystemController@postCreateSystem')->name('system-post');

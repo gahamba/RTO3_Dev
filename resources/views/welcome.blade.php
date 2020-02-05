@@ -85,8 +85,6 @@
 
 
                 </div>
-                <p align="center">You are visitor number {{ $visits }}</p>
-                <p align="center">{{ dd(config('queue.default')) }}</p>
 
             </div>
         </div>

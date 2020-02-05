@@ -187,7 +187,7 @@
                     &nbsp;realtime-online
                     <!--<img src="images/rto.png" class="img-fluid"  />-->
                 </div>
-                <span class="float_right_divs w-auto" data-toggle="tooltip" data-placement="right" title="View your direct messages">Messages&nbsp;<a href="{{ route('message') }}"><span class="badge contrast_component2" id="message_content">0</span></a></span>
+                @if(auth::user()->email_verified_at)<span class="float_right_divs w-auto" data-toggle="tooltip" data-placement="right" title="View your direct messages">Messages&nbsp;<a href="{{ route('message') }}"><span class="badge contrast_component2" id="message_content">0</span></a></span>@endif
                 <span class="float_right_divs">
 
                     <span class="col-4 float_right_divs" data-toggle="tooltip" data-placement="right" title="Sign out of your account here"><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i></a></span>
