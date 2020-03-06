@@ -25,7 +25,7 @@ Please click the button below to login to your dashboard.
 
 <br />
 
-@component('mail::button', ['url' => route('acknowledge', [$device->sensor_id.'/'.$reading.'/'.$min_threshold.'/'.$max_threshold])])
+@component('mail::button', ['url' => route('acknowledge', [$device->sensor_id, $reading, $min_threshold, $max_threshold])])
 Acknowledge Alarm
 @endcomponent
 
