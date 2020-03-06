@@ -191,7 +191,7 @@
                     <span class="float_right_divs w-auto" data-toggle="tooltip" data-placement="right" title="View your direct messages">
                         Messages&nbsp;
                         <a href="{{ route('message') }}">
-                            <span class="badge contrast_component2" id="message_content">
+                            <span class="badge contrast_component2">
 
                             </span>
 

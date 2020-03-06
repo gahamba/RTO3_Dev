@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Exception;
 use DateTime;
 use MongoDB\BSON\UTCDateTime;
+use MongoDB\BSON\ObjectId;
 
 class DeviceController extends Controller
 {
@@ -115,6 +116,8 @@ class DeviceController extends Controller
                         'removed_datapoints' => $e_datapoints, /*existing datapoints in react but removed from drop down list*/
                         'datapoints'    =>  $f_datapoints, /*not existing datapoints in react, acailable in dropdown*/
                         'data_channels' =>  $device->data_channels,
+                        'delay_active'  =>  $device->delay_active,
+                        'delay_minutes' =>  $device->delay_minutes,
 
                     )
                 );
@@ -243,8 +246,6 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        //echo $request;
-
         $name = $request->get('name');
         $unique_id = $request->get('unique_id');
         $system_id = $request->get('system_id');
@@ -454,6 +455,27 @@ class DeviceController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Device  $device
+     * @return \Illuminate\Http\Response
+     */
+    public function editAlarmDelay($id, $delay, $minutes)
+    {
+        $device = Device::find(new ObjectId($id));
+        $device->delay_active = $delay;
+        $device->delay_minutes = $minutes;
+
+        if($device->save()){
+            return response()->json('Successful');
+        }
+        else{
+            return response()->json('There has been  an issue, please try again later');
+        }
+
+    }
+
+    /**
      * Fetch number of devices.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -655,7 +677,7 @@ class DeviceController extends Controller
 
                     if($readval['reading'] > $readval['datapoint']['maxT'] || $readval['reading'] < $readval['datapoint']['minT']){
                         $bad_exists = true;
-                        $message->newMessage($device, $readval['reading'], "Critical");
+                        $message->newMessage($device, $readval['reading'], $readval['datapoint']['minT'], $readval['datapoint']['maxT'],"Critical");
                         array_push($this_reading,
                             array(
                                 'unique_id' => $device->unique_id,
@@ -677,7 +699,7 @@ class DeviceController extends Controller
 
                     elseif ($readval['reading'] == $readval['datapoint']['maxT'] || $readval['reading'] == $readval['datapoint']['minT']){
                         $attention_exists = true;
-                        $message->newMessage($device, $readval['reading'], "Attention");
+                        $message->newMessage($device, $readval['reading'], $readval['datapoint']['minT'], $readval['datapoint']['maxT'],"Attention");
 
                         array_push($this_reading,
                             array(

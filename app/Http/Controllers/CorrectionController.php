@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Exception;
 use DateTime;
+use Illuminate\Support\Facades\Input;
+use App\User;
+use App\Message;
+use App\UserDeviceMap;
+use Illuminate\Support\Facades\Mail;
+
 
 class CorrectionController extends Controller
 {
@@ -158,4 +164,84 @@ class CorrectionController extends Controller
 
 
     }
+
+    public function doAcknowledgement($device_id, $reading, $min_threshold, $max_threshold){
+        date_default_timezone_set("Europe/London");
+        $device = Device::where('sensor_id', '=', floatval($device_id))->first();
+        $corrections = Correction::where('device_id', '=', $device->id)
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc')->get();
+
+        $device_array = array($device_id, $reading, $min_threshold, $max_threshold);
+
+        //var_dump($corrections[0]);
+        if(count($corrections) > 0){
+            $last_updated_date_time = new DateTime($corrections[0]->date." ".$corrections[0]->time.":00");
+            $now = new DateTime(date("Y-m-d H:i:s"));
+            $diff = date_diff($now, $last_updated_date_time, true);
+            $diff_mins = ($diff->format("%a") * 24) + ($diff->format("%h") * 60) + $diff->format("%i");
+            $textarea = ($diff_mins > 10) ? true : false;
+            $last_updated_string = $corrections[0]->time;
+            //var_dump($diff_mins);
+
+            return view('acknowledgement')
+                    ->with('corrections', $corrections)
+                    ->with('last_update', $last_updated_string)
+                    ->with('show_textarea', $textarea)
+                    ->with('device', $device)
+                    ->with('device_array', $device_array);
+
+        }
+        else{
+            return view('acknowledgement')
+                ->with('corrections', $corrections)
+                ->with('last_update', '00:00')
+                ->with('show_textarea', true)
+                ->with('device', $device)
+                ->with('device_array', $device_array);
+
+        }
+
+
+
+
+    }
+
+    public function postAcknowledgement(){
+        date_default_timezone_set("Europe/London");
+
+        $correction_text = Input::get('correction');
+        $device_id = Input::get('device_id');
+        $reading = Input::get('reading');
+        $min_threshold = Input::get('min_threshold');
+        $max_threshold = Input::get('max_threshold');
+        $day = date("Y-m-d");
+        $time = date("H:i");
+        $device = Device::where('sensor_id', '=', floatval($device_id))->first();
+        $correction = new Correction([
+            'device_id'     =>  $device->id,
+            'user_id'       =>  auth::user()->id,
+            'user_name'     =>  auth::user()->name,
+            'correction'    =>  $correction_text,
+            'time'          =>  $time,
+            'date'          =>  $day,
+            'val'           =>  $reading,
+            'min'           =>  $min_threshold,
+            'max'           =>  $max_threshold,
+        ]);
+
+        $global = $correction->save() ? 0 : 1;
+        return redirect()->back()
+            ->with('global', $global);
+
+
+
+
+
+    }
+
+
+
+
+
 }

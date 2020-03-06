@@ -16,11 +16,15 @@ class Alert extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public $device;
-    public function __construct($device)
+    public $device, $reading, $min_threshold, $max_threshold;
+
+    public function __construct($device, $reading, $min_threshold, $max_threshold)
     {
         //
         $this->device = $device;
+        $this->reading = $reading;
+        $this->min_threshold = $min_threshold;
+        $this->max_threshold = $max_threshold;
     }
 
     /**

@@ -105,7 +105,7 @@ class MessageController extends Controller
      * Add new message for warning and bad
      *
      */
-    public function newMessage($device, $val, $status){
+    public function newMessage($device, $val, $min_threshold, $max_threshold, $status){
         $users = User::where('company_id', '=', $device->company_id)
                         ->where(function($query){
                             $query->where('user_type', '=', "0")
@@ -146,7 +146,7 @@ class MessageController extends Controller
                 ));
                 $this_user = User::find($user);
                 $email = $this_user->email;
-                SendEmails::dispatch($email, $device);
+                SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
                 //Mail::to($email)->queue(new Alert());
                 /*$this_user = User::find($user);
                 Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
@@ -169,7 +169,7 @@ class MessageController extends Controller
                 ));
                 $this_user = User::find($user);
                 $email = $this_user->email;
-                SendEmails::dispatch($email, $device);
+                SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
                 //Mail::to($email)->queue(new Alert());
                 /*$this_user = User::find($user);
                 Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {

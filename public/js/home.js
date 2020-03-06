@@ -32767,9 +32767,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.props.show
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal fade",
         id: this.state.panel_id,
         tabIndex: "-1",
@@ -33682,8 +33680,7 @@ function (_Component) {
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_devices_EditDevice__WEBPACK_IMPORTED_MODULE_1__["default"], {
         editId: "edit".concat(this.props.obj.device_id),
         params: this.props.obj,
-        datapoints: this.props.obj.dpoints,
-        show: this.props.show
+        datapoints: this.props.obj.dpoints
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row text-center"
       }, this.datapointStatus()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CorrectiveComment__WEBPACK_IMPORTED_MODULE_3__["default"], {

@@ -36,9 +36,11 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
 
 
 
+            Route::get('alarmdelay/{id}/{delay}/{minutes}', 'DeviceController@editAlarmDelay')->name('alarmdelay');
             Route::get('system', 'SystemController@landing')->name('system');
             Route::get('device', 'DeviceController@landing')->name('device');
             Route::get('user', 'UserController@landing')->name('user');
+
 
 
 
@@ -66,12 +68,17 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
     Route::get('emailcheck/{email_value}', 'UserController@checkEmail')->name('emailcheck');
     Route::get('fetchCorrections/{device_id}', 'CorrectionController@fetchCorrections')->name('fetchCorrections');
 
+
     Route::get('newreport/{from}/{to}/{reportType}/{device}', 'ReportsController@getNewReports')->name('newreport');
     Route::get('exportreport/{from}/{to}/{reportType}/{device}/{interface}', 'ReportsController@exportReport')->name('exportreport');
 
 
+ //Other pages with forms
+    //
 
+    Route::post('acknowledge', 'CorrectionController@postAcknowledgement')->name('acknowledge-post');
 
+    Route::get('acknowledge/{device_id}/{reading}/{min_threshold}/{max_threshold}', 'CorrectionController@doAcknowledgement')->name('acknowledge');
 
 
 

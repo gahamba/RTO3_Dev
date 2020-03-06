@@ -5,7 +5,7 @@ class MessageCount extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {messagecount: ''};
+        this.state = {messagecount: 0};
         this.countMessages = this.countMessages.bind(this);
     }
 
@@ -20,11 +20,13 @@ class MessageCount extends Component {
     countMessages(){
         axios.get('messages')
             .then(response => {
+
+                console.log(response.data);
                 this.setState({ messagecount: response.data });
 
             })
             .catch(function (error) {
-                console.log(error);
+                this.setState({ messagecount: "N" });
             })
     }
     render(){

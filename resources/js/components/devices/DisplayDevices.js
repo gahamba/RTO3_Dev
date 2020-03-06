@@ -61,7 +61,6 @@ class DisplayDevices extends Component {
                             <td scope="col">Unique Id</td>
                             <td scope="col">Created By</td>
                             <td scope="col"></td>
-                            <td scope="col"></td>
                         </tr>
                         </thead>
 

@@ -21,10 +21,17 @@ class SendEmails implements ShouldQueue
      */
     protected $email;
     protected $device;
-    public function __construct($email, $device)
+    protected $min_threshold;
+    protected $max_threshold;
+    protected $reading;
+
+    public function __construct($email, $device, $reading, $min_threshold, $max_threshold)
     {
         $this->email = $email;
         $this->device = $device;
+        $this->reading = $reading;
+        $this->min_threshold = $min_threshold;
+        $this->max_threshold = $max_threshold;
     }
 
     /**
@@ -35,8 +42,14 @@ class SendEmails implements ShouldQueue
     public function handle()
     {
         try{
+            if($this->device->delay_active == "1"){
+                $when =  now()->addMinutes($this->device->delay_minutes);
+                Mail::to($this->email)->later($when, new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));
+            }
+            else{
+                Mail::to($this->email)->send(new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));
+            }
 
-            Mail::to($this->email)->send(new Alert($this->device));
         }
         catch (Exception $ex){
             $this->failed($ex);

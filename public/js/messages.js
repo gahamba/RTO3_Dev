@@ -26668,7 +26668,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageCount).call(this, props));
     _this.state = {
-      messagecount: ''
+      messagecount: 0
     };
     _this.countMessages = _this.countMessages.bind(_assertThisInitialized(_this));
     return _this;
@@ -26690,11 +26690,15 @@ function (_Component) {
       var _this2 = this;
 
       axios_index__WEBPACK_IMPORTED_MODULE_1___default.a.get('messages').then(function (response) {
+        console.log(response.data);
+
         _this2.setState({
           messagecount: response.data
         });
       })["catch"](function (error) {
-        console.log(error);
+        this.setState({
+          messagecount: "N"
+        });
       });
     }
   }, {
