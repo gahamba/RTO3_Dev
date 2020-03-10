@@ -179,13 +179,17 @@ class DisplayReports extends Component {
                                 className = "bg-success";
                             }
                             else if(object2[intf+"-minV"] == -1 || object2[intf+"-maxV"] == -1 || !object2[intf]){
-                                className = "bg-warning";
+                                if(!object2[intf])
+                                    className = "bg-light";
+                                else{
+                                    className = "bg-warning";
+                                }
                             }
                             else{
                                 className = "bg-danger";
                             }
                             console.log(intf);
-                            return <td className={className}><small> { object2[intf] ? object2[intf].toFixed(2) : "NaN"}</small></td>;
+                            return <td className={className}><small> { object2[intf] ? object2[intf].toFixed(2) : "NR"}</small></td>;
 
 
 

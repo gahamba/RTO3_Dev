@@ -43,6 +43,7 @@ class DeviceController extends Controller
     }
     /**
      * Display a listing of the resource.
+     * returns all devices attached to a logged in user
      *
      * @return \Illuminate\Http\Response
      */
@@ -56,9 +57,23 @@ class DeviceController extends Controller
                         ->orderBy('id', 'DESC')->get();
                 }
                 else{
+
+                    $systemmaps = UserDeviceMap::where('user_id', '=', auth::user()->id)
+                                                ->where('system_id', '<>', 0)->pluck('system_id');
                     $devicemaps = UserDeviceMap::where('user_id', '=', auth::user()->id)->pluck('device_id');
-                    $devices = Device::whereIn('id', $devicemaps)
-                        ->orderBy('id', 'DESC')->get();
+
+                    if(count($systemmaps) > 0){
+                        $devices1 = Device::whereIn('_id', $devicemaps)
+                            ->whereNotIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices2 = Device::whereIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices = $devices1->merge($devices2);
+                    }
+                    else{
+                        $devices = Device::whereIn('_id', $devicemaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                    }
                 }
 
             }
@@ -68,9 +83,22 @@ class DeviceController extends Controller
                         ->orderBy('id', 'DESC')->get();
                 }
                 else{
+                    $systemmaps = UserDeviceMap::where('user_id', '=', auth::user()->id)
+                                                ->where('system_id', '<>', 0)->pluck('system_id');
                     $devicemaps = UserDeviceMap::where('user_id', '=', auth::user()->id)->pluck('device_id');
-                    $devices = Device::whereIn('_id', $devicemaps)
-                                        ->orderBy('id', 'DESC')->get();
+
+                    if(count($systemmaps) > 0){
+                        $devices1 = Device::whereIn('_id', $devicemaps)
+                            ->whereNotIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices2 = Device::whereIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices = $devices1->merge($devices2);
+                    }
+                    else{
+                        $devices = Device::whereIn('_id', $devicemaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                    }
 
                 }
 
@@ -622,13 +650,27 @@ class DeviceController extends Controller
             if(auth::user()->company_id == -1){
                 if(auth::user()->user_type == 0){
                     $devices = Device::where('user_id', '=', auth::user()->id)
-                        ->orderBy('unique_id', 'DESC')->get();
+                        ->orderBy('name', 'DESC')->get();
 
                 }
                 else{
-                    $devicemaps = UserDeviceMap::where('user_id', '=', auth::user()->id)->get('device_id');
-                    $devices = Device::whereIn('id', $devicemaps)
-                        ->orderBy('unique_id', 'DESC')->get();
+
+                    $systemmaps = UserDeviceMap::where('user_id', '=', auth::user()->id)
+                        ->where('system_id', '<>', 0)->pluck('system_id');
+                    $devicemaps = UserDeviceMap::where('user_id', '=', auth::user()->id)->pluck('device_id');
+
+                    if(count($systemmaps) > 0){
+                        $devices1 = Device::whereIn('_id', $devicemaps)
+                            ->whereNotIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices2 = Device::whereIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices = $devices1->merge($devices2);
+                    }
+                    else{
+                        $devices = Device::whereIn('_id', $devicemaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                    }
                 }
 
             }
@@ -639,14 +681,22 @@ class DeviceController extends Controller
 
                 }
                 else{
+                    $systemmaps = UserDeviceMap::where('user_id', '=', auth::user()->id)
+                                                ->where('system_id', '<>', 0)->pluck('system_id');
                     $devicemaps = UserDeviceMap::where('user_id', '=', auth::user()->id)->pluck('device_id');
 
-
+                    if(count($systemmaps) > 0){
+                        $devices1 = Device::whereIn('_id', $devicemaps)
+                                        ->whereNotIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices2 = Device::whereIn('system_id', $systemmaps)
+                            ->orderBy('unique_id', 'DESC')->get();
+                        $devices = $devices1->merge($devices2);
+                    }
+                    else{
                         $devices = Device::whereIn('_id', $devicemaps)
                             ->orderBy('unique_id', 'DESC')->get();
-
-
-
+                    }
 
 
                 }
@@ -813,7 +863,7 @@ class DeviceController extends Controller
             );
 
 
-            return response()->json(['dev_stats' => $dev_stat, 'counts' => $counts]);
+            return response()->json(['dev_stats' => $dev_stat, 'counts' => $counts, 'systemmaps' => $systemmaps]);
 
         }
         catch(\Exception $ex){

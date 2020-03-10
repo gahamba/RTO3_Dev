@@ -65,6 +65,8 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
     Route::get('sensorRecentReadings/{sensor_id}/{datapoint}', 'DeviceController@sensorRecentReadings')->name('sensorRecentReadings');
     Route::get('fetchAssoc/{user_id}', 'UserDeviceMapController@fetchAssoc')->name('fetchAssoc');
     Route::get('deleteMap/{device_id}/{user_id}', 'UserDeviceMapController@deleteMap')->name('deleteMap');
+    Route::get('fetchSystemAssoc/{user_id}', 'UserDeviceMapController@fetchSystemAssoc')->name('fetchSystemAssoc');
+    Route::get('deleteSystemMap/{system_id}/{user_id}', 'UserDeviceMapController@deleteSystemMap')->name('deleteSystemMap');
     Route::get('emailcheck/{email_value}', 'UserController@checkEmail')->name('emailcheck');
     Route::get('fetchCorrections/{device_id}', 'CorrectionController@fetchCorrections')->name('fetchCorrections');
 

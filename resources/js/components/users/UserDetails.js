@@ -4,6 +4,8 @@ import axios from 'axios';
 import Loader from '../Loader';
 import Device from './Device';
 import AddedDevice from './AddedDevice';
+import System from './System';
+import AddedSystem from './AddedSystem';
 import Alert from "../Alert";
 
 class UserDetails extends Component {
@@ -17,6 +19,8 @@ class UserDetails extends Component {
             showloader: 'd-none',
             devices: '',
             addedDevices: '',
+            systems: '',
+            addedSystems: '',
             name: this.props.params.name,
             email: this.props.params.email,
             phone: this.props.params.phone,
@@ -41,6 +45,8 @@ class UserDetails extends Component {
 
                     devices: response.data.unadded_devices,
                     addedDevices: response.data.added_devices,
+                    systems: response.data.unadded_systems,
+                    addedSystems: response.data.added_systems,
                     showloader: 'd-none',
                     user: this.props.params });
 
@@ -66,6 +72,8 @@ class UserDetails extends Component {
 
                     devices: response.data.unadded_devices,
                     addedDevices: response.data.added_devices,
+                    systems: response.data.unadded_systems,
+                    addedSystems: response.data.added_systems,
                     showloader: 'd-none',
                     user: this.props.params });
 
@@ -80,6 +88,9 @@ class UserDetails extends Component {
             })
     }
 
+    /*
+    *Devices attached to company but not associated with this user
+     */
     devicesList(){
         if(this.state.devices instanceof Array){
             let user = this.props.params;
@@ -89,11 +100,38 @@ class UserDetails extends Component {
         }
     }
 
+    /*
+    *Systems attached to company but not associated with this user
+    */
+    systemsList(){
+        if(this.state.systems instanceof Array){
+            let user = this.props.params;
+            return this.state.systems.map(function(object, i) {
+                return <System obj={object} key={i} user={ user } />;
+            })
+        }
+    }
+
+    /*
+    *Devices attached to company and also associated with this user
+    */
     addedDevicesList(){
         if(this.state.addedDevices instanceof Array){
             let user = this.props.params;
             return this.state.addedDevices.map(function(object, i) {
                 return <AddedDevice obj={object} key={i} user={ user } />;
+            })
+        }
+    }
+
+    /*
+    *Systems attached to company and also associated with this user
+    */
+    addedSystemsList(){
+        if(this.state.addedSystems instanceof Array){
+            let user = this.props.params;
+            return this.state.addedSystems.map(function(object, i) {
+                return <AddedSystem obj={object} key={i} user={ user } />;
             })
         }
     }
@@ -292,31 +330,12 @@ class UserDetails extends Component {
 
                                     <br />
                                     <br />
-                                    <div className="form-row">
-                                        <div className="col text-center">
-                                            <h4>Systems</h4>
-                                            <table className="table table-sm table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td align="center">Fridge</td>
 
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="center">Home</td>
-
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-
-                                        </div>
-
-                                    </div>
 
                                     <div className="container">
                                         <h5>User Access List</h5>
                                         <div className="row">
-                                            { this.addedDevicesList() }
+                                            { this.addedSystemsList() }{ this.addedDevicesList() }
                                         </div>
 
                                     </div>
@@ -326,7 +345,7 @@ class UserDetails extends Component {
                                     <div className="container">
                                         <h5>Add these devices to User access list</h5>
                                         <div className="row">
-                                            { this.devicesList() }
+                                            { this.systemsList() } { this.devicesList() }
                                         </div>
 
                                     </div>

@@ -41517,7 +41517,9 @@ function (_Component) {
                 if (object2[intf + "-minV"] == 0 && object2[intf + "-maxV"] == 0) {
                   className = "bg-success";
                 } else if (object2[intf + "-minV"] == -1 || object2[intf + "-maxV"] == -1 || !object2[intf]) {
-                  className = "bg-warning";
+                  if (!object2[intf]) className = "bg-light";else {
+                    className = "bg-warning";
+                  }
                 } else {
                   className = "bg-danger";
                 }
@@ -41525,7 +41527,7 @@ function (_Component) {
                 console.log(intf);
                 return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
                   className: className
-                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, " ", object2[intf] ? object2[intf].toFixed(2) : "NaN"));
+                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, " ", object2[intf] ? object2[intf].toFixed(2) : "NR"));
               });
             }
           };

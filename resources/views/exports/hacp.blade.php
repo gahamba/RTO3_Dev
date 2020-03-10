@@ -22,7 +22,7 @@
             <td align="center">
                 {{ (new \App\Http\Controllers\DateController())->convertMongoToY_M_D($daily['dataSamples'][0]['recordDate']) }}</td>
             @foreach($daily['dataSamples'] as $dataSample)
-                @if(isset($dataSample[$intf]))
+                @if(isset($dataSample[$intf]) && $dataSample[$intf] != 0)
                     @if($dataSample[$intf.'-minV'] == 0 && $dataSample[$intf.'-maxV'] == 0)
                         <td style="background-color: #28a745; color: #FFFFFF; height: 50px;">
                             {{ round($dataSample[$intf], 2) }}
@@ -37,8 +37,8 @@
                         </td>
                     @endif
                 @else
-                    <td style="background-color: #f6993f; color: #FFFFFF; height: 50px;">
-                        NaN
+                    <td style="background-color: #cccccc; color: #FFFFFF; height: 50px;">
+                        NR
                     </td>
                 @endif
             @endforeach

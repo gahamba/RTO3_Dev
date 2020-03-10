@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use App\Reading;
+use App\System;
 use App\User;
 use App\UserDeviceMap;
 use Illuminate\Http\Request;
@@ -48,7 +49,8 @@ class UserDeviceMapController extends Controller
 
 
             $this_map = UserDeviceMap::where('user_id', '=', $user_id)
-                                    ->where('device_id', '=', $device_id)->first();
+                                    ->where('device_id', '=', $device_id)
+                                    ->where('system_id', '=', $system_id)->first();
 
             $msg = 'Sorry, we cannot add device at this time, please try again';
             if($this_map){
@@ -63,7 +65,7 @@ class UserDeviceMapController extends Controller
                 ]);
                 if($userdevicemap->save()){
 
-                    $msg = 'Successfully added '.Device::find($device_id)->name.' to '.User::find($user_id)->name;
+                    $msg = 'Successfully added to '.User::find($user_id)->name;
                 }
 
 
@@ -143,7 +145,8 @@ class UserDeviceMapController extends Controller
     public function fetchAssoc($user_id){
 
         try{
-            $this_map = UserDeviceMap::where('user_id', '=', $user_id)->pluck('device_id')->toArray();
+            $this_map = UserDeviceMap::where('user_id', '=', $user_id)
+                                        ->pluck('device_id');
             if(auth::user()->company_id == -1){
                 $added_devs = Device::where('user_id', '=', auth::user()->id)
                                         ->whereIn('_id', $this_map)
@@ -160,6 +163,16 @@ class UserDeviceMapController extends Controller
                                         ->whereNotIn('_id', $this_map)
                                         ->orderBy('id', 'ASC')->get();
             }
+
+            $this_map = UserDeviceMap::where('user_id', '=', $user_id)
+                                    ->pluck('system_id');
+
+            $added_systems = System::where('company_id', '=', auth::user()->company_id)
+                                    ->whereIn('_id', $this_map)
+                ->orderBy('system_name', 'ASC')->get();
+            $unadded_systems = System::where('company_id', '=', auth::user()->company_id)
+                                    ->whereNotIn('_id', $this_map)
+                                    ->orderBy('system_name', 'ASC')->get();
 
             /*$added_devs = array();
             $unadded_devs = array();
@@ -190,7 +203,7 @@ class UserDeviceMapController extends Controller
                 }
 
             }*/
-            return response()->json(['added_devices' => $added_devs, 'unadded_devices' =>  $unadded_devs]);
+            return response()->json(['added_devices' => $added_devs, 'unadded_devices' =>  $unadded_devs, 'added_systems' => $added_systems, 'unadded_systems' =>  $unadded_systems]);
 
         }
         catch(\Exception $ex){
@@ -204,7 +217,49 @@ class UserDeviceMapController extends Controller
      */
     public function deleteMap($device_id, $user_id){
         $this_map = UserDeviceMap::where('user_id', '=', $user_id)
-            ->where('device_id', '=', $device_id);
+            ->where('device_id', '=', $device_id)->first();
+
+        if($this_map->delete()){
+            return response()->json("Successful");
+        }
+        else{
+            return response()->json("Unable to retrieve access at this time. Please try again");
+        }
+    }
+
+    /**
+     * Fetch Systems associated with user
+     */
+    public function fetchSystemAssoc($user_id){
+
+        try{
+            $this_map = UserDeviceMap::where('user_id', '=', $user_id)
+                                        ->whereNot('system_id', '=', 0)
+                                        ->pluck('system_id')->toArray();
+
+            $added_systems = System::where('company_id', '=', auth::user()->company_id)
+                                    ->whereIn('_id', $this_map)
+                                    ->orderBy('system_name', 'ASC')->get();
+            $unadded_systems = System::where('company_id', '=', auth::user()->company_id)
+                                    ->whereNotIn('_id', $this_map)
+                                    ->orderBy('system_name', 'ASC')->get();
+
+            return response()->json(['added_systems' => $added_systems, 'unadded_systems' =>  $unadded_systems]);
+
+        }
+        catch(\Exception $ex){
+            return response()->json($ex);
+        }
+
+    }
+
+    /**
+     * Delete System Map.
+     * This refers to systems associated with a particular user
+     */
+    public function deleteSystemMap($system_id, $user_id){
+        $this_map = UserDeviceMap::where('user_id', '=', $user_id)
+                                ->where('system_id', '=', $system_id);
 
         if($this_map->delete()){
             return response()->json("Successful");
