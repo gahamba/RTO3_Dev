@@ -579,9 +579,11 @@ class DeviceController extends Controller
                                         ->where('recordDay', '=', new DateTime($today))->first();
 
         $device = Device::where('sensor_id', '=', floatval($sensorId))->first();
+
         $datapoints = $device->data_points;
         $reading = array();
         foreach ($datapoints as $datapoint){
+
             if($this_record){
                 if(isset($this_record->dataSamples[$this_record->nSample - 1][$datapoint['point']])){
                     $sensor_reading = round($this_record->dataSamples[$this_record->nSample - 1][$datapoint['point']], 2);
@@ -596,7 +598,6 @@ class DeviceController extends Controller
             }
             $reading[] = ['datapoint' => $datapoint, 'reading' => $sensor_reading];
         }
-
         return $reading;
     }
 
@@ -651,6 +652,7 @@ class DeviceController extends Controller
                 if(auth::user()->user_type == 0){
                     $devices = Device::where('user_id', '=', auth::user()->id)
                         ->orderBy('name', 'DESC')->get();
+                    $systemmaps = [];
 
                 }
                 else{
@@ -675,9 +677,10 @@ class DeviceController extends Controller
 
             }
             else{
-                if(auth::user()->user_type == 0){
+                if(auth::user()->user_type == 0 || auth::user()->type == "0"){
                     $devices = Device::where('company_id', '=', auth::user()->company_id)
-                        ->orderBy('unique_id', 'DESC')->get();
+                        ->orderBy('name', 'DESC')->get();
+                    $systemmaps = [];
 
                 }
                 else{
@@ -703,7 +706,6 @@ class DeviceController extends Controller
 
             }
 
-
             $devices_count = count($devices);
             $perfect = 0;
             $attention = 0;
@@ -718,6 +720,7 @@ class DeviceController extends Controller
 
                 //$readflag = 0;
                 $readvals = $this->sensorReading($device->unique_id);
+
                 $stats = array();
                 $this_reading = array();
                 $bad_exists = false; $attention_exists = false; $perfect_exists = false;
@@ -792,10 +795,10 @@ class DeviceController extends Controller
                     }
                 }
 
+
                 $datapoints = array(); $points = array(); $f_datapoints = []; $e_datapoints = [];
                 $datapoints = Datapoint::whereIn('interface', $device->data_channels)->get();
                 //$datapoints = collect($datapoints);
-
                 foreach ($device->data_points as $dpoint){
                     $points[] = $dpoint['point'];
 
@@ -829,6 +832,8 @@ class DeviceController extends Controller
                         $st = 1;
                     }
                 }
+
+
                 array_push($dev_stat,
                     array(
                         'id'        =>  $device->id,
@@ -861,7 +866,6 @@ class DeviceController extends Controller
                 'attention' =>  $attention,
                 'perfect'   =>  $perfect,
             );
-
 
             return response()->json(['dev_stats' => $dev_stat, 'counts' => $counts, 'systemmaps' => $systemmaps]);
 
