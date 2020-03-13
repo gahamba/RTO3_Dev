@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Rules\MatchOldPassword;
 use App\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -156,6 +159,11 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * @param $email_value
+     * @return \Illuminate\Http\JsonResponse
+     * check if email address is valid
+     */
     public function checkEmail($email_value){
 
         $resp = false;
@@ -169,6 +177,66 @@ class UserController extends Controller
 
         return response()->json($resp);
 
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Returns the profile page
+     */
+    public function getProfile(){
+        return view('profile');
+    }
+
+    /**
+     * Saves the modified the profile and returns to page
+     */
+    public function postProfile(){
+
+        $user = User::find(auth::user()->id);
+        $fullname = Input::get('fullname');
+        $phone = Input::get('phone');
+        $user->name = $fullname;
+        $user->phone = $phone;
+
+        $changed = $user->save();
+        if($changed){
+            $global = 0;
+            $message = 'Updated';
+        }
+        else{
+            $global = 1;
+            $message = 'Unable to update at this time. please try again later';
+        }
+        return redirect()->back()
+            ->with('global2', $global)
+            ->with('message', $message);
+    }
+
+    /**
+     * Saves the modified the password and returns to page
+     */
+    public function postPassword(Request $request){
+
+        $request->validate([
+            'oldpassword' => ['required', new MatchOldPassword()],
+            'newpassword' => ['required'],
+            'confirm' => ['same:newpassword'],
+        ]);
+
+        $changed = User::find(auth()->user()->id)->update(['password'=> Hash::make($request->newpassword)]);
+
+        if($changed){
+            $global = 0;
+            $message = 'Updated';
+        }
+        else{
+            $global = 1;
+            $message = 'Unable to update at this time. please try again later';
+        }
+
+        return redirect()->back()
+            ->with('global3', $global)
+            ->with('message', $message);
     }
 
 }

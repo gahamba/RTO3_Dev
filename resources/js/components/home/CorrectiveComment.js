@@ -15,6 +15,7 @@ class CorrectiveComment extends Component {
         super(props);
         this.state = {
             corrections: '',
+            actions: '',
             showloader: 'd-none',
             showtextarea: '',
             correction: '',
@@ -23,6 +24,7 @@ class CorrectiveComment extends Component {
             last_updated: '',
             display: 'd-none'};
         this.handleCorrectionChange = this.handleCorrectionChange.bind(this);
+        this.handleActionChange = this.handleActionChange.bind(this);
         //this.fetchCorrections = this.fetchCorrections.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -50,6 +52,7 @@ class CorrectiveComment extends Component {
             .then(response => {
                 this.setState({
                     corrections: response.data.corrections,
+                    actions: response.data.actions,
                     showtextarea: response.data.textarea == true ? '':'d-none',
                     last_updated: response.data.last_updated,
                     showloader: 'd-none'
@@ -63,6 +66,16 @@ class CorrectiveComment extends Component {
                 }
 
             })
+    }
+
+    /**
+     * Handles change to correction dropdown
+     * @param e
+     */
+    handleActionChange(e){
+        this.setState({
+            correction: e.target.value
+        })
     }
 
     /**
@@ -83,43 +96,60 @@ class CorrectiveComment extends Component {
         this.setState({showloader: ''});
         e.preventDefault();
 
-
-        const corrections = {
-            correction: this.state.correction,
-            device_id: this.props.params.device_id,
-            min: this.props.params.min_threshold,
-            max: this.props.params.max_threshold,
-            val: this.props.params.val
-
+        if(this.state.correction === ''){
+            alert("You must select an action or enter one");
         }
+        else{
+            const corrections = {
+                correction: this.state.correction,
+                device_id: this.props.params.device_id,
+                min: this.props.params.min_threshold,
+                max: this.props.params.max_threshold,
+                val: this.props.params.val
 
-        let uri = 'corrections';
-        axios.post(uri, corrections)
-            .then((response) => {
+            }
 
-                //alert(response.data);
+            let uri = 'corrections';
+            axios.post(uri, corrections)
+                .then((response) => {
 
-                //e.preventDefault();
-                this.setState({
-                    correction: '',
-                    showtextarea: 'd-none',
-                    showloader: 'd-none',
-                    last_updated: response.data.last_updated,
-                    corrections: response.data.corrections,
-                    alert: response.data.status === 0 ? 'success' : 'danger',
-                    message: response.data.msg,
-                    display:''
+                    //alert(response.data);
+
+                    //e.preventDefault();
+                    this.setState({
+                        correction: '',
+                        showtextarea: 'd-none',
+                        showloader: 'd-none',
+                        last_updated: response.data.last_updated,
+                        corrections: response.data.corrections,
+                        alert: response.data.status === 0 ? 'success' : 'danger',
+                        message: response.data.msg,
+                        display:''
+                    });
+
+
+
+                })
+                .catch((response)=>{
+                    alert(JSON.stringify(response));
+                    this.setState({alert: 'danger', message: response});
                 });
 
 
+        }
 
+    }
+
+    /*
+    *Corrective actions dropdown
+    */
+    formOptions(){
+        if(this.state.actions instanceof Array){
+            return this.state.actions.map(function(object, i){
+
+                return <option value={object.action} key={i}>{object.action}</option>;
             })
-            .catch((response)=>{
-                alert(JSON.stringify(response));
-                this.setState({alert: 'danger', message: response});
-            });
-
-
+        }
     }
 
     render(){
@@ -169,10 +199,28 @@ class CorrectiveComment extends Component {
 
 
                                                     <div className="form-group">
-                                                        <label htmlFor="deviceDescription"><i className="fas fa-info"></i>&nbsp;Device
-                                                            Corrective Action</label>
+                                                        <label htmlFor="correctiveactiondrop"><i className="fas fa-info"></i>&nbsp; Corrective Action Dropdown</label>
+                                                        <select className="form-control"
+                                                                id="correctiveactiondrop"
+                                                                onChange={this.handleActionChange}>
+                                                            <option>--Select Action from the dropdown below--</option>
+                                                            { this.formOptions() }
+
+                                                        </select>
+
+
+
+                                                    </div>
+
+                                                    <div className="form-group">
+                                                        <h5 align="center" className="text-info">-OR-</h5>
+                                                    </div>
+
+
+                                                    <div className="form-group">
+                                                        <label htmlFor="correctiveActionText">Please enter corrective action if none of the options above match the action carried out.</label>
                                                         <textarea className="form-control"
-                                                                  aria-describedby="deviceDescriptionHelp"
+                                                                  aria-describedby="correctiveActionHelp"
                                                                   placeholder="Enter device description" value={this.state.correction || ''}
                                                                   onChange={this.handleCorrectionChange}>
 

@@ -33005,6 +33005,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CorrectiveComment).call(this, props));
     _this.state = {
       corrections: '',
+      actions: '',
       showloader: 'd-none',
       showtextarea: '',
       correction: '',
@@ -33013,7 +33014,8 @@ function (_Component) {
       last_updated: '',
       display: 'd-none'
     };
-    _this.handleCorrectionChange = _this.handleCorrectionChange.bind(_assertThisInitialized(_this)); //this.fetchCorrections = this.fetchCorrections.bind(this);
+    _this.handleCorrectionChange = _this.handleCorrectionChange.bind(_assertThisInitialized(_this));
+    _this.handleActionChange = _this.handleActionChange.bind(_assertThisInitialized(_this)); //this.fetchCorrections = this.fetchCorrections.bind(this);
 
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -33049,6 +33051,7 @@ function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('fetchCorrections/' + this.props.params.device_id).then(function (response) {
         _this2.setState({
           corrections: response.data.corrections,
+          actions: response.data.actions,
           showtextarea: response.data.textarea == true ? '' : 'd-none',
           last_updated: response.data.last_updated,
           showloader: 'd-none'
@@ -33059,6 +33062,18 @@ function (_Component) {
         if (error.response) {
           console.log(error.response.data);
         }
+      });
+    }
+    /**
+     * Handles change to correction dropdown
+     * @param e
+     */
+
+  }, {
+    key: "handleActionChange",
+    value: function handleActionChange(e) {
+      this.setState({
+        correction: e.target.value
       });
     }
     /**
@@ -33087,35 +33102,56 @@ function (_Component) {
         showloader: ''
       });
       e.preventDefault();
-      var corrections = {
-        correction: this.state.correction,
-        device_id: this.props.params.device_id,
-        min: this.props.params.min_threshold,
-        max: this.props.params.max_threshold,
-        val: this.props.params.val
-      };
-      var uri = 'corrections';
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(uri, corrections).then(function (response) {
-        //alert(response.data);
-        //e.preventDefault();
-        _this3.setState({
-          correction: '',
-          showtextarea: 'd-none',
-          showloader: 'd-none',
-          last_updated: response.data.last_updated,
-          corrections: response.data.corrections,
-          alert: response.data.status === 0 ? 'success' : 'danger',
-          message: response.data.msg,
-          display: ''
-        });
-      })["catch"](function (response) {
-        alert(JSON.stringify(response));
 
-        _this3.setState({
-          alert: 'danger',
-          message: response
+      if (this.state.correction === '') {
+        alert("You must select an action or enter one");
+      } else {
+        var corrections = {
+          correction: this.state.correction,
+          device_id: this.props.params.device_id,
+          min: this.props.params.min_threshold,
+          max: this.props.params.max_threshold,
+          val: this.props.params.val
+        };
+        var uri = 'corrections';
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(uri, corrections).then(function (response) {
+          //alert(response.data);
+          //e.preventDefault();
+          _this3.setState({
+            correction: '',
+            showtextarea: 'd-none',
+            showloader: 'd-none',
+            last_updated: response.data.last_updated,
+            corrections: response.data.corrections,
+            alert: response.data.status === 0 ? 'success' : 'danger',
+            message: response.data.msg,
+            display: ''
+          });
+        })["catch"](function (response) {
+          alert(JSON.stringify(response));
+
+          _this3.setState({
+            alert: 'danger',
+            message: response
+          });
         });
-      });
+      }
+    }
+    /*
+    *Corrective actions dropdown
+    */
+
+  }, {
+    key: "formOptions",
+    value: function formOptions() {
+      if (this.state.actions instanceof Array) {
+        return this.state.actions.map(function (object, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: object.action,
+            key: i
+          }, object.action);
+        });
+      }
     }
   }, {
     key: "render",
@@ -33172,12 +33208,25 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "deviceDescription"
+        htmlFor: "correctiveactiondrop"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-info"
-      }), "\xA0Device Corrective Action"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }), "\xA0 Corrective Action Dropdown"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
-        "aria-describedby": "deviceDescriptionHelp",
+        id: "correctiveactiondrop",
+        onChange: this.handleActionChange
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Select Action from the dropdown below--"), this.formOptions())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        align: "center",
+        className: "text-info"
+      }, "-OR-")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "correctiveActionText"
+      }, "Please enter corrective action if none of the options above match the action carried out."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        "aria-describedby": "correctiveActionHelp",
         placeholder: "Enter device description",
         value: this.state.correction || '',
         onChange: this.handleCorrectionChange

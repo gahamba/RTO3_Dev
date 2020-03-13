@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Action;
 use App\Company;
 use App\Datapoint;
 use App\DatasetMap;
@@ -867,11 +868,19 @@ class DeviceController extends Controller
                 'perfect'   =>  $perfect,
             );
 
+            //$actions = Action::where('company_id', '=', auth::user()->company_id)->get();
+
             return response()->json(['dev_stats' => $dev_stat, 'counts' => $counts, 'systemmaps' => $systemmaps]);
 
         }
         catch(\Exception $ex){
-            return response()->json($ex);
+            $counts = array(
+                'total'     =>  -1,
+                'bad'       =>  -1,
+                'attention' =>  -1,
+                'perfect'   =>  -1,
+            );
+            return response()->json(['dev_stats' => [], 'counts' => $counts, 'systemmaps' => []]);
         }
     }
 

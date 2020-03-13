@@ -6,6 +6,7 @@ use App\Company;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class CompanyController extends Controller
 {
@@ -17,6 +18,16 @@ class CompanyController extends Controller
         $companies = Company::all();
         return view('company')
                 ->with('companies', $companies);
+    }
+
+    /**
+     * Select a company as an ISL SuperAdmin
+     * @return dashboard
+     */
+    public function selectCompany($company_id){
+        $company = Company::find($company_id);
+        User::find(auth()->user()->id)->update(['company_id'=> $company->id]);
+        return view('home');
     }
 
     /**
@@ -113,5 +124,39 @@ class CompanyController extends Controller
         $company->delete();
 
         return response()->json('Successfully Deleted');
+    }
+
+
+    /**
+     *edit company from profile page
+     */
+    public function editCompanyName(){
+        $company = Company::find(auth::user()->company_id);
+        $company_name = Input::get('company_name');
+        $company->company_name = $company_name;
+
+        $exist = Company::where('company_name', '=', $company_name)
+                        ->where('_id', '<>', auth::user()->company_id)->first();
+
+        if($exist){
+            $global = 1;
+            $message = 'This Company name already exists';
+        }
+        else{
+            $changed = $company->save();
+            if($changed){
+                $global = 0;
+                $message = 'Updated';
+            }
+            else{
+                $global = 1;
+                $message = 'Unable to update at this time. please try again later';
+            }
+        }
+
+
+        return redirect()->back()
+                        ->with('global', $global)
+                        ->with('message', $message);
     }
 }

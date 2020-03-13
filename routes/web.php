@@ -21,23 +21,33 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
 
     Route::group(['middleware' => 'initial_superadmin'], function() {
         Route::get('home', 'HomeController@index')->name('home');
-        Route::get('company', 'CompanyController@landing')->name('company');
         Route::get('report', 'ReportsController@landing')->name('report');
         Route::get('account', 'AccountController@landing')->name('account');
         Route::get('message', 'MessageController@landing')->name('message');
 
+
+        Route::group(['middleware' => 'ISLsuperadmin'], function() {
+
+            Route::get('companyselect/{company_id}', 'CompanyController@selectCompany')->name('companyselect');
+            Route::get('company', 'CompanyController@landing')->name('company');
+        });
+
         Route::group(['middleware' => 'superadmin'], function() {
 
             Route::post('system', 'SystemController@postCreateSystem')->name('system-post');
+            Route::post('correctiveaction', 'ActionController@postCreateCorrectiveAction')->name('correctiveaction-post');
             Route::post('config', 'ConfigurationController@postCreateConfig')->name('config-post');
             Route::post('system_devices', 'SystemController@postUpdateSystemDevices')->name('system_devices-post');
             Route::post('update_system', 'SystemController@postUpdateSystem')->name('update_system-post');
             Route::post('delete_system', 'SystemController@postDeleteSystem')->name('delete_system-post');
+            Route::post('update_correctiveaction', 'ActionController@postUpdateCorrectiveAction')->name('update_correctiveaction-post');
+            Route::post('delete_correctiveaction', 'ActionController@postDeleteCorrectiveAction')->name('delete_correctiveaction-post');
 
 
 
             Route::get('alarmdelay/{id}/{delay}/{minutes}', 'DeviceController@editAlarmDelay')->name('alarmdelay');
             Route::get('system', 'SystemController@landing')->name('system');
+            Route::get('correctiveaction', 'ActionController@landing')->name('correctiveaction');
             Route::get('device', 'DeviceController@landing')->name('device');
             Route::get('user', 'UserController@landing')->name('user');
 
@@ -75,13 +85,15 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
     Route::get('exportreport/{from}/{to}/{reportType}/{device}/{interface}', 'ReportsController@exportReport')->name('exportreport');
 
 
- //Other pages with forms
-    //
 
     Route::post('acknowledge', 'CorrectionController@postAcknowledgement')->name('acknowledge-post');
+    Route::post('companyname', 'CompanyController@editCompanyName')->name('companyname-post');
+    Route::post('profile', 'UserController@postProfile')->name('profile-post');
+    Route::post('password', 'UserController@postPassword')->name('password-post');
+
 
     Route::get('acknowledge/{device_id}/{reading}/{min_threshold}/{max_threshold}', 'CorrectionController@doAcknowledgement')->name('acknowledge');
-
+    Route::get('profile', 'UserController@getProfile')->name('profile');
 
 
 

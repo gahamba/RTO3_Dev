@@ -59,7 +59,7 @@
                                 <li>
                                     <div class="row">
                                         <div class="col-sm">
-                                            <a href="#"><i class="fas fa-cog" data-toggle="tooltip" data-placement="right" title="User Account settings"></i></a>
+                                            <a href="{{ route('profile') }}"><i class="fas fa-cog" data-toggle="tooltip" data-placement="right" title="User Account settings"></i></a>
                                         </div>
                                         <div class="col-sm">
                                             <a href="{{ route('user') }}"><i class="fas fa-keyboard" data-toggle="tooltip" data-placement="right" title="Access control"></i></a>
@@ -85,6 +85,23 @@
 
                         <div class="col">
                             <ul class="list-unstyled text-center">
+
+                                @if(auth::user()->user_type == -1)
+
+                                    <li class="login_link_lists">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ route('company') }}" data-toggle="tooltip" data-placement="right" title="Allows you select company">
+
+                                                    <span class="icon"><i class="fas fa-building"></i></span>
+                                                    <span class="link_text">Company</span>
+
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                @endif
 
                                 <li class="login_link_lists">
                                     <div class="row">
@@ -140,6 +157,19 @@
 
                                                     <span class="icon"><i class="fas fa-layer-group"></i></span>
                                                     <span class="link_text">Systems</span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </li>
+
+                                    <li class="login_link_lists">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{{ route('correctiveaction') }}" data-toggle="tooltip" data-placement="right" title="Allows you add corrective actions">
+
+                                                    <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
+                                                    <span class="link_text">Action</span>
                                                 </a>
                                             </div>
                                         </div>

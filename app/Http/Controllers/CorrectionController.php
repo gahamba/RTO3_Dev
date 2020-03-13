@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Action;
 use App\Correction;
 use App\Device;
 use App\Reading;
@@ -143,6 +144,7 @@ class CorrectionController extends Controller
         $corrections = Correction::where('device_id', '=', $device_id)
                                     ->orderBy('date', 'desc')
                                     ->orderBy('time', 'desc')->get();
+        $actions = Action::where('company_id', '=', auth::user()->company_id)->get();
 
         //var_dump($corrections[0]);
         if(count($corrections) > 0){
@@ -154,10 +156,10 @@ class CorrectionController extends Controller
             $last_updated_string = $corrections[0]->time;
 
 
-            return response()->json(['corrections' => $corrections, 'textarea' => $textarea, 'last_updated' => $last_updated_string]);
+            return response()->json(['corrections' => $corrections, 'textarea' => $textarea, 'last_updated' => $last_updated_string, 'actions' => $actions]);
         }
         else{
-            return response()->json(['corrections' => $corrections, 'textarea' => true, 'last_updated' => '00:00']);
+            return response()->json(['corrections' => $corrections, 'textarea' => true, 'last_updated' => '00:00', 'actions' => $actions]);
         }
 
 

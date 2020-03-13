@@ -6,7 +6,7 @@ use App\Device;
 use Auth;
 use Closure;
 
-class Administrator
+class ISLAdministrator
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class Administrator
     {
 
         if (Auth::check()) {
-            if(Auth::user()->user_type != 0 || Auth::user()->user_type != -1){
+            if(Auth::user()->user_type != -1){
                 return redirect('/noaccess');
             }
         }
