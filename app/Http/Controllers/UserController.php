@@ -194,9 +194,11 @@ class UserController extends Controller
 
         $user = User::find(auth::user()->id);
         $fullname = Input::get('fullname');
+        $message = Input::get('message');
         $phone = Input::get('phone');
         $user->name = $fullname;
         $user->phone = $phone;
+        $user->message = $message;
 
         $changed = $user->save();
         if($changed){

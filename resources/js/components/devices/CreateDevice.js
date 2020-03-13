@@ -23,6 +23,7 @@ class CreateDevice extends Component {
             removed_datapoints: [],
             added_datapoints:[],
             datapoint_detail: '',
+            label: '',
             units: '',
             unit: '',
             min_threshold: '0',
@@ -41,6 +42,7 @@ class CreateDevice extends Component {
         };
 
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleLabelChange = this.handleLabelChange.bind(this);
         this.dataPointDetails = this.dataPointDetails.bind(this);
         this.handleDatapointChange = this.handleDatapointChange.bind(this);
         this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
@@ -90,6 +92,7 @@ class CreateDevice extends Component {
             datapoint: '',
             units: '',
             unit: '',
+            label: '',
             min_threshold: '0',
             max_threshold: '1',
             min_range: '',
@@ -99,6 +102,7 @@ class CreateDevice extends Component {
         console.log(datapointdetail);
         this.setState({
             datapoint: e.target.value,
+            label: datapointdetail['lable'],
             units: datapointdetail['units'],
             unit: datapointdetail['units'][0],
             min_threshold: '0',
@@ -119,6 +123,17 @@ class CreateDevice extends Component {
             unique_id: e.target.value
         });
         this.handleIsValid(e);
+    }
+
+    /**
+     * Handles change to label field
+     * @param e
+     */
+    handleLabelChange(e){
+
+        this.setState({
+            label: e.target.value
+        })
     }
 
     /**
@@ -257,6 +272,7 @@ class CreateDevice extends Component {
                     max_threshold: '1',
                     min_range: 0,
                     max_range: 1,
+                    label: '',
                     unit: '',
                     datapoint: '',
                     datapoints: this.state.datapoints.concat(this.state.removed_datapoints.filter(datap => datap.interface == datapoint)[0]),
@@ -268,7 +284,7 @@ class CreateDevice extends Component {
             }
             return this.state.added_datapoints.map(function(object, i){
                 return <tr>
-                            <td><span className="badge badge-info">Interface</span>&nbsp;{ object.lable }</td>
+                            <td><span className="badge badge-info">Interface</span>&nbsp;{ object.lable }&nbsp; ({ object.point })</td>
                             <td><span className="badge badge-warning">Min Threshold</span>&nbsp;{ object.minT }</td>
                             <td><span className="badge badge-warning">Max Threshold</span>&nbsp;{ object.maxT }</td>
                             <td><span className="badge badge-info">Unit</span>&nbsp;{ object.unit }</td>
@@ -291,7 +307,7 @@ class CreateDevice extends Component {
             })
 
             let this_datapoint = [{
-                lable: this.state.datapoint_detail['default_name'],
+                lable: this.state.label,
                 point: this.state.datapoint_detail['interface'],
                 unit: this.state.unit,
                 minT: parseFloat(this.state.min_threshold),
@@ -305,6 +321,7 @@ class CreateDevice extends Component {
             //this.state.datapoints.pop(this.state.datapoint_detail)
             //this.state.added_datapoints.push(this.state.datapoint_detail)
             this.setState({
+                label: '',
                 min_threshold: '0',
                 max_threshold: '0',
                 min_range: 0,
@@ -363,6 +380,7 @@ class CreateDevice extends Component {
                         removed_datapoints: [],
                         added_datapoints:[],
                         datapoint_detail: '',
+                        label: '',
                         units: '',
                         unit: '',
                         min_threshold: '0',
@@ -526,6 +544,18 @@ class CreateDevice extends Component {
                                                 </div>
 
                                                 <div className="form-group">
+                                                    <label htmlFor="labelName"><i className="fas fa-tags"></i>&nbsp;Datapoint label</label>
+                                                    <input type="text"
+                                                           className="form-control"
+
+                                                           aria-describedby="labelNameHelp"
+                                                           placeholder="Enter label name"
+                                                           value={this.state.label}
+                                                           onChange={this.handleLabelChange} />
+
+                                                </div>
+
+                                                <div className="form-group">
                                                     <label htmlFor="unit"><i className="fas fa-mobile"></i>&nbsp;Unit</label>
 
                                                     <select className="form-control" id="unit"
@@ -559,7 +589,7 @@ class CreateDevice extends Component {
 
                                                     <div className="col-sm-2">
 
-                                                        <input type="text" className="form-control" value={this.state.min_threshold} readOnly="true" />
+                                                        <input type="text" className="form-control" onChange={this.handleMinThresholdChange}  value={this.state.min_threshold} />
                                                     </div>
 
                                                 </div>
@@ -581,7 +611,7 @@ class CreateDevice extends Component {
 
                                                     <div className="col-sm-2">
 
-                                                        <input type="text" className="form-control" value={this.state.max_threshold} readOnly="true" />
+                                                        <input type="text" onChange={this.handleMaxThresholdChange} className="form-control" value={this.state.max_threshold} />
                                                     </div>
 
 

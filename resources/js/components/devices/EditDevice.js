@@ -30,6 +30,7 @@ class EditDevice extends Component {
             removed_datapoints: this.props.params.removed_datapoints,
             added_datapoints:this.props.params.added_datapoints,
             datapoint_detail: '',
+            label: '',
             units: '',
             unit: '',
             min_range: 0,
@@ -40,6 +41,7 @@ class EditDevice extends Component {
         };
         const url ='http://localhost/RTO3_Users/public/';
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleLabelChange = this.handleLabelChange.bind(this);
         //this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
         this.handleDatapointChange = this.handleDatapointChange.bind(this);
         this.handleUnitsChange = this.handleUnitsChange.bind(this);
@@ -84,6 +86,7 @@ class EditDevice extends Component {
             datapoint: '',
             units: '',
             unit: '',
+            label: '',
             min_threshold: '0',
             max_threshold: '1',
             min_range: '',
@@ -93,6 +96,7 @@ class EditDevice extends Component {
         console.log(datapointdetail);
         this.setState({
             datapoint: e.target.value,
+            label: datapointdetail['lable'],
             units: datapointdetail['units'],
             unit: datapointdetail['units'][0],
             min_threshold: '0',
@@ -102,6 +106,17 @@ class EditDevice extends Component {
         })
 
 
+    }
+
+    /**
+     * Handles change to label field
+     * @param e
+     */
+    handleLabelChange(e){
+
+        this.setState({
+            label: e.target.value
+        })
     }
 
     /**
@@ -200,38 +215,37 @@ class EditDevice extends Component {
              *
              */
             const handleRemove = (datapoint) => {
+                var r = confirm("Are you sure?");
+                if(r == true){
+                    //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
+                    let this_datapoint = this.state.removed_datapoints.filter(datap => datap.interface == datapoint)[0];
+                    this.setState({
+                        datapoint_detail: this_datapoint
+                    })
 
-                //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
-                let this_datapoint = this.state.removed_datapoints.filter(datap => datap.interface == datapoint)[0];
-                this.setState({
-                    datapoint_detail: this_datapoint
-                })
+                    //this.state.datapoints.pop(this.state.datapoint_detail)
+                    //this.state.added_datapoints.push(this.state.datapoint_detail)
+                    this.setState({
+                        min_threshold: '0',
+                        max_threshold: '1',
+                        min_range: 0,
+                        max_range: 1,
+                        label: '',
+                        unit: '',
+                        datapoint: '',
+                        datapoints: this.state.datapoints.concat(this_datapoint),
+                        //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
+                        added_datapoints: this.state.added_datapoints.filter(datap => datap.point != datapoint),
+                        removed_datapoints: this.state.removed_datapoints.filter(datap => datap.interface != datapoint),
+                    })
+                }
 
-                console.log("this_datapoint");
-                console.log(this_datapoint);
-                console.log("this.state.datapoints");
-                console.log(this.state.datapoints);
-
-                //this.state.datapoints.pop(this.state.datapoint_detail)
-                //this.state.added_datapoints.push(this.state.datapoint_detail)
-                this.setState({
-                    min_threshold: '0',
-                    max_threshold: '1',
-                    min_range: 0,
-                    max_range: 1,
-                    unit: '',
-                    datapoint: '',
-                    datapoints: this.state.datapoints.concat(this_datapoint),
-                    //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
-                    added_datapoints: this.state.added_datapoints.filter(datap => datap.point != datapoint),
-                    removed_datapoints: this.state.removed_datapoints.filter(datap => datap.interface != datapoint),
-                })
 
             }
             return this.state.added_datapoints.map(function(object, i){
 
                 return <tr key={i}>
-                    <td><span className="badge badge-info">Interface</span>&nbsp;{ object.lable }</td>
+                    <td><span className="badge badge-info">Interface</span>&nbsp;{ object.lable }&nbsp; ({ object.point })</td>
                     <td><span className="badge badge-warning">Min Threshold</span>&nbsp;{ object.minT }</td>
                     <td><span className="badge badge-warning">Max Threshold</span>&nbsp;{ object.maxT }</td>
                     <td><span className="badge badge-info">Unit</span>&nbsp;{ object.unit }</td>
@@ -254,7 +268,7 @@ class EditDevice extends Component {
             })
 
             let this_datapoint = [{
-                lable: this.state.datapoint_detail['default_name'],
+                lable: this.state.label,
                 point: this.state.datapoint_detail['interface'],
                 unit: this.state.unit,
                 minT: parseFloat(this.state.min_threshold),
@@ -270,6 +284,7 @@ class EditDevice extends Component {
             this.setState({
                 min_threshold: '0',
                 max_threshold: '0',
+                label: '',
                 min_range: 0,
                 max_range: 1,
                 datapoint: '',
@@ -465,6 +480,18 @@ class EditDevice extends Component {
                                     </div>
 
                                     <div className="form-group">
+                                        <label htmlFor="labelName"><i className="fas fa-tags"></i>&nbsp;Datapoint label</label>
+                                        <input type="text"
+                                               className="form-control"
+
+                                               aria-describedby="labelNameHelp"
+                                               placeholder="Enter label name"
+                                               value={this.state.label}
+                                               onChange={this.handleLabelChange} />
+
+                                    </div>
+
+                                    <div className="form-group">
                                         <label htmlFor="unit"><i className="fas fa-mobile"></i>&nbsp;Unit</label>
 
                                         <select className="form-control"
@@ -497,7 +524,7 @@ class EditDevice extends Component {
 
                                         <div className="col-sm-2">
 
-                                            <input type="text" className="form-control" value={this.state.min_threshold} readOnly="true" />
+                                            <input type="text" className="form-control" onChange={this.handleMinThresholdChange} value={this.state.min_threshold} />
                                         </div>
 
                                     </div>
@@ -518,7 +545,7 @@ class EditDevice extends Component {
 
                                         <div className="col-sm-2">
 
-                                            <input type="text" className="form-control" value={this.state.max_threshold} readOnly />
+                                            <input type="text" className="form-control" onChange={this.handleMaxThresholdChange} value={this.state.max_threshold} />
                                         </div>
 
 

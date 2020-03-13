@@ -32383,6 +32383,7 @@ function (_Component) {
       removed_datapoints: _this.props.params.removed_datapoints,
       added_datapoints: _this.props.params.added_datapoints,
       datapoint_detail: '',
+      label: '',
       units: '',
       unit: '',
       min_range: 0,
@@ -32392,7 +32393,8 @@ function (_Component) {
       icon_flag: ''
     };
     var url = 'http://localhost/RTO3_Users/public/';
-    _this.handleNameChange = _this.handleNameChange.bind(_assertThisInitialized(_this)); //this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
+    _this.handleNameChange = _this.handleNameChange.bind(_assertThisInitialized(_this));
+    _this.handleLabelChange = _this.handleLabelChange.bind(_assertThisInitialized(_this)); //this.handleUniqueIdChange = this.handleUniqueIdChange.bind(this);
 
     _this.handleDatapointChange = _this.handleDatapointChange.bind(_assertThisInitialized(_this));
     _this.handleUnitsChange = _this.handleUnitsChange.bind(_assertThisInitialized(_this));
@@ -32442,6 +32444,7 @@ function (_Component) {
         datapoint: '',
         units: '',
         unit: '',
+        label: '',
         min_threshold: '0',
         max_threshold: '1',
         min_range: '',
@@ -32451,12 +32454,25 @@ function (_Component) {
       console.log(datapointdetail);
       this.setState({
         datapoint: e.target.value,
+        label: datapointdetail['lable'],
         units: datapointdetail['units'],
         unit: datapointdetail['units'][0],
         min_threshold: '0',
         max_threshold: '1',
         min_range: datapointdetail['min_range'],
         max_range: datapointdetail['max_range']
+      });
+    }
+    /**
+     * Handles change to label field
+     * @param e
+     */
+
+  }, {
+    key: "handleLabelChange",
+    value: function handleLabelChange(e) {
+      this.setState({
+        label: e.target.value
       });
     }
     /**
@@ -32578,37 +32594,38 @@ function (_Component) {
          *
          */
         var handleRemove = function handleRemove(datapoint) {
-          //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
-          var this_datapoint = _this2.state.removed_datapoints.filter(function (datap) {
-            return datap["interface"] == datapoint;
-          })[0];
+          var r = confirm("Are you sure?");
 
-          _this2.setState({
-            datapoint_detail: this_datapoint
-          });
+          if (r == true) {
+            //let matching_datapoint = this.state.datapoints.filter(datap => datap.interface != datapoint)[0];
+            var this_datapoint = _this2.state.removed_datapoints.filter(function (datap) {
+              return datap["interface"] == datapoint;
+            })[0];
 
-          console.log("this_datapoint");
-          console.log(this_datapoint);
-          console.log("this.state.datapoints");
-          console.log(_this2.state.datapoints); //this.state.datapoints.pop(this.state.datapoint_detail)
-          //this.state.added_datapoints.push(this.state.datapoint_detail)
+            _this2.setState({
+              datapoint_detail: this_datapoint
+            }); //this.state.datapoints.pop(this.state.datapoint_detail)
+            //this.state.added_datapoints.push(this.state.datapoint_detail)
 
-          _this2.setState({
-            min_threshold: '0',
-            max_threshold: '1',
-            min_range: 0,
-            max_range: 1,
-            unit: '',
-            datapoint: '',
-            datapoints: _this2.state.datapoints.concat(this_datapoint),
-            //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
-            added_datapoints: _this2.state.added_datapoints.filter(function (datap) {
-              return datap.point != datapoint;
-            }),
-            removed_datapoints: _this2.state.removed_datapoints.filter(function (datap) {
-              return datap["interface"] != datapoint;
-            })
-          });
+
+            _this2.setState({
+              min_threshold: '0',
+              max_threshold: '1',
+              min_range: 0,
+              max_range: 1,
+              label: '',
+              unit: '',
+              datapoint: '',
+              datapoints: _this2.state.datapoints.concat(this_datapoint),
+              //added_datapoints: this.state.added_datapoints.concat(this_datapoint),
+              added_datapoints: _this2.state.added_datapoints.filter(function (datap) {
+                return datap.point != datapoint;
+              }),
+              removed_datapoints: _this2.state.removed_datapoints.filter(function (datap) {
+                return datap["interface"] != datapoint;
+              })
+            });
+          }
         };
 
         return this.state.added_datapoints.map(function (object, i) {
@@ -32616,7 +32633,7 @@ function (_Component) {
             key: i
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-info"
-          }, "Interface"), "\xA0", object.lable), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          }, "Interface"), "\xA0", object.lable, "\xA0 (", object.point, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-warning"
           }, "Min Threshold"), "\xA0", object.minT), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
             className: "badge badge-warning"
@@ -32651,7 +32668,7 @@ function (_Component) {
           })[0]
         });
         var this_datapoint = [{
-          lable: this.state.datapoint_detail['default_name'],
+          lable: this.state.label,
           point: this.state.datapoint_detail['interface'],
           unit: this.state.unit,
           minT: parseFloat(this.state.min_threshold),
@@ -32665,6 +32682,7 @@ function (_Component) {
         this.setState({
           min_threshold: '0',
           max_threshold: '0',
+          label: '',
           min_range: 0,
           max_range: 1,
           datapoint: '',
@@ -32852,6 +32870,19 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Datapoint--"), this.options())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "labelName"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-tags"
+      }), "\xA0Datapoint label"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        "aria-describedby": "labelNameHelp",
+        placeholder: "Enter label name",
+        value: this.state.label,
+        onChange: this.handleLabelChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "unit"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-mobile"
@@ -32884,8 +32915,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        value: this.state.min_threshold,
-        readOnly: "true"
+        onChange: this.handleMinThresholdChange,
+        value: this.state.min_threshold
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -32907,8 +32938,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        value: this.state.max_threshold,
-        readOnly: true
+        onChange: this.handleMaxThresholdChange,
+        value: this.state.max_threshold
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {

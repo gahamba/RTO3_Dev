@@ -130,53 +130,58 @@ class MessageController extends Controller
             $send = true;
         }
 
-
         if($send){
             foreach($users as $user){
-
-                Message::create(array(
-                    'sensorId' =>   $device->unique_id,
-                    'user_id'  =>   $user,
-                    'subject'  =>   "Device - ".$device->name." in ".$status." condition",
-                    'message'  =>   $message,
-                    'sent'     =>   0,
-                    'read'     =>   0,
-                    'status'   =>   $status,
-                    'time'     =>   date('Y-m-d H:i:s'),
-                ));
                 $this_user = User::find($user);
-                $email = $this_user->email;
-                SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
-                //Mail::to($email)->queue(new Alert());
-                /*$this_user = User::find($user);
-                Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
-                    $m->from('hello@app.com', 'Your Application');
+                if($this_user->send == 0){
+                    Message::create(array(
+                        'sensorId' =>   $device->unique_id,
+                        'user_id'  =>   $user,
+                        'subject'  =>   "Device - ".$device->name." in ".$status." condition",
+                        'message'  =>   $message,
+                        'sent'     =>   0,
+                        'read'     =>   0,
+                        'status'   =>   $status,
+                        'time'     =>   date('Y-m-d H:i:s'),
+                    ));
 
-                    $m->to($this_user->email, $this_user->name)->subject($status);
-                });*/
+                    $email = $this_user->email;
+                    SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
+                    //Mail::to($email)->queue(new Alert());
+                    /*$this_user = User::find($user);
+                    Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
+                        $m->from('hello@app.com', 'Your Application');
+
+                        $m->to($this_user->email, $this_user->name)->subject($status);
+                    });*/
+                }
+
             }
             foreach($tusers as $user){
-
-                Message::create(array(
-                    'sensorId' =>   $device->unique_id,
-                    'user_id'  =>   $user,
-                    'subject'  =>   "Device - ".$device->name." in ".$status." condition",
-                    'message'  =>   $message,
-                    'sent'     =>   0,
-                    'read'     =>   0,
-                    'status'   =>   $status,
-                    'time'     =>   date('Y-m-d H:i:s'),
-                ));
                 $this_user = User::find($user);
-                $email = $this_user->email;
-                SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
-                //Mail::to($email)->queue(new Alert());
-                /*$this_user = User::find($user);
-                Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
-                    $m->from('hello@invisible-systems.com', 'Your Alert');
+                if($this_user->send == 0){
+                    Message::create(array(
+                        'sensorId' =>   $device->unique_id,
+                        'user_id'  =>   $user,
+                        'subject'  =>   "Device - ".$device->name." in ".$status." condition",
+                        'message'  =>   $message,
+                        'sent'     =>   0,
+                        'read'     =>   0,
+                        'status'   =>   $status,
+                        'time'     =>   date('Y-m-d H:i:s'),
+                    ));
 
-                    $m->to($this_user->email, $this_user->name)->subject($status);
-                });*/
+                    $email = $this_user->email;
+                    SendEmails::dispatch($email, $device, $val, $min_threshold, $max_threshold);
+                    //Mail::to($email)->queue(new Alert());
+                    /*$this_user = User::find($user);
+                    Mail::send('emails.alert', ['this_user' => $this_user], function ($m) use ($this_user, $status) {
+                        $m->from('hello@invisible-systems.com', 'Your Alert');
+
+                        $m->to($this_user->email, $this_user->name)->subject($status);
+                    });*/
+                }
+
             }
         }
 
