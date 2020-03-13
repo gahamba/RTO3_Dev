@@ -53,7 +53,7 @@ class DeviceController extends Controller
 
         try{
             if(auth::user()->company_id == -1){
-                if(auth::user()->user_type == 0){
+                if(auth::user()->user_type == 0 || auth::user()->user_type == -1){
                     $devices = Device::where('user_id', '=', auth::user()->id)
                         ->orderBy('id', 'DESC')->get();
                 }
@@ -79,7 +79,7 @@ class DeviceController extends Controller
 
             }
             else{
-                if(auth::user()->user_type == 0){
+                if(auth::user()->user_type == 0 || auth::user()->user_type == -1){
                     $devices = Device::where('company_id', '=', auth::user()->company_id)
                         ->orderBy('id', 'DESC')->get();
                 }
@@ -517,7 +517,7 @@ class DeviceController extends Controller
 
         if(auth::user()->company_id == -1){
             //$devices_count = count(Device::where('user_id', '=', auth::user()->id)->get());
-            if(auth::user()->user_type == 0){
+            if(auth::user()->user_type == 0 || auth::user()->user_type == -1){
                 $devices_count = count(Device::where('user_id', '=', auth::user()->id)->get());
             }
             else{
@@ -530,7 +530,7 @@ class DeviceController extends Controller
         }
         else{
 
-            if(auth::user()->user_type == 0){
+            if(auth::user()->user_type == 0 || auth::user()->user_type == -1){
                 $devices_count = count(Device::where('company_id', '=', auth::user()->company_id)->get());
             }
             else{
@@ -650,7 +650,7 @@ class DeviceController extends Controller
         try{
 
             if(auth::user()->company_id == -1){
-                if(auth::user()->user_type == 0){
+                if(auth::user()->user_type == 0 || auth::user()->user_type == -1){
                     $devices = Device::where('user_id', '=', auth::user()->id)
                         ->orderBy('name', 'DESC')->get();
                     $systemmaps = [];
@@ -678,7 +678,7 @@ class DeviceController extends Controller
 
             }
             else{
-                if(auth::user()->user_type == 0 || auth::user()->type == "0"){
+                if(auth::user()->user_type == 0 || auth::user()->type == "0" || auth::user()->user_type == -1){
                     $devices = Device::where('company_id', '=', auth::user()->company_id)
                         ->orderBy('name', 'DESC')->get();
                     $systemmaps = [];

@@ -118,7 +118,7 @@
                                 </li>
 
 
-                                @if(auth::user()->user_type == 0)
+                                @if(auth::user()->user_type == 0 || auth::user()->user_type == -1)
 
                                     <li class="login_link_lists">
                                         <div class="row">

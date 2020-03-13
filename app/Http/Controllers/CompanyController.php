@@ -15,6 +15,7 @@ class CompanyController extends Controller
      * @return landing page for companies
      */
     public function landing(){
+        User::find(auth::user()->id)->update(['company_id'=> '0']);
         $companies = Company::all();
         return view('company')
                 ->with('companies', $companies);
@@ -26,8 +27,8 @@ class CompanyController extends Controller
      */
     public function selectCompany($company_id){
         $company = Company::find($company_id);
-        User::find(auth()->user()->id)->update(['company_id'=> $company->id]);
-        return view('home');
+        User::find(auth::user()->id)->update(['company_id'=> $company->id]);
+        return redirect('home');
     }
 
     /**

@@ -26,11 +26,7 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
         Route::get('message', 'MessageController@landing')->name('message');
 
 
-        Route::group(['middleware' => 'ISLsuperadmin'], function() {
 
-            Route::get('companyselect/{company_id}', 'CompanyController@selectCompany')->name('companyselect');
-            Route::get('company', 'CompanyController@landing')->name('company');
-        });
 
         Route::group(['middleware' => 'superadmin'], function() {
 
@@ -57,7 +53,11 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
         });
     });
 
+    Route::group(['middleware' => 'ISLsuperadmin'], function() {
 
+        Route::get('companyselect/{company_id}', 'CompanyController@selectCompany')->name('companyselect');
+        Route::get('company', 'CompanyController@landing')->name('company');
+    });
 
 //APIs
     Route::resource('companies', 'CompanyController');
