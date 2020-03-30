@@ -41507,17 +41507,32 @@ function (_Component) {
     _this.tabRow = function () {
       if (_this.state.readings instanceof Array) {
         var intf = _this.state["interface"];
-        return _this.state.readings.map(function (object, i) {
-          var tabrows = function tabrows() {
-            if (object.dataSamples instanceof Array) {
-              return object.dataSamples.map(function (object2, j) {
-                var className = ''; //const className = tableBg(object[this.props.points[0]+'minV'], object[this.props.points[0]+'maxV']);
-                //if(object['temp1'] > object['temp1-minT'] && object['temp1'] < object['temp1-maxT']){
 
-                if (object2[intf + "-minV"] == 0 && object2[intf + "-maxV"] == 0) {
+        var colSpanVal = function colSpanVal() {
+          var maxcount = 0;
+
+          _this.state.count_device.map(function (count, key) {
+            if (count > maxcount) {
+              maxcount = count;
+            }
+          });
+
+          return maxcount;
+        };
+
+        var sensorId = function sensorId(object) {
+          return object[0].sensor_name + " (" + object[0].sensor_id + ") ";
+        };
+
+        var tabrows = function tabrows(object) {
+          return object.map(function (objectx, k) {
+            return objectx.dataSamples.map(function (object2, k) {
+              var className = '';
+              return objectx.points.map(function (object3, k) {
+                if (object2[object3 + "-minV"] == 0 && object2[object3 + "-maxV"] == 0) {
                   className = "bg-success";
-                } else if (object2[intf + "-minV"] == -1 || object2[intf + "-maxV"] == -1 || !object2[intf]) {
-                  if (!object2[intf]) className = "bg-light";else {
+                } else if (object2[object3 + "-minV"] == -1 || object2[object3 + "-maxV"] == -1 || !object2[object3]) {
+                  if (!object2[object3]) className = "bg-light";else {
                     className = "bg-warning";
                   }
                 } else {
@@ -41526,17 +41541,90 @@ function (_Component) {
 
                 console.log(intf);
                 return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-                  className: className
-                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, " ", object2[intf] ? object2[intf].toFixed(2) : "NR"));
+                  className: className,
+                  colSpan: colSpanVal() / objectx.points.length
+                }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, " ", object2[object3] ? object2[object3].toFixed(2) : " "));
               });
-            }
-          };
+            });
+          });
+        };
 
+        return _this.state.readings.map(function (object, j) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
             className: "text-black-50"
-          }, object.recordDay), tabrows(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-            className: "text-black-50"
-          }, object.recordDay)); //return <TableRow obj={object} key={i} />;
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, sensorId(object))), tabrows(object)); //return <TableRow obj={object} key={i} />;
+        });
+      }
+    };
+
+    _this.configLength = function () {
+      return _this.state.configuration.length;
+    };
+
+    _this.colSpanVal = function () {
+      var maxcount = 0;
+
+      _this.state.count_device.map(function (count, key) {
+        if (count > maxcount) {
+          maxcount = count;
+        }
+      });
+
+      return maxcount;
+    };
+
+    _this.tdMainHeader = function () {
+      if (_this.state.dates instanceof Array) {
+        var configLength = function configLength() {
+          return _this.state.configuration.length;
+        };
+
+        var colSpanVal = function colSpanVal() {
+          var maxcount = 0;
+
+          _this.state.count_device.map(function (count, key) {
+            if (count > maxcount) {
+              maxcount = count;
+            }
+          });
+
+          return maxcount;
+        };
+
+        return _this.state.dates.map(function (object, i) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+            align: "center",
+            className: "text-black-50",
+            colSpan: colSpanVal() * configLength()
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, object)));
+        });
+      }
+    };
+
+    _this.tdHeader = function () {
+      if (_this.state.configuration instanceof Array) {
+        var cnf = _this.state.configuration;
+
+        var colSpanVal = function colSpanVal() {
+          var maxcount = 0;
+
+          _this.state.count_device.map(function (count, key) {
+            if (count > maxcount) {
+              maxcount = count;
+            }
+          });
+
+          return maxcount;
+        };
+
+        return _this.state.dates.map(function (obj, j) {
+          return cnf.map(function (object, j) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+              align: "center",
+              className: "text-black-50",
+              colSpan: colSpanVal()
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, object, ":00"));
+          });
         });
       }
     };
@@ -41554,6 +41642,8 @@ function (_Component) {
       reportType: '',
       readings: '',
       configuration: '',
+      count_device: '',
+      dates: '',
       points: ''
     };
     _this.fetchDevices = _this.fetchDevices.bind(_assertThisInitialized(_this));
@@ -41563,7 +41653,9 @@ function (_Component) {
     _this.handleDeviceChange = _this.handleDeviceChange.bind(_assertThisInitialized(_this));
     _this.handleInterfaceChange = _this.handleInterfaceChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.isValid = _this.isValid.bind(_assertThisInitialized(_this));
+    _this.isValid = _this.isValid.bind(_assertThisInitialized(_this)); //this.colSpanVal = this.colSpanVal.bind(this);
+
+    _this.configLength = _this.configLength.bind(_assertThisInitialized(_this));
     _this.downloadExcel = _this.downloadExcel.bind(_assertThisInitialized(_this));
     _this.convertDate = _this.convertDate.bind(_assertThisInitialized(_this));
     return _this;
@@ -41623,9 +41715,7 @@ function (_Component) {
     value: function handleDeviceChange(e) {
       this.setState({
         device: e.target.value,
-        interfaces: this.state.devices.filter(function (dev) {
-          return dev.unique_id == e.target.value;
-        })[0].data_points,
+        //interfaces: this.state.devices.filter(dev => dev.unique_id == e.target.value)[0].data_points,
         readings: ''
       }); //console.log(this.state.interfaces);
     }
@@ -41649,7 +41739,7 @@ function (_Component) {
   }, {
     key: "isValid",
     value: function isValid() {
-      if (this.state.from == "" || this.state.to == "" || this.state.reportType == "" || this.state.device == "" || this.state["interface"] == "") {
+      if (this.state.from == "" || this.state.to == "" || this.state.reportType == "" || this.state.device == "") {
         return false;
       } else {
         return true;
@@ -41680,8 +41770,19 @@ function (_Component) {
           _this2.setState({
             readings: response.data['readings'],
             configuration: response.data['configuration'],
+            count_device: response.data['count_device'],
+            dates: response.data['dates'],
             showloader: 'd-none',
             showDownloadLink: ''
+          });
+
+          var maxcount = 0;
+
+          _this2.state.count_device.map(function (count, key) {
+            //alert(object);
+            if (count > maxcount) {
+              maxcount = count;
+            }
           });
         })["catch"](function (response) {
           alert(JSON.stringify(response));
@@ -41690,18 +41791,6 @@ function (_Component) {
         alert("Please all fields are required");
         this.setState({
           showloader: 'd-none'
-        });
-      }
-    }
-  }, {
-    key: "tdHeader",
-    value: function tdHeader() {
-      if (this.state.configuration instanceof Array) {
-        return this.state.configuration.map(function (object, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-            align: "center",
-            className: "text-black-50"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, object, ":00"));
         });
       }
     }
@@ -41803,7 +41892,9 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container-fluid"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
@@ -41849,14 +41940,9 @@ function (_Component) {
         value: this.state.device,
         id: "device",
         onChange: this.handleDeviceChange
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Device--"), this.formOptions())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        value: this.state["interface"],
-        id: "interface",
-        onChange: this.handleInterfaceChange
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Interface--"), this.interfaceOptions()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "--Choose Device--"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "All Devices"), this.formOptions()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-row text-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col"
@@ -41873,13 +41959,14 @@ function (_Component) {
         className: "col",
         id: "hacp"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table text-white text-sm-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "\xA0"), this.tdHeader(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "\xA0"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.tabRow())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        align: "center",
+        className: "table small text-white table-sm table-bordered text-sm-center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\xA0"), this.tdMainHeader()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "\xA0"), this.tdHeader())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.tabRow())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         align: "center",
         className: this.state.showDownloadLink
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: this.downloadExcel,
-        href: "./exportreport/".concat(this.convertDate(this.state.from), "/").concat(this.convertDate(this.state.to), "/").concat(this.state.reportType, "/").concat(this.state.device, "/").concat(this.state["interface"]),
+        href: "./exportreport/".concat(this.convertDate(this.state.from), "/").concat(this.convertDate(this.state.to), "/").concat(this.state.reportType, "/").concat(this.state.device),
         className: "btn btn-primary"
       }, "Download Report ")))))));
     }

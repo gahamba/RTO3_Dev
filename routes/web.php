@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth', 'verified', 'ISLverified']], function(){
 
 
     Route::get('newreport/{from}/{to}/{reportType}/{device}', 'ReportsController@getNewReports')->name('newreport');
-    Route::get('exportreport/{from}/{to}/{reportType}/{device}/{interface}', 'ReportsController@exportReport')->name('exportreport');
+    Route::get('exportreport/{from}/{to}/{reportType}/{device}', 'ReportsController@exportReport')->name('exportreport');
 
 
 

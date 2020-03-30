@@ -105,8 +105,8 @@
                 <div class="form-group">
                     <label><i class="fas fa-comment-slash"></i>&nbsp;Receive Message </label>
                     <select  class="form-control" name="message">
-                        <option value="0" @if(\App\User::find(auth::user()->id)->send == 0) selected @endif>Yes</option>
-                        <option value="1" @if(\App\User::find(auth::user()->id)->send == 1) selected @endif>No</option>
+                        <option value=0 @if(\App\User::find(auth::user()->id)->send == 0) selected @endif>Yes</option>
+                        <option value=1 @if(\App\User::find(auth::user()->id)->send == 1) selected @endif>No</option>
 
                     </select>
                 </div>

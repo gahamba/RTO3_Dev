@@ -1,48 +1,67 @@
 <table>
 
     <thead>
-    <tr>
-        <td align="center" colspan="{{ count($configuration) + 1 }}" style="text-align: left; height: 30px; font-size: 12px;">
-            <strong>HACCP REPORT for {{ $intf }} from {{ (new \App\Http\Controllers\DateController())->convertMongoToY_M_D($dailies[0]['dataSamples'][0]['recordDate'])  }}
+    <tr align="center">
+
+        <td align="center" colspan="{{ count($configuration) * max($intf) * count($dates) }}" style="text-align: left; height: 30px; font-size: 12px;">
+            <strong>HACCP REPORT from {{ $dates[0]  }}
                 to
-                {{ (new \App\Http\Controllers\DateController())->convertMongoToY_M_D($dailies[count($dailies) - 1]['dataSamples'][0]['recordDate']) }}
-                for Sensor ID: {{ $dailies[0]['sensorId'] }}</strong>
+                {{ $dates[count($dates) - 1] }}
+            </strong>
         </td>
     </tr>
-    <tr>
-        <td align="center">&nbsp;</td>
-        @foreach($configuration as $config)
-            <td align="center"><strong>{{ $config }}:00</strong></td>
+    <tr align="center">
+        <td>&nbsp;</td>
+
+        @foreach($dates as $date)
+            <td align="center" colspan="{{ count($configuration) * max($intf) }}"><strong>{{ $date }}</strong></td>
         @endforeach
+
+    </tr>
+    <tr align="center">
+        <td align="center">&nbsp;</td>
+        @for($i=0; $i<count($dates); $i++)
+            @foreach($configuration as $config)
+                <td align="center" colspan="{{ max($intf) }}"><strong>{{ $config }}:00</strong></td>
+            @endforeach
+        @endfor
     </tr>
     </thead>
     <tbody>
-    @foreach($dailies as $daily)
-        <tr>
+    <?php $i =0; ?>
+    @foreach($dailies as $day)
+
+        <tr align="center">
             <td align="center">
-                {{ (new \App\Http\Controllers\DateController())->convertMongoToY_M_D($daily['dataSamples'][0]['recordDate']) }}</td>
-            @foreach($daily['dataSamples'] as $dataSample)
-                @if(isset($dataSample[$intf]) && $dataSample[$intf] != 0)
-                    @if($dataSample[$intf.'-minV'] == 0 && $dataSample[$intf.'-maxV'] == 0)
-                        <td style="background-color: #28a745; color: #FFFFFF; height: 50px;">
-                            {{ round($dataSample[$intf], 2) }}
-                        </td>
-                    @elseif($dataSample[$intf.'-minV'] == -1 || $dataSample[$intf.'-maxV'] == -1)
-                        <td style="background-color: #f6993f; color: #FFFFFF; height: 50px;">
-                            {{ round($dataSample[$intf], 2) }}
-                        </td>
-                    @else
-                        <td style="background-color: #FF0000; color: #FFFFFF; height: 50px;">
-                            {{ round($dataSample[$intf], 2) }}
-                        </td>
-                    @endif
-                @else
-                    <td style="background-color: #cccccc; color: #FFFFFF; height: 50px;">
-                        NR
-                    </td>
-                @endif
+                {{ $day[0]['sensor_name'] }}&nbsp;({{ $day[0]['sensor_id'] }})
+            </td>
+            @foreach($day as $daily)
+                @foreach($daily['dataSamples'] as $dataSample)
+                    @foreach($daily['points'] as $point )
+                        @if(isset($dataSample[$point]) && $dataSample[$point] != 0)
+                            @if($dataSample[$point.'-minV'] == 0 && $dataSample[$point.'-maxV'] == 0)
+                                <td colspan="{{ max($intf)/count($daily['points']) }}" style="background-color: #28a745; color: #FFFFFF; height: 50px;">
+                                    {{ round($dataSample[$point], 2) }}
+                                </td>
+                            @elseif($dataSample[$point.'-minV'] == -1 || $dataSample[$point.'-maxV'] == -1)
+                                <td colspan="{{ max($intf)/count($daily['points']) }}" style="background-color: #f6993f; color: #FFFFFF; height: 50px;">
+                                    {{ round($dataSample[$point], 2) }}
+                                </td>
+                            @else
+                                <td colspan="{{ max($intf)/count($daily['points']) }}" style="background-color: #FF0000; color: #FFFFFF; height: 50px;">
+                                    {{ round($dataSample[$point], 2) }}
+                                </td>
+                            @endif
+                        @else
+                            <td colspan="{{ max($intf)/count($daily['points']) }}" style="background-color: #cccccc; color: #FFFFFF; height: 50px;">
+
+                            </td>
+                        @endif
+                    @endforeach
+                @endforeach
             @endforeach
         </tr>
+        <?php $i++; ?>
     @endforeach
     </tbody>
 </table>

@@ -6,6 +6,7 @@ use App\Configuration;
 use App\Exports\HacpExport;
 use App\MongoSensorData;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
@@ -119,8 +120,9 @@ class ReportsController extends Controller
             $configuration = ['0', '12', '16', '22'];
         }
         $arrayToReturn = array();
-        foreach($readings as $reading){
+        $this_reading = 0;
 
+        foreach($readings as $reading){
 
                 $sample_array = array();
                 for($j=0; $j<count($configuration); $j++){
@@ -185,13 +187,19 @@ class ReportsController extends Controller
                 }
                 $timestamp = (new DateController())->convertMongoToY_M_D($reading->recordDay);
 
-                array_push($arrayToReturn, array(
-                    '_id' => $reading->id,
-                    'recordDay' => $timestamp,
-                    'sensorId' => $device,
-                    'points'    =>  $points,
-                    'dataSamples' => $sample_array
-                ));
+                //if($this_reading != $reading->sensor_id){
+                    array_push($arrayToReturn, array(
+                        '_id' => $reading->id,
+                        'recordDay' => $timestamp,
+                        'sensorId' => $device,
+                        'sensor_id' =>  $reading->sensor_id,
+                        'sensor_name'   => Device::where('sensor_id', '=', $reading->sensor_id)->first()->sensor_name,
+                        'points'    =>  $points,
+                        'dataSamples' => $sample_array
+                    ));
+               //}
+                //$this_reading = $reading->sensor_id;
+
                 /*foreach($configuration as $config){
                     if($sample['hour'] == intval($config)){
 
@@ -229,50 +237,64 @@ class ReportsController extends Controller
 
         $dateobj = new DateController();
 
-        $readings = MongoSensorData::where('minTime', '>=', $dateobj->convertY_M_DToMongoISO_Start($from))
-            ->where('maxTime', '<=', $dateobj->convertY_M_DToMongoISO_End($to))
-            ->where('sensor_id', '=', floatval($device))
-            ->orderBy('maxTime', 'ASC')->get();
+        if($device == '*'){
+            $routinecountroller = new RoutineController();
+            $devices = $routinecountroller->fetchDevices();
+            //$readings = new Collection();
+            $readingstosend = array();
+            $datapoint_count = array();
+            foreach($devices as $device){
+                $readings = MongoSensorData::where('minTime', '>=', $dateobj->convertY_M_DToMongoISO_Start($from))
+                    ->where('maxTime', '<=', $dateobj->convertY_M_DToMongoISO_End($to))
+                    ->where('sensor_id', '=', floatval($device->sensor_id))
+                    ->orderBy('maxTime', 'ASC')->get();
+                //$readings = $readings->merge($readings_);
 
-        $datapoints = Device::where('sensor_id', '=', floatval($device))->first()->data_points;
-        $ps = array();
-        foreach($datapoints as $datapoint){
+                $datapoints = $device->data_points;
+                $ps = array();
+                foreach($datapoints as $datapoint){
 
-            $ps[] = $datapoint['point'];
-        }
-        $readingstosend = array();
-        $readingstosend = $this->returnHourlyArray($readings, $ps, $device);
-        /*$configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first()->times;
-        if(!$configuration){
-            $configuration = array(0 => "0", 1 => "12", 2 => "16", 3 => "22");
-        }
-        foreach($readings as $reading){
+                    $ps[] = $datapoint['point'];
+                }
 
-            foreach($configuration as $config){
-                $sample = $reading->dataSamples->firstWhere('hour', $config);
-                array_push($readingstosend, array(
-                    'recordDay' => $reading->recordDay,
-                    'sensorId'  => $reading->sensorId,
-                    'dataSamples'   =>  $sample
-                ));
+                $readingstosend[] = $this->returnHourlyArray($readings, $ps, $device);
+                $datapoint_count[] = count($ps);
+
+
             }
 
-        }*/
-        /*$collection = collect($readings);
-        $collection->map(function($readings){
+        }
+        else{
+            $readings = MongoSensorData::where('minTime', '>=', $dateobj->convertY_M_DToMongoISO_Start($from))
+                ->where('maxTime', '<=', $dateobj->convertY_M_DToMongoISO_End($to))
+                ->where('sensor_id', '=', floatval($device))
+                ->orderBy('maxTime', 'ASC')->get();
 
-        });*/
+            $datapoints = Device::where('sensor_id', '=', floatval($device))->first()->data_points;
+            $ps = array();
+            foreach($datapoints as $datapoint){
+
+                $ps[] = $datapoint['point'];
+            }
+            $readingstosend = array();
+            $datapoint_count = array();
+            $readingstosend[] = $this->returnHourlyArray($readings, $ps, $device);
+            $datapoint_count[] = count($ps);
+        }
+
+        $reportReading = array();
+        $reportReading[0] = $readingstosend;
+        $reportReading[1] = $datapoint_count;
 
 
 
-
-        return $readingstosend;
+        return $reportReading;
 
     }
 
     /**
      * Get reports based on dates selected
-     */
+    */
     public function getNewReports($from, $to, $reportType, $device){
 
         $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first();
@@ -285,14 +307,166 @@ class ReportsController extends Controller
         $readings = $this->getReportReadings($from, $to, $reportType, $device);
 
 
+        $period = new \DatePeriod(new DateTime($from), new \DateInterval('P1D'), new DateTime($to));
+        $dates = array();
+        foreach ($period as $date) {
+            $dates[] = $date->format("Y-m-d");
+        }
+        $dates[] = $to;
 
-        return response()->json(array('readings' => $readings, 'configuration'  =>  $configuration ));
+        $reading = array();
+        $read_array = collect($readings[0]);
+        foreach($dates as $date){
+            $i = 0;
+            foreach($readings[0] as $read){
+                $read_array = collect($read);
+                $exist = $read_array->where('recordDay', $date)->first();
+                if($exist){
+                    $reading[$i][] = $exist;
+                }
+                else{
+                    $sample_array = array();
+                    for($m = 0; $m < count($configuration); $m++){
+                        $sample = array(
+                            'gatewayID'           =>  '',
+                            'hour'                =>  $configuration[$m],
+                            'Battery'             =>  0,
+                            'RSSI'                =>  0,
+                            'LQI'                 =>  0,
+                            'temp1'               =>  0,
+                            'temp3'               =>  0,
+                            'temp2'               =>  0,
+                            'temp1-minV'          =>  -1,
+                            'temp1-maxV'          =>  -1,
+                            'temp1-minT'          =>  0,
+                            'temp1-maxT'          =>  0,
+                            'temp1-activeDate'    =>  '',
+                            'temp1-alarmDelay'    =>  '',
+                            'temp1-alarmActiveDate'   =>  '',
+                            'temp3-minV'          =>  -1,
+                            'temp3-maxV'          =>  -1,
+                            'temp3-minT'          =>  0,
+                            'temp3-maxT'          =>  0,
+                            'temp3-activeDate'    =>  '',
+                            'temp3-alarmDelay'    =>  '',
+                            'temp3-alarmActiveDate'   =>  '',
+                            'temp2-minV'          =>  -1,
+                            'temp2-maxV'          =>  -1,
+                            'temp2-minT'          =>  0,
+                            'temp2-maxT'          =>  0,
+                            'temp2-activeDate'    =>  '',
+                            'temp2-alarmDelay'    =>  '',
+                            'temp2-alarmActiveDate'   =>  '',
+                            'system_id'           =>  0,
+
+                        );
+
+                        $sample_array[$m] = $sample;
+                    }
+
+
+                    $reading[$i][] = array(
+                        '_id' => $device,
+                        'recordDay' => $date,
+                        'sensorId' => $device,
+                        'sensor_id' =>  $read[0]['sensor_id'],
+                        'sensor_name'   =>  $read[0]['sensor_name'],
+                        'points'    =>  ['temp1'],
+                        'dataSamples' => $sample_array
+                    );
+                }
+                $i++;
+            }
+
+        }
+
+        return response()->json(array('readings' => $reading, 'count_device' => $readings[1], 'configuration'  =>  $configuration, 'dates' => $dates ));
 
     }
-    public function exportReport($from, $to, $reportType, $device, $interface)
+    public function exportReport($from, $to, $reportType, $device)
     {
+        $configuration = Configuration::where('companyId', '=', auth::user()->company_id)->first();
+        if(!($configuration && is_array($configuration->times))){
+            $configuration = ['0', '12', '16', '22'];
+        }
+        else{
+            $configuration = $configuration->times;
+        }
         $readings = $this->getReportReadings($from, $to, $reportType, $device);
         //var_dump($readings[0]['dataSamples'][0]['recordDate']);
-        return Excel::download(new HacpExport($readings, $interface), 'hacp.xlsx');
+
+        $period = new \DatePeriod(new DateTime($from), new \DateInterval('P1D'), new DateTime($to));
+        $dates = array();
+        foreach ($period as $date) {
+            $dates[] = $date->format("Y-m-d");
+        }
+        $dates[] = $to;
+
+        $reading = array();
+        $read_array = collect($readings[0]);
+        foreach($dates as $date){
+            $i = 0;
+            foreach($readings[0] as $read){
+                $read_array = collect($read);
+                $exist = $read_array->where('recordDay', $date)->first();
+                if($exist){
+                    $reading[$i][] = $exist;
+                }
+                else{
+                    $sample_array = array();
+                    for($m = 0; $m < count($configuration); $m++){
+                        $sample = array(
+                            'gatewayID'           =>  '',
+                            'hour'                =>  $configuration[$m],
+                            'Battery'             =>  0,
+                            'RSSI'                =>  0,
+                            'LQI'                 =>  0,
+                            'temp1'               =>  0,
+                            'temp3'               =>  0,
+                            'temp2'               =>  0,
+                            'temp1-minV'          =>  -1,
+                            'temp1-maxV'          =>  -1,
+                            'temp1-minT'          =>  0,
+                            'temp1-maxT'          =>  0,
+                            'temp1-activeDate'    =>  '',
+                            'temp1-alarmDelay'    =>  '',
+                            'temp1-alarmActiveDate'   =>  '',
+                            'temp3-minV'          =>  -1,
+                            'temp3-maxV'          =>  -1,
+                            'temp3-minT'          =>  0,
+                            'temp3-maxT'          =>  0,
+                            'temp3-activeDate'    =>  '',
+                            'temp3-alarmDelay'    =>  '',
+                            'temp3-alarmActiveDate'   =>  '',
+                            'temp2-minV'          =>  -1,
+                            'temp2-maxV'          =>  -1,
+                            'temp2-minT'          =>  0,
+                            'temp2-maxT'          =>  0,
+                            'temp2-activeDate'    =>  '',
+                            'temp2-alarmDelay'    =>  '',
+                            'temp2-alarmActiveDate'   =>  '',
+                            'system_id'           =>  0,
+
+                        );
+
+                        $sample_array[$m] = $sample;
+                    }
+
+
+                    $reading[$i][] = array(
+                        '_id' => $device,
+                        'recordDay' => $date,
+                        'sensorId' => $device,
+                        'sensor_id' =>  $read[0]['sensor_id'],
+                        'sensor_name'   =>  $read[0]['sensor_name'],
+                        'points'    =>  ['temp1'],
+                        'dataSamples' => $sample_array
+                    );
+                }
+                $i++;
+            }
+
+        }
+        return Excel::download(new HacpExport($reading, $readings[1], $configuration, $dates), 'hacp.xlsx');
     }
 }

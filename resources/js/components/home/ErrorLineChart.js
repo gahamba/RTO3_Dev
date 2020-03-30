@@ -25,9 +25,9 @@ class ErrorLineChart extends Component {
                     showInLegend: true,
                     toolTipContent: "<b>{label}</b><br><span style=\"color:#1A0965\">{name}</span>: {y}",
                     dataPoints: [
-                        { y: this.props.values == null || this.props.values.length < 1 ? 0 : Math.round(this.props.values[0].reading), label: "" },
-                        { y: this.props.values == null || this.props.values.length < 2 ? 0 : Math.round(this.props.values[1].reading), label: "" },
-                        { y: this.props.values == null || this.props.values.length < 3 ? 0 : Math.round(this.props.values[2].reading), label: "" },
+                        { y: this.props.values == null || this.props.values.length < 1 ? 0 : Math.round(this.props.values[0].reading), label: ""},
+                        { y: this.props.values == null || this.props.values.length < 2 ? 0 : Math.round(this.props.values[1].reading), label: ""},
+                        { y: this.props.values == null || this.props.values.length < 3 ? 0 : Math.round(this.props.values[2].reading), label: ""},
                         { y: this.props.values == null || this.props.values.length < 4 ? 0 : Math.round(this.props.values[3].reading), label: "" },
                         { y: this.props.values == null || this.props.values.length < 5 ? 0 : Math.round(this.props.values[4].reading), label: "" },
                         { y: this.props.values == null || this.props.values.length < 6 ? 0 : Math.round(this.props.values[5].reading), label: "" },

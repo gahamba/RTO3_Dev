@@ -198,7 +198,7 @@ class UserController extends Controller
         $phone = Input::get('phone');
         $user->name = $fullname;
         $user->phone = $phone;
-        $user->message = $message;
+        $user->send = (int)$message;
 
         $changed = $user->save();
         if($changed){

@@ -145,6 +145,7 @@ class DeviceReadings extends Component {
                                             <ErrorLineChart values={this.state.readings.recents}
                                                                   min={this.props.params.min_threshold}
                                                                   max={this.props.params.max_threshold}
+
                                                                   data="Recent"/>
 
                                         </div>

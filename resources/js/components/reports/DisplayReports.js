@@ -23,6 +23,8 @@ class DisplayReports extends Component {
             reportType: '',
             readings: '',
             configuration: '',
+            count_device: '',
+            dates: '',
             points: '',
         };
         this.fetchDevices = this.fetchDevices.bind(this);
@@ -33,6 +35,8 @@ class DisplayReports extends Component {
         this.handleInterfaceChange = this.handleInterfaceChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isValid = this.isValid.bind(this);
+        //this.colSpanVal = this.colSpanVal.bind(this);
+        this.configLength = this.configLength.bind(this);
         this.downloadExcel = this.downloadExcel.bind(this);
         this.convertDate = this.convertDate.bind(this);
 
@@ -84,7 +88,7 @@ class DisplayReports extends Component {
     handleDeviceChange(e){
         this.setState({
             device: e.target.value,
-            interfaces: this.state.devices.filter(dev => dev.unique_id == e.target.value)[0].data_points,
+            //interfaces: this.state.devices.filter(dev => dev.unique_id == e.target.value)[0].data_points,
             readings: ''
         })
         //console.log(this.state.interfaces);
@@ -105,7 +109,7 @@ class DisplayReports extends Component {
      * check if all fields have values
      */
     isValid(){
-        if(this.state.from == "" || this.state.to == "" || this.state.reportType == "" || this.state.device == "" || this.state.interface == ""){
+        if(this.state.from == "" || this.state.to == "" || this.state.reportType == "" || this.state.device == "" ){
             return false;
         }
         else{
@@ -136,11 +140,19 @@ class DisplayReports extends Component {
                     this.setState({
                         readings: response.data['readings'],
                         configuration: response.data['configuration'],
+                        count_device: response.data['count_device'],
+                        dates: response.data['dates'],
                         showloader: 'd-none',
                         showDownloadLink: '',
 
                     });
-
+                    var maxcount = 0;
+                    this.state.count_device.map(function(count, key){
+                        //alert(object);
+                        if(count > maxcount){
+                            maxcount = count;
+                        }
+                    });
 
 
                 })
@@ -163,61 +175,148 @@ class DisplayReports extends Component {
     tabRow = () => {
         if(this.state.readings instanceof Array){
             const intf = this.state.interface;
-            return this.state.readings.map(function(object, i){
+            const colSpanVal = () => {
+                var maxcount = 0;
+                this.state.count_device.map(function(count, key){
+                    if(count > maxcount){
+                        maxcount = count;
+                    }
+                });
 
-                const tabrows = () => {
-                    if(object.dataSamples instanceof Array){
+                return maxcount;
+            }
 
+            const sensorId = (object) => {
 
-                        return object.dataSamples.map(function(object2, j) {
+                return object[0].sensor_name + " (" + object[0].sensor_id + ") ";
+            }
 
-                            let className = '';
-                            //const className = tableBg(object[this.props.points[0]+'minV'], object[this.props.points[0]+'maxV']);
-                            //if(object['temp1'] > object['temp1-minT'] && object['temp1'] < object['temp1-maxT']){
+            const tabrows = (object) => {
+                return object.map(function(objectx, k) {
 
-                            if(object2[intf+"-minV"] == 0 && object2[intf+"-maxV"] == 0){
+                    return objectx.dataSamples.map(function (object2, k) {
+
+                        let className = '';
+
+                        return objectx.points.map(function (object3, k) {
+
+                            if (object2[object3 + "-minV"] == 0 && object2[object3 + "-maxV"] == 0) {
                                 className = "bg-success";
-                            }
-                            else if(object2[intf+"-minV"] == -1 || object2[intf+"-maxV"] == -1 || !object2[intf]){
-                                if(!object2[intf])
+                            } else if (object2[object3 + "-minV"] == -1 || object2[object3 + "-maxV"] == -1 || !object2[object3]) {
+                                if (!object2[object3])
                                     className = "bg-light";
-                                else{
+                                else {
                                     className = "bg-warning";
                                 }
-                            }
-                            else{
+                            } else {
                                 className = "bg-danger";
                             }
                             console.log(intf);
-                            return <td className={className}><small> { object2[intf] ? object2[intf].toFixed(2) : "NR"}</small></td>;
-
-
+                            return <td className={className} colSpan={ colSpanVal()/objectx.points.length } >
+                                <small> {object2[object3] ? object2[object3].toFixed(2) : " "}</small>
+                            </td>;
 
                         })
+
+
+
+
+                    })
+
+
+                })
+            }
+
+
+            return this.state.readings.map(function(object, j) {
+
+                    return <tr>
+                        <td className="text-black-50"><small>{ sensorId(object) }</small></td>
+
+
+                        { tabrows(object) }
+
+                    </tr>
+
+
+                    //return <TableRow obj={object} key={i} />;
+
+            })
+
+
+
+
+        }
+
+    }
+
+
+
+    configLength = () => {
+
+        return this.state.configuration.length;
+    }
+
+    colSpanVal = () => {
+        var maxcount = 0;
+        this.state.count_device.map(function(count, key){
+            if(count > maxcount){
+                maxcount = count;
+            }
+        });
+
+        return maxcount;
+    }
+    tdMainHeader =() => {
+        if(this.state.dates instanceof Array){
+            const configLength = () => {
+
+                return this.state.configuration.length;
+            }
+
+            const colSpanVal = () => {
+                var maxcount = 0;
+                this.state.count_device.map(function(count, key){
+                    if(count > maxcount){
+                        maxcount = count;
                     }
-                }
+                });
 
-                return <tr>
-                            <td className="text-black-50">{ object.recordDay }</td>
-
-
-                            { tabrows() }
+                return maxcount;
+            }
 
 
-                            <td className="text-black-50">{ object.recordDay }</td>
-                       </tr>
-                //return <TableRow obj={object} key={i} />;
+            return this.state.dates.map(function(object, i){
+
+                return <th align="center" className="text-black-50" colSpan={ colSpanVal() * configLength() }><small><strong>{ object }</strong></small></th>
+
             })
         }
     }
 
-    tdHeader(){
+    tdHeader =() => {
         if(this.state.configuration instanceof Array){
-            return this.state.configuration.map(function(object, i){
+            let cnf = this.state.configuration;
+            const colSpanVal = () => {
+                var maxcount = 0;
+                this.state.count_device.map(function(count, key){
+                    if(count > maxcount){
+                        maxcount = count;
+                    }
+                });
 
-                return <td align="center" className="text-black-50"><strong>{ object }:00</strong></td>
+                return maxcount;
+            }
+            return this.state.dates.map(function(obj, j) {
+
+                return cnf.map(function(object, j){
+                    return <td align="center" className="text-black-50" colSpan={ colSpanVal() }><small>{ object }:00</small></td>
+                })
             })
+
         }
+
+
     }
 
     formOptions(){
@@ -314,7 +413,7 @@ class DisplayReports extends Component {
 
     render(){
         return (
-            <div>
+            <div className="container-fluid">
 
                 <div className="card card-body">
 
@@ -365,20 +464,8 @@ class DisplayReports extends Component {
                                                     id="device"
                                                     onChange={this.handleDeviceChange}>
                                                 <option>--Choose Device--</option>
+                                                <option value="*">All Devices</option>
                                                 { this.formOptions() }
-
-                                            </select>
-
-
-
-                                        </div>
-                                        <div className="col">
-                                            <select className="form-control"
-                                                    value={this.state.interface}
-                                                    id="interface"
-                                                    onChange={this.handleInterfaceChange}>
-                                                <option>--Choose Interface--</option>
-                                                { this.interfaceOptions() }
 
                                             </select>
 
@@ -409,29 +496,34 @@ class DisplayReports extends Component {
                         <div className="row">
                             <div className="col" id="hacp">
 
-                                <table className="table text-white text-sm-center">
+                                <table align="center" className="table small text-white table-sm table-bordered text-sm-center">
                                     <thead>
+                                        <tr>
+                                            <th>
+                                                &nbsp;
+                                            </th>
+                                            { this.tdMainHeader() }
+
+                                        </tr>
                                         <tr>
                                             <td>
                                                 &nbsp;
                                             </td>
                                             { this.tdHeader() }
-                                            <td>
-                                                &nbsp;
-                                            </td>
                                         </tr>
 
                                     </thead>
                                     <tbody>
-                                        { this.tabRow()}
+                                            { this.tabRow() }
 
                                     </tbody>
 
                                 </table>
+                                <br />
 
                                 <p align="center" className={ this.state.showDownloadLink }>
 
-                                    <a onClick={this.downloadExcel} href={`./exportreport/${this.convertDate(this.state.from)}/${this.convertDate(this.state.to)}/${this.state.reportType}/${this.state.device}/${this.state.interface}`} className="btn btn-primary">
+                                    <a onClick={this.downloadExcel} href={`./exportreport/${this.convertDate(this.state.from)}/${this.convertDate(this.state.to)}/${this.state.reportType}/${this.state.device}`} className="btn btn-primary">
                                         Download Report </a>
 
                                 </p>

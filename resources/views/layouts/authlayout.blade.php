@@ -209,7 +209,7 @@
         <!-- Left links panel ends here -->
 
         <!-- right panel starts here -->
-        <div class="col-sm p-0" id="main">
+        <div class="col-sm-11 p-0" id="main">
             <nav class="navbar navbar-light bg-light top_nav_grid p-2">
                 <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtn">&#9776; </button>
                 <button class="btn btn-xs btn-outline-secondary openbtn" id="openbtnmobile">&#9776; </button>
