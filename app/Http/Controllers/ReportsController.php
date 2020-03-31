@@ -122,6 +122,7 @@ class ReportsController extends Controller
         $arrayToReturn = array();
         $this_reading = 0;
 
+
         foreach($readings as $reading){
 
                 $sample_array = array();
@@ -240,10 +241,12 @@ class ReportsController extends Controller
         if($device == '*'){
             $routinecountroller = new RoutineController();
             $devices = $routinecountroller->fetchDevices();
+
             //$readings = new Collection();
             $readingstosend = array();
             $datapoint_count = array();
             foreach($devices as $device){
+
                 $readings = MongoSensorData::where('minTime', '>=', $dateobj->convertY_M_DToMongoISO_Start($from))
                     ->where('maxTime', '<=', $dateobj->convertY_M_DToMongoISO_End($to))
                     ->where('sensor_id', '=', floatval($device->sensor_id))
@@ -287,7 +290,6 @@ class ReportsController extends Controller
         $reportReading[1] = $datapoint_count;
 
 
-
         return $reportReading;
 
     }
@@ -306,7 +308,7 @@ class ReportsController extends Controller
         }
         $readings = $this->getReportReadings($from, $to, $reportType, $device);
 
-
+        //var_dump($readings[0]);
         $period = new \DatePeriod(new DateTime($from), new \DateInterval('P1D'), new DateTime($to));
         $dates = array();
         foreach ($period as $date) {
@@ -369,8 +371,8 @@ class ReportsController extends Controller
                         '_id' => $device,
                         'recordDay' => $date,
                         'sensorId' => $device,
-                        'sensor_id' =>  $read[0]['sensor_id'],
-                        'sensor_name'   =>  $read[0]['sensor_name'],
+                        'sensor_id' =>  isset($read[0]) ? $read[0]['sensor_id'] : "",
+                        'sensor_name'   =>  isset($read[0]) ? $read[0]['sensor_name'] : "",
                         'points'    =>  ['temp1'],
                         'dataSamples' => $sample_array
                     );

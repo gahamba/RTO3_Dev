@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 
 class SendEmails implements ShouldQueue
 {
@@ -43,8 +44,18 @@ class SendEmails implements ShouldQueue
     {
         try{
             if($this->device->delay_active == "1"){
-                $when =  now()->addMinutes($this->device->delay_minutes);
-                Mail::to($this->email)->later($when, new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));
+                $now = strtotime(date('Y-m-d H:i:s'));
+
+                if(Redis::get($this->device)){
+                    if(($now - strtotime(Redis::get($this->device)))/60 >= $this->device->delay_minutes){
+                        Mail::to($this->email)->send(new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));
+                    }
+                }
+                else{
+                    Redis::set($this->device->unique_id, date('Y-m-d H:i:s'));
+                }
+                /*$when =  now()->addMinutes($this->device->delay_minutes);
+                Mail::to($this->email)->later($when, new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));*/
             }
             else{
                 Mail::to($this->email)->send(new Alert($this->device, $this->reading, $this->min_threshold, $this->max_threshold));
